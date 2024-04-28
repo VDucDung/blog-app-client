@@ -1,4 +1,3 @@
-import React from 'react'
 import { images } from '../constants'
 
 const navItemsInfo = [
@@ -6,7 +5,7 @@ const navItemsInfo = [
   { name: 'Articles' },
   { name: 'Pages' },
   { name: 'Pricing' },
-  { name: 'Faq' },
+  { name: 'Faq' }
 ]
 
 const NavItem = ({ name }) => {
