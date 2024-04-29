@@ -1,7 +1,7 @@
 import MainLayout from 'components/MainLayout'
-import Articles from 'pages/container/Articles'
-import CTA from 'pages/container/CTA'
-import Hero from 'pages/container/Hero'
+import Articles from 'pages/home/container/Articles'
+import CTA from 'pages/home/container/CTA'
+import Hero from 'pages/home/container/Hero'
 
 const HomePage = () => {
   return (
