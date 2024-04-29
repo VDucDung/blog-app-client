@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { images } from '../constants'
+import { images } from 'constants'
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 

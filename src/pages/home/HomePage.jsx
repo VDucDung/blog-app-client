@@ -1,5 +1,5 @@
-import MainLayout from '../../components/MainLayout'
-import Hero from '../container/Hero'
+import MainLayout from 'components/MainLayout'
+import Hero from 'pages/container/Hero'
 
 const HomePage = () => {
   return (
