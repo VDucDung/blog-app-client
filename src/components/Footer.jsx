@@ -101,7 +101,7 @@ const Footer = () => {
             </li>
             <li>
               <a href='/'>
-                <AiFillYoutube className='w-6 h-auto hover:text-[#FF0000] hover:rounded-full hover:bg-white' />
+                <AiFillYoutube className='w-6 h-auto hover:text-[#FF0000]' />
               </a>
             </li>
             <li>
@@ -116,7 +116,7 @@ const Footer = () => {
             </li>
             <li>
               <a href='/'>
-                <BsTelegram className='w-6 h-auto hover:text-[#0088CC] hover:bg-white hover:rounded-full' />
+                <BsTelegram className='w-6 h-auto hover:text-[#0088CC]' />
               </a>
             </li>
           </ul>
