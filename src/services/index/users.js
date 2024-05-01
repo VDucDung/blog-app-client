@@ -15,3 +15,17 @@ export const signup = async ({ username, email, password }) => {
     throw new Error(error.message)
   }
 }
+
+export const login = async ({ email, password }) => {
+  try {
+    const { data } = await axios.post(API_URL + '/api/v1/auth/login', {
+      email,
+      password
+    })
+    return data
+  } catch (error) {
+    if (error.response && error.response.data.message)
+      throw new Error(error.response.data.message)
+    throw new Error(error.message)
+  }
+}
