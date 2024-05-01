@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import { userReducer } from './reducers/userReducers'
+import { userReducer } from 'store/reducers/userReducers'
 
 const userInfoFromStorage = localStorage.getItem('account')
   ? JSON.parse(localStorage.getItem('account'))

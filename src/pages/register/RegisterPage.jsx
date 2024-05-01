@@ -5,9 +5,9 @@ import { useMutation } from '@tanstack/react-query'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-import MainLayout from '../../components/MainLayout'
-import { signup } from '../../services/index/users'
-import { userActions } from '../../store/reducers/userReducers'
+import MainLayout from 'components/MainLayout'
+import { signup } from 'services/index/users'
+import { userActions } from 'store/reducers/userReducers'
 
 const RegisterPage = () => {
   const navigate = useNavigate()
