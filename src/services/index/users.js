@@ -29,3 +29,20 @@ export const login = async ({ email, password }) => {
     throw new Error(error.message)
   }
 }
+
+export const getUserProfile = async ({ token }) => {
+  try {
+    const config = {
+      headers: {
+        authorization: `Bearer ${token}`
+      }
+    }
+
+    const { data } = await axios.get(API_URL + '/api/v1/auth/me', config)
+    return data
+  } catch (error) {
+    if (error.response && error.response.data.message)
+      throw new Error(error.response.data.message)
+    throw new Error(error.message)
+  }
+}
