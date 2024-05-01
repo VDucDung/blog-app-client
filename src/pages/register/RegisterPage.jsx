@@ -1,8 +1,22 @@
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import MainLayout from '../../components/MainLayout'
+import { useMutation } from '@tanstack/react-query'
+import toast from 'react-hot-toast'
+import { signup } from '../../services/index/users'
 
 const RegisterPage = () => {
+  const { mutate, isLoading } = useMutation({
+    mutationFn: ({ username, email, password }) => {
+      return signup({ username, email, password })
+    },
+    onSuccess: (data) => {
+      toast.success(data.message)
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    }
+  })
   const {
     register,
     handleSubmit,
@@ -10,7 +24,7 @@ const RegisterPage = () => {
     watch
   } = useForm({
     defaultValues: {
-      name: '',
+      username: '',
       email: '',
       password: '',
       confirmPassword: ''
@@ -19,7 +33,8 @@ const RegisterPage = () => {
   })
 
   const submitHandler = (data) => {
-    console.log(data)
+    const { username, email, password } = data
+    mutate({ username, email, password })
   }
 
   const password = watch('password')
@@ -34,30 +49,30 @@ const RegisterPage = () => {
           <form onSubmit={handleSubmit(submitHandler)}>
             <div className='flex flex-col mb-6 w-full'>
               <label
-                htmlFor='name'
+                htmlFor='username'
                 className='text-[#5a7184] font-semibold block'
               >
-                userName
+                Username
               </label>
               <input
                 type='text'
-                id='name'
-                {...register('name', {
+                id='username'
+                {...register('username', {
                   minLength: {
                     value: 1,
-                    message: 'Name length must be at least 1 character'
+                    message: 'Username length must be at least 1 character'
                   },
                   required: {
                     value: true,
-                    message: 'Name is required'
+                    message: 'Username is required'
                   }
                 })}
-                placeholder='Enter name'
-                className={`placeholder:text-[#959ead] text-dark-hard mt-3 rounded-lg px-5 py-4 font-semibold block outline-none border ${errors.name ? 'border-red-500' : 'border-[#c3cad9]'}`}
+                placeholder='Enter username'
+                className={`placeholder:text-[#959ead] text-dark-hard mt-3 rounded-lg px-5 py-4 font-semibold block outline-none border ${errors.username ? 'border-red-500' : 'border-[#c3cad9]'}`}
               />
-              {errors.name?.message && (
+              {errors.username?.message && (
                 <p className='text-red-500 text-xs mt-1'>
-                  {errors.name?.message}
+                  {errors.username?.message}
                 </p>
               )}
             </div>
@@ -133,7 +148,7 @@ const RegisterPage = () => {
                 {...register('confirmPassword', {
                   required: {
                     value: true,
-                    message: 'Confirm password is required',
+                    message: 'Confirm password is required'
                   },
                   validate: (value) => {
                     if (value !== password) {
@@ -158,7 +173,7 @@ const RegisterPage = () => {
             </Link>
             <button
               type='submit'
-              disabled={!isValid}
+              disabled={!isValid || isLoading}
               className='bg-primary text-white font-bold text-lg py-4 px-8 w-full rounded-lg my-6 disabled:opacity-70 disabled:cursor-not-allowed'
             >
               Register
