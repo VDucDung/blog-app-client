@@ -18,9 +18,12 @@ const LoginPage = () => {
     mutationFn: ({ email, password }) => {
       return login({ email, password })
     },
-    onSuccess: (data) => {
-      dispatch(userActions.setUserInfo(data))
-      localStorage.setItem('account', JSON.stringify(data))
+    onSuccess: ({ data }) => {
+      dispatch(userActions.setUserInfo(data.user))
+      toast.success('Login success')
+      localStorage.setItem('user', JSON.stringify(data.user))
+      localStorage.setItem('accessToken', JSON.stringify(data.accessToken))
+      localStorage.setItem('refreshToken', JSON.stringify(data.refreshToken))
     },
     onError: (error) => {
       toast.error(error.message)
@@ -131,7 +134,7 @@ const LoginPage = () => {
               Sign In
             </button>
             <p className='text-sm font-semibold text-[#5a7184]'>
-              Do not have an account?{' '}
+              Do not have an user?{' '}
               <Link to='/register' className='text-primary'>
                 Register now
               </Link>

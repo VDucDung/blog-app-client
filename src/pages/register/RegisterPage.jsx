@@ -18,9 +18,9 @@ const RegisterPage = () => {
     mutationFn: ({ username, email, password }) => {
       return signup({ username, email, password })
     },
-    onSuccess: (data) => {
+    onSuccess: ({ data }) => {
       dispatch(userActions.setUserInfo(data))
-      localStorage.setItem('account', JSON.stringify(data))
+      localStorage.setItem('user', JSON.stringify(data))
     },
     onError: (error) => {
       toast.error(error.message)
@@ -190,7 +190,7 @@ const RegisterPage = () => {
               Register
             </button>
             <p className='text-sm font-semibold text-[#5a7184]'>
-              You have an account?{' '}
+              You have an user?{' '}
               <Link to='/login' className='text-primary'>
                 Login now
               </Link>
