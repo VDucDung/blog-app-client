@@ -1,4 +1,5 @@
 import parse from 'html-react-parser'
+import { useSelector } from 'react-redux'
 import Text from '@tiptap/extension-text'
 import Bold from '@tiptap/extension-bold'
 import { useState, useEffect } from 'react'
@@ -40,6 +41,7 @@ const tagsData = [
 
 const ArticleDetailPage = () => {
   const { id: slug } = useParams()
+  const userState = useSelector((state) => state.user)
   const [breadCrumbsData, setbreadCrumbsData] = useState([])
   const [body, setBody] = useState(null)
 
@@ -66,7 +68,6 @@ const ArticleDetailPage = () => {
       )
     }
   }, [data])
-
   return (
     <MainLayout>
       {isLoading ? (
@@ -100,7 +101,11 @@ const ArticleDetailPage = () => {
               {data?.data?.title}
             </h1>
             <div className='mt-4 prose prose-sm sm:prose-base'>{body}</div>
-            <CommentsContainer className='mt-10' logginedUserId='a' />
+            <CommentsContainer
+              comments={data?.data?.comments}
+              className="mt-10"
+              logginedUserId={userState?.userInfo?._id}
+            />
           </article>
           <div>
             <SuggestedPosts
