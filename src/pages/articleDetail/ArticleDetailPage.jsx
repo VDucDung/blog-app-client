@@ -1,38 +1,26 @@
-import { Link } from 'react-router-dom'
-import BreadCrumbs from '../../components/BreadCrumbs'
-import MainLayout from '../../components/MainLayout'
-import { images } from '../../constants'
+import { useState, useEffect } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import { generateHTML } from '@tiptap/html'
+import Bold from '@tiptap/extension-bold'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+import Italic from '@tiptap/extension-italic'
+import parse from 'html-react-parser'
+
+import BreadCrumbs from 'components/BreadCrumbs'
+import MainLayout from 'components/MainLayout'
+import { images } from 'constants'
 import SuggestedPosts from './container/SuggestedPosts'
 import CommentsContainer from 'components/comments/CommentsContainer'
 import SocialShareButtons from 'components/SocialShareButtons'
 
-const breadCrumbsData = [
-  { name: 'Home', link: '/' },
-  { name: 'Blog', link: '/blog' },
-  { name: 'Article title', link: '/blog/1' }
-]
+import { useQuery } from '@tanstack/react-query'
+import { getSinglePost } from 'services/index/posts'
 
 const postsData = [
   {
     _id: '1',
-    image: images.Post1Image,
-    title: 'Help children get better education',
-    createdAt: '2023-01-28T15:35:53.607+0000'
-  },
-  {
-    _id: '2',
-    image: images.Post1Image,
-    title: 'Help children get better education',
-    createdAt: '2023-01-28T15:35:53.607+0000'
-  },
-  {
-    _id: '3',
-    image: images.Post1Image,
-    title: 'Help children get better education',
-    createdAt: '2023-01-28T15:35:53.607+0000'
-  },
-  {
-    _id: '4',
     image: images.Post1Image,
     title: 'Help children get better education',
     createdAt: '2023-01-28T15:35:53.607+0000'
@@ -50,6 +38,34 @@ const tagsData = [
 ]
 
 const ArticleDetailPage = () => {
+  const { id: slug } = useParams()
+  const [breadCrumbsData, setbreadCrumbsData] = useState([])
+  const [body, setBody] = useState(null)
+
+  const { data } = useQuery({
+    queryFn: () => getSinglePost({ slug }),
+    queryKey: ['blog', slug],
+    onSuccess: (data) => {
+      if (data?.data?.body) {
+        setbreadCrumbsData([
+          { name: 'Home', link: '/' },
+          { name: 'Blog', link: '/blog' },
+          { name: 'Article title', link: `/blog/${data?.data.slug}` }
+        ])
+      }
+    }
+  })
+
+  useEffect(() => {
+    if (data?.data?.body) {
+      setBody(
+        parse(
+          generateHTML(data.data.body, [Bold, Italic, Text, Paragraph, Document])
+        )
+      )
+    }
+  }, [data])
+
   return (
     <MainLayout>
       <section className='container mx-auto max-w-5xl flex flex-col px-5 py-5 lg:flex-row lg:gap-x-5 lg:items-start'>
@@ -57,29 +73,23 @@ const ArticleDetailPage = () => {
           <BreadCrumbs data={breadCrumbsData} />
           <img
             className='rounded-xl w-full'
-            src={images.Post1Image}
-            alt='laptop'
+            src={
+              data?.data?.image
+                ? data?.data?.image
+                : images.samplePostImage
+            }
+            alt={data?.data?.title}
           />
-          <Link
-            to='/blog?category=selectedCategory'
-            className='text-primary text-sm font-roboto inline-block mt-4 md:text-base'
-          >
-            EDUCATION
-          </Link>
-          <h1 className='text-xl font-medium font-roboto mt-4 text-dark-hard md:text-[26px]'>
-            Help children get better education
-          </h1>
-          <div className='mt-4 text-dark-soft'>
-            <p className='leading-7'>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              Egestas purus viverra accumsan in nisl nisi. Arcu cursus vitae
-              congue mauris rhoncus aenean vel elit scelerisque. In egestas erat
-              imperdiet sed euismod nisi porta lorem mollis. Morbi tristique
-              senectus et netus. Mattis pellentesque id nibh tortor id aliquet
-              lectus proin.
-            </p>
+          <div className='mt-4 flex gap-2'>
+            {data?.data?.categories ? data?.data?.categories.map((category) => (
+              <Link key={category._id} to={`/blog?category=${category.name}`} className='text-primary text-sm font-roboto inline-block md:text-base'>
+                {category.name}
+              </Link>)) : null}
           </div>
+          <h1 className='text-xl font-medium font-roboto mt-4 text-dark-hard md:text-[26px]'>
+            {data?.data?.title}
+          </h1>
+          <div className='mt-4 prose prose-sm sm:prose-base'>{body}</div>
           <CommentsContainer className='mt-10' logginedUserId='a' />
         </article>
         <div>
