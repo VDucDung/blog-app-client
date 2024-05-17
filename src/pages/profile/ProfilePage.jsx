@@ -1,8 +1,8 @@
 /* eslint-disable quotes */
 import { useEffect } from 'react'
-import "flatpickr/dist/flatpickr.css"
+import 'flatpickr/dist/flatpickr.css'
 import { toast } from 'react-hot-toast'
-import Flatpickr from "react-flatpickr"
+import Flatpickr from 'react-flatpickr'
 import { useForm, Controller } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -171,7 +171,7 @@ const ProfilePage = () => {
                   <Flatpickr
                     {...field}
                     options={{
-                      dateFormat: "m /d/Y",
+                      dateFormat: 'm /d/Y',
                       disableMobile: true
                     }}
                     className={`placeholder:text-[#959ead] text-dark-hard mt-3 rounded-lg px-5 py-4 font-semibold block outline-none border ${errors.dateOfBirth ? 'border-red-500' : 'border-[#c3cad9]'}`}
@@ -196,9 +196,9 @@ const ProfilePage = () => {
                 {...register('gender')}
                 className={`placeholder:text-[#959ead] text-dark-hard mt-3 rounded-lg px-5 py-4 font-semibold block outline-none border ${errors.gender ? 'border-red-500' : 'border-[#c3cad9]'}`}
               >
-                <option value="" disabled selected hidden>Choose gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
+                <option value='' disabled selected hidden>Choose gender</option>
+                <option value='male'>Male</option>
+                <option value='female'>Female</option>
               </select>
               {errors.gender?.message && (
                 <p className='text-red-500 text-xs mt-1'>

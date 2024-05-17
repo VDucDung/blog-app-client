@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 import { API_URL } from 'utils/constants'
 
 export const signup = async ({ username, email, password }) => {

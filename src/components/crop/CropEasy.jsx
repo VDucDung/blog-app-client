@@ -1,11 +1,10 @@
-import { async } from 'q'
 import { useState } from 'react'
 import Cropper from 'react-easy-crop'
 
 import getCroppedImg from './cropImage'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { updateProfile } from '../../services/index/users'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { userActions } from '../../store/reducers/userReducers'
 import { toast } from 'react-hot-toast'
 
@@ -34,7 +33,6 @@ const CropEasy = ({ photo, setOpenCrop }) => {
     },
     onError: (error) => {
       toast.error(error.message)
-      console.log(error)
     },
   })
 
@@ -55,7 +53,6 @@ const CropEasy = ({ photo, setOpenCrop }) => {
       mutate({ token: token, formData: formData })
     } catch (error) {
       toast.error(error.message)
-      console.log(error)
     }
   }
 

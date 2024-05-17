@@ -1,6 +1,6 @@
 /* eslint-disable quotes */
 import { useEffect } from 'react'
-import "flatpickr/dist/flatpickr.css"
+import 'flatpickr/dist/flatpickr.css'
 import { toast } from 'react-hot-toast'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
