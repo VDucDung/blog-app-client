@@ -95,7 +95,7 @@ const ProfilePage = () => {
       <section className='container w-full mx-auto py-10 flex'>
         <div className='lg:flex lg:flex-row lg:gap-16 lg:max-w-6xl w-full mx-auto flex-col'>
           <ProfilePicture />
-          <form onSubmit={handleSubmit(submitHandler)} className='md:border-x-2 border-[#c3cad9] lg:px-12 px-6' style={{ margin: 'unset' }}>
+          <form onSubmit={handleSubmit(submitHandler)} className='lg:border-x-2 border-[#c3cad9] lg:px-12 px-6' style={{ margin: 'unset' }}>
             <div className='flex flex-col my-4 w-full '>
               <label
                 className='text-dark-hard font-semibold block text-lg'

@@ -11,7 +11,7 @@ const ProfilePicture = () => {
   const user = userState.userInfo
   const handleFileChange = (e) => {
     const file = e.target.files[0]
-    setPhoto({ url: URL.createObjectURL(file), file })
+    setPhoto({ url: URL.createObjectURL(file), file } || null)
     setOpenCrop(true)
   }
   return (

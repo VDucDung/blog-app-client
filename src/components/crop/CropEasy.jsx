@@ -27,6 +27,7 @@ const CropEasy = ({ photo, setOpenCrop }) => {
     },
     onSuccess: ({ data }) => {
       dispatch(userActions.setUserInfo(data))
+      localStorage.setItem('user', JSON.stringify(data))
       setOpenCrop(false)
       queryClient.invalidateQueries(['profile'])
       toast.success('Profile Photo is updated')
