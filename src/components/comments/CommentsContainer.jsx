@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import Comment from './Comment'
 import CommentForm from './CommentForm'
-import { createNewComment, updateComment } from 'services/index/comments'
+import { createNewComment, updateComment, deleteComment } from 'services/index/comments'
 
 const CommentsContainer = ({
   className,
@@ -43,6 +43,18 @@ const CommentsContainer = ({
     }
   })
 
+  const { mutate: mutateDeleteComment } = useMutation({
+    mutationFn: ({ token, commentId }) => {
+      return deleteComment({ token, commentId })
+    },
+    onSuccess: () => {
+      toast.success('Your comment is deleted successfully')
+      queryClient.invalidateQueries(['blog', postSlug])
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    }
+  })
   const addCommentHandler = (value, parent = null, replyOnUser = null) => {
     mutateNewComment({
       comment: value,
@@ -64,6 +76,7 @@ const CommentsContainer = ({
   }
 
   const deleteCommentHandler = (commentId) => {
+    mutateDeleteComment({ token: JSON.parse(localStorage.getItem('accessToken')), commentId })
   }
 
   return (
