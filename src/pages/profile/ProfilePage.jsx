@@ -1,4 +1,3 @@
-/* eslint-disable quotes */
 import { useEffect } from 'react'
 import 'flatpickr/dist/flatpickr.css'
 import { toast } from 'react-hot-toast'
@@ -22,18 +21,18 @@ const ProfilePage = () => {
   const {
     data: profileData,
     isLoading: profileIsLoading,
-    error: profileError
+    error: profileError,
   } = useQuery({
     queryFn: () => {
       return getUserProfile({ token: token })
     },
-    queryKey: ['profile']
+    queryKey: ['profile'],
   })
   const { mutate, isLoading: updateProfileIsLoading } = useMutation({
     mutationFn: ({ username, phone, dateOfBirth, gender }) => {
       return updateProfile({
         token: token,
-        userData: { username, phone, dateOfBirth, gender }
+        userData: { username, phone, dateOfBirth, gender },
       })
     },
     onSuccess: ({ data }) => {
@@ -44,7 +43,7 @@ const ProfilePage = () => {
     },
     onError: (error) => {
       toast.error(error.message)
-    }
+    },
   })
 
   useEffect(() => {
@@ -58,15 +57,15 @@ const ProfilePage = () => {
     handleSubmit,
     control,
     formState: { errors, isValid },
-    reset
+    reset,
   } = useForm({
     defaultValues: {
       username: '',
       phone: '',
       dateOfBirth: '',
-      gender: ''
+      gender: '',
     },
-    mode: 'onChange'
+    mode: 'onChange',
   })
 
   useEffect(() => {
@@ -75,7 +74,7 @@ const ProfilePage = () => {
         username: profileData.data.username,
         phone: profileData.data.phone,
         dateOfBirth: profileData.data.dateOfBirth,
-        gender: profileData.data.gender
+        gender: profileData.data.gender,
       })
     }
   }, [profileData, profileIsLoading, reset])
@@ -85,140 +84,116 @@ const ProfilePage = () => {
     const formattedDate = new Date(dateOfBirth).toLocaleDateString('en-US', {
       year: 'numeric',
       month: '2-digit',
-      day: '2-digit'
+      day: '2-digit',
     })
     mutate({ username, phone, dateOfBirth: formattedDate, gender })
   }
 
   return (
     <MainLayout>
-      <section className='container w-full mx-auto py-10 flex'>
-        <div className='lg:flex lg:flex-row lg:gap-16 lg:max-w-6xl w-full mx-auto flex-col'>
+      <section className="container mx-auto flex w-full py-10">
+        <div className="mx-auto w-full flex-col lg:flex lg:max-w-6xl lg:flex-row lg:gap-16">
           <ProfilePicture />
-          <form onSubmit={handleSubmit(submitHandler)} className='lg:border-x-2 border-[#c3cad9] lg:px-12 px-6' style={{ margin: 'unset' }}>
-            <div className='flex flex-col my-4 w-full '>
-              <label
-                className='text-dark-hard font-semibold block text-lg'
-              >
-                Personal information
-              </label>
+          <form
+            onSubmit={handleSubmit(submitHandler)}
+            className="border-[#c3cad9] px-6 lg:border-x-2 lg:px-12"
+            style={{ margin: 'unset' }}
+          >
+            <div className="my-4 flex w-full flex-col ">
+              <label className="block text-lg font-semibold text-dark-hard">Personal information</label>
             </div>
-            <div className='flex flex-col mb-6 w-full'>
-              <label
-                htmlFor='username'
-                className='text-[#5a7184] font-semibold block'
-              >
+            <div className="mb-6 flex w-full flex-col">
+              <label htmlFor="username" className="block font-semibold text-[#5a7184]">
                 Username
               </label>
               <input
-                type='text'
-                id='username'
+                type="text"
+                id="username"
                 {...register('username', {
                   minLength: {
                     value: 1,
-                    message: 'Username length must be at least 1 character'
+                    message: 'Username length must be at least 1 character',
                   },
                   required: {
                     value: true,
-                    message: 'Username is required'
-                  }
+                    message: 'Username is required',
+                  },
                 })}
-                placeholder='Enter username'
-                className={`placeholder:text-[#959ead] text-dark-hard mt-3 rounded-lg px-5 py-4 font-semibold block outline-none border ${errors.username ? 'border-red-500' : 'border-[#c3cad9]'}`}
+                placeholder="Enter username"
+                className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.username ? 'border-red-500' : 'border-[#c3cad9]'}`}
               />
-              {errors.username?.message && (
-                <p className='text-red-500 text-xs mt-1'>
-                  {errors.username?.message}
-                </p>
-              )}
+              {errors.username?.message && <p className="mt-1 text-xs text-red-500">{errors.username?.message}</p>}
             </div>
-            <div className='flex flex-col mb-6 w-full'>
-              <label
-                htmlFor='phone'
-                className='text-[#5a7184] font-semibold block'
-              >
+            <div className="mb-6 flex w-full flex-col">
+              <label htmlFor="phone" className="block font-semibold text-[#5a7184]">
                 Phone Number
               </label>
               <input
-                type='phone'
-                id='phone'
+                type="phone"
+                id="phone"
                 {...register('phone', {
                   pattern: {
                     value: /^[0-9]{3} [0-9]{3} [0-9]{4}$/,
-                    message: 'Enter a valid phone number'
-                  }
+                    message: 'Enter a valid phone number',
+                  },
                 })}
-                placeholder='Enter phone number'
-                className={`placeholder:text-[#959ead] text-dark-hard mt-3 rounded-lg px-5 py-4 font-semibold block outline-none border ${errors.phone ? 'border-red-500' : 'border-[#c3cad9]'}`}
+                placeholder="Enter phone number"
+                className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.phone ? 'border-red-500' : 'border-[#c3cad9]'}`}
               />
-              {errors.phone?.message && (
-                <p className='text-red-500 text-xs mt-1'>
-                  {errors.phone?.message}
-                </p>
-              )}
+              {errors.phone?.message && <p className="mt-1 text-xs text-red-500">{errors.phone?.message}</p>}
             </div>
-            <div className='flex flex-col mb-6 w-full'>
-              <label
-                htmlFor='dateOfBirth'
-                className='text-[#5a7184] font-semibold block'
-              >
+            <div className="mb-6 flex w-full flex-col">
+              <label htmlFor="dateOfBirth" className="block font-semibold text-[#5a7184]">
                 Date of Birth
               </label>
               <Controller
                 control={control}
-                name='dateOfBirth'
+                name="dateOfBirth"
                 render={({ field }) => (
                   <Flatpickr
                     {...field}
                     options={{
-                      dateFormat: 'm /d/Y',
-                      disableMobile: true
+                      dateFormat: 'd/m/Y',
+                      disableMobile: true,
                     }}
-                    className={`placeholder:text-[#959ead] text-dark-hard mt-3 rounded-lg px-5 py-4 font-semibold block outline-none border ${errors.dateOfBirth ? 'border-red-500' : 'border-[#c3cad9]'}`}
+                    className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.dateOfBirth ? 'border-red-500' : 'border-[#c3cad9]'}`}
                   />
                 )}
               />
               {errors.dateOfBirth?.message && (
-                <p className='text-red-500 text-xs mt-1'>
-                  {errors.dateOfBirth?.message}
-                </p>
+                <p className="mt-1 text-xs text-red-500">{errors.dateOfBirth?.message}</p>
               )}
             </div>
-            <div className='flex flex-col mb-6 w-full'>
-              <label
-                htmlFor='gender'
-                className='text-[#5a7184] font-semibold block'
-              >
+            <div className="mb-6 flex w-full flex-col">
+              <label htmlFor="gender" className="block font-semibold text-[#5a7184]">
                 Gender
               </label>
               <select
-                id='gender'
+                id="gender"
                 {...register('gender')}
-                className={`placeholder:text-[#959ead] text-dark-hard mt-3 rounded-lg px-5 py-4 font-semibold block outline-none border ${errors.gender ? 'border-red-500' : 'border-[#c3cad9]'}`}
+                className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.gender ? 'border-red-500' : 'border-[#c3cad9]'}`}
               >
-                <option value='' disabled selected hidden>Choose gender</option>
-                <option value='male'>Male</option>
-                <option value='female'>Female</option>
+                <option value="" disabled selected hidden>
+                  Choose gender
+                </option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
               </select>
-              {errors.gender?.message && (
-                <p className='text-red-500 text-xs mt-1'>
-                  {errors.gender?.message}
-                </p>
-              )}
+              {errors.gender?.message && <p className="mt-1 text-xs text-red-500">{errors.gender?.message}</p>}
             </div>
 
             <button
-              type='submit'
+              type="submit"
               disabled={!isValid || profileIsLoading || updateProfileIsLoading}
-              className='bg-primary text-white font-bold text-lg py-4 px-8 w-full rounded-lg mb-6 disabled:opacity-70 disabled:cursor-not-allowed'
+              className="mb-6 w-full rounded-lg bg-primary px-8 py-4 text-lg font-bold text-white disabled:cursor-not-allowed disabled:opacity-70"
             >
               Update
             </button>
           </form>
           <ProfileChangePassword />
         </div>
-      </section >
-    </MainLayout >
+      </section>
+    </MainLayout>
   )
 }
 

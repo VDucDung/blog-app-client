@@ -1,12 +1,6 @@
 import { useState } from 'react'
 
-const CommentForm = ({
-  btnLabel,
-  formSubmitHanlder,
-  formCancelHandler = null,
-  initialText = '',
-  loading = false
-}) => {
+const CommentForm = ({ btnLabel, formSubmitHanlder, formCancelHandler = null, initialText = '', loading = false }) => {
   const [value, setValue] = useState(initialText)
 
   const submitHandler = (e) => {
@@ -17,27 +11,25 @@ const CommentForm = ({
 
   return (
     <form onSubmit={submitHandler}>
-      <div className='flex flex-col items-end border border-primary rounded-lg p-4'>
+      <div className="flex flex-col items-end rounded-lg border border-primary p-4">
         <textarea
-          className='w-full focus:outline-none bg-transparent'
-          rows='5'
-          placeholder='Leave your comment here...'
+          className="w-full bg-transparent focus:outline-none"
+          rows="5"
+          placeholder="Leave your comment here..."
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
-        <div className='flex flex-col-reverse gap-y-2 items-center gap-x-2 pt-2 min-[420px]:flex-row'>
+        <div className="flex flex-col-reverse items-center gap-x-2 gap-y-2 pt-2 min-[420px]:flex-row">
           {formCancelHandler && (
-            <button
-              onClick={formCancelHandler}
-              className='px-6 py-2.5 rounded-lg border border-red-500 text-red-500'
-            >
+            <button onClick={formCancelHandler} className="rounded-lg border border-red-500 px-6 py-2.5 text-red-500">
               Cancel
             </button>
           )}
           <button
             disabled={loading}
-            type='submit'
-            className='px-6 py-2.5 rounded-lg bg-primary text-white font-semibold disabled:opacity-70 disabled:cursor-not-allowed'>
+            type="submit"
+            className="rounded-lg bg-primary px-6 py-2.5 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-70"
+          >
             {btnLabel}
           </button>
         </div>

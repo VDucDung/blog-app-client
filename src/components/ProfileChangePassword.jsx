@@ -19,19 +19,19 @@ const ProfileChangePassword = () => {
   const {
     data: profileData,
     isLoading: profileIsLoading,
-    error: profileError
+    error: profileError,
   } = useQuery({
     queryFn: () => {
       return getUserProfile({ token: token })
     },
-    queryKey: ['profile']
+    queryKey: ['profile'],
   })
   const { mutate, isLoading: updateProfileIsLoading } = useMutation({
     mutationFn: ({ oldPassword, newPassword }) => {
       return changePassword({
         token: token,
         oldPassword: oldPassword,
-        newPassword: newPassword
+        newPassword: newPassword,
       })
     },
     onSuccess: ({ data }) => {
@@ -42,7 +42,7 @@ const ProfileChangePassword = () => {
     },
     onError: (error) => {
       toast.error(error.message)
-    }
+    },
   })
 
   useEffect(() => {
@@ -56,14 +56,14 @@ const ProfileChangePassword = () => {
     handleSubmit,
     formState: { errors, isValid },
     watch,
-    reset
+    reset,
   } = useForm({
     defaultValues: {
       oldPassword: '',
       newPassword: '',
-      confirmNewPassword: ''
+      confirmNewPassword: '',
     },
-    mode: 'onChange'
+    mode: 'onChange',
   })
 
   const submitHandler = (data) => {
@@ -72,107 +72,84 @@ const ProfileChangePassword = () => {
   }
   const password = watch('newPassword')
   return (
-    <form onSubmit={handleSubmit(submitHandler)} className='px-6 ' style={{ margin: 'unset' }}>
-      <div className='flex flex-col my-4 w-full '>
-        <label
-          className='text-dark-hard font-semibold block text-lg'
-        >
-          Change Password
-        </label>
+    <form onSubmit={handleSubmit(submitHandler)} className="px-6 " style={{ margin: 'unset' }}>
+      <div className="my-4 flex w-full flex-col ">
+        <label className="block text-lg font-semibold text-dark-hard">Change Password</label>
       </div>
-      <div className='flex flex-col mb-6 w-full'>
-        <label
-          htmlFor='oldPassword'
-          className='text-[#5a7184] font-semibold block'
-        >
+      <div className="mb-6 flex w-full flex-col">
+        <label htmlFor="oldPassword" className="block font-semibold text-[#5a7184]">
           Old Password
         </label>
         <input
-          type='password'
-          id='oldPassword'
+          type="password"
+          id="oldPassword"
           {...register('oldPassword', {
             minLength: {
               value: 6,
-              message: 'Password length must be at least 6 characters'
+              message: 'Password length must be at least 6 characters',
             },
             required: {
               value: true,
-              message: 'Password is required'
-            }
+              message: 'Password is required',
+            },
           })}
-          placeholder='Enter password'
-          className={`placeholder:text-[#959ead] text-dark-hard mt-3 rounded-lg px-5 py-4 font-semibold block outline-none border ${errors.oldPassword ? 'border-red-500' : 'border-[#c3cad9]'}`}
+          placeholder="Enter password"
+          className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.oldPassword ? 'border-red-500' : 'border-[#c3cad9]'}`}
         />
-        {errors.oldPassword?.message && (
-          <p className='text-red-500 text-xs mt-1'>
-            {errors.oldPassword?.message}
-          </p>
-        )}
+        {errors.oldPassword?.message && <p className="mt-1 text-xs text-red-500">{errors.oldPassword?.message}</p>}
       </div>
-      <div className='flex flex-col mb-6 w-full'>
-        <label
-          htmlFor='newPassword'
-          className='text-[#5a7184] font-semibold block'
-        >
+      <div className="mb-6 flex w-full flex-col">
+        <label htmlFor="newPassword" className="block font-semibold text-[#5a7184]">
           New Password
         </label>
         <input
-          type='password'
-          id='newPassword'
+          type="password"
+          id="newPassword"
           {...register('newPassword', {
             minLength: {
               value: 6,
-              message: 'New password length must be at least 6 characters'
+              message: 'New password length must be at least 6 characters',
             },
             required: {
               value: true,
-              message: 'New password is required'
-            }
+              message: 'New password is required',
+            },
           })}
-          placeholder='Enter new password'
-          className={`placeholder:text-[#959ead] text-dark-hard mt-3 rounded-lg px-5 py-4 font-semibold block outline-none border ${errors.newPassword ? 'border-red-500' : 'border-[#c3cad9]'}`}
+          placeholder="Enter new password"
+          className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.newPassword ? 'border-red-500' : 'border-[#c3cad9]'}`}
         />
-        {errors.newPassword?.message && (
-          <p className='text-red-500 text-xs mt-1'>
-            {errors.newPassword?.message}
-          </p>
-        )}
+        {errors.newPassword?.message && <p className="mt-1 text-xs text-red-500">{errors.newPassword?.message}</p>}
       </div>
-      <div className='flex flex-col mb-6 w-full'>
-        <label
-          htmlFor='confirmNewPassword'
-          className='text-[#5a7184] font-semibold block'
-        >
+      <div className="mb-6 flex w-full flex-col">
+        <label htmlFor="confirmNewPassword" className="block font-semibold text-[#5a7184]">
           Confirm New Password
         </label>
         <input
-          type='password'
-          id='confirmNewPassword'
+          type="password"
+          id="confirmNewPassword"
           {...register('confirmNewPassword', {
             required: {
               value: true,
-              message: 'Confirm new password is required'
+              message: 'Confirm new password is required',
             },
             validate: (value) => {
               if (value !== password) {
                 return 'Passwords do not match'
               }
-            }
+            },
           })}
-          placeholder='Enter confirm password'
-          className={`placeholder:text-[#959ead] text-dark-hard mt-3 rounded-lg px-5 py-4 font-semibold block outline-none border ${errors.confirmNewPassword ? 'border-red-500' : 'border-[#c3cad9]'}`}
+          placeholder="Enter confirm password"
+          className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.confirmNewPassword ? 'border-red-500' : 'border-[#c3cad9]'}`}
         />
         {errors.confirmNewPassword?.message && (
-          <p className='text-red-500 text-xs mt-1'>
-            {errors.confirmNewPassword?.message}
-          </p>
+          <p className="mt-1 text-xs text-red-500">{errors.confirmNewPassword?.message}</p>
         )}
       </div>
 
       <button
-        type='submit'
+        type="submit"
         disabled={!isValid || profileIsLoading || updateProfileIsLoading}
-        className='bg-primary text-white font-bold text-lg py-4 px-8 w-full rounded-lg mb-6 disabled:opacity-70 disabled:cursor-not-allowed'
+        className="mb-6 w-full rounded-lg bg-primary px-8 py-4 text-lg font-bold text-white disabled:cursor-not-allowed disabled:opacity-70"
       >
         Update
       </button>

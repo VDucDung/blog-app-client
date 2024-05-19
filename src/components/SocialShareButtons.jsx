@@ -1,40 +1,23 @@
-import {
-  FaFacebookSquare,
-  FaTwitterSquare,
-  FaRedditSquare,
-  FaWhatsappSquare
-} from 'react-icons/fa'
+import { FaFacebookSquare, FaTwitterSquare, FaRedditSquare, FaWhatsappSquare } from 'react-icons/fa'
 
 const SocialShareButtons = ({ url, title }) => {
   return (
-    <div className='w-full flex justify-between'>
+    <div className="flex w-full justify-between">
       <a
-        target='_blank'
-        rel='noreferrer'
+        target="_blank"
+        rel="noreferrer"
         href={`https://www.facebook.com/dialog/share?app_id=811286384205211&display=popup&href=${url}`}
       >
-        <FaFacebookSquare className='text-[#3b5998] w-12 h-auto' />
+        <FaFacebookSquare className="h-auto w-12 text-[#3b5998]" />
       </a>
-      <a
-        target='_blank'
-        rel='noreferrer'
-        href={`https://twitter.com/intent/tweet?url=${url}`}
-      >
-        <FaTwitterSquare className='text-[#00acee] w-12 h-auto' />
+      <a target="_blank" rel="noreferrer" href={`https://twitter.com/intent/tweet?url=${url}`}>
+        <FaTwitterSquare className="h-auto w-12 text-[#00acee]" />
       </a>
-      <a
-        target='_blank'
-        rel='noreferrer'
-        href={`http://www.reddit.com/submit?url=${url}&title=${title}`}
-      >
-        <FaRedditSquare className='text-[#ff4500] w-12 h-auto' />
+      <a target="_blank" rel="noreferrer" href={`http://www.reddit.com/submit?url=${url}&title=${title}`}>
+        <FaRedditSquare className="h-auto w-12 text-[#ff4500]" />
       </a>
-      <a
-        target='_blank'
-        rel='noreferrer'
-        href={`https://api.whatsapp.com/send/?text=${url}`}
-      >
-        <FaWhatsappSquare className='text-[#25D366] w-12 h-auto' />
+      <a target="_blank" rel="noreferrer" href={`https://api.whatsapp.com/send/?text=${url}`}>
+        <FaWhatsappSquare className="h-auto w-12 text-[#25D366]" />
       </a>
     </div>
   )

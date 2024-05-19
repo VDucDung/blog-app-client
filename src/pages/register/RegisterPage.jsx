@@ -24,7 +24,7 @@ const RegisterPage = () => {
     },
     onError: (error) => {
       toast.error(error.message)
-    }
+    },
   })
 
   useEffect(() => {
@@ -33,20 +33,19 @@ const RegisterPage = () => {
     }
   }, [navigate, userState.userInfo])
 
-
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-    watch
+    watch,
   } = useForm({
     defaultValues: {
       username: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
     },
-    mode: 'onChange'
+    mode: 'onChange',
   })
 
   const submitHandler = (data) => {
@@ -58,140 +57,112 @@ const RegisterPage = () => {
 
   return (
     <MainLayout>
-      <section className='container mx-auto px-5 py-10'>
-        <div className='w-full max-w-sm mx-auto'>
-          <h1 className='font-roboto text-2xl font-bold text-center text-dark-hard mb-8'>
-            Sign Up
-          </h1>
+      <section className="container mx-auto px-5 py-10">
+        <div className="mx-auto w-full max-w-sm">
+          <h1 className="mb-8 text-center font-roboto text-2xl font-bold text-dark-hard">Sign Up</h1>
           <form onSubmit={handleSubmit(submitHandler)}>
-            <div className='flex flex-col mb-6 w-full'>
-              <label
-                htmlFor='username'
-                className='text-[#5a7184] font-semibold block'
-              >
+            <div className="mb-6 flex w-full flex-col">
+              <label htmlFor="username" className="block font-semibold text-[#5a7184]">
                 Username
               </label>
               <input
-                type='text'
-                id='username'
+                type="text"
+                id="username"
                 {...register('username', {
                   minLength: {
                     value: 1,
-                    message: 'Username length must be at least 1 character'
+                    message: 'Username length must be at least 1 character',
                   },
                   required: {
                     value: true,
-                    message: 'Username is required'
-                  }
+                    message: 'Username is required',
+                  },
                 })}
-                placeholder='Enter username'
-                className={`placeholder:text-[#959ead] text-dark-hard mt-3 rounded-lg px-5 py-4 font-semibold block outline-none border ${errors.username ? 'border-red-500' : 'border-[#c3cad9]'}`}
+                placeholder="Enter username"
+                className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.username ? 'border-red-500' : 'border-[#c3cad9]'}`}
               />
-              {errors.username?.message && (
-                <p className='text-red-500 text-xs mt-1'>
-                  {errors.username?.message}
-                </p>
-              )}
+              {errors.username?.message && <p className="mt-1 text-xs text-red-500">{errors.username?.message}</p>}
             </div>
-            <div className='flex flex-col mb-6 w-full'>
-              <label
-                htmlFor='email'
-                className='text-[#5a7184] font-semibold block'
-              >
+            <div className="mb-6 flex w-full flex-col">
+              <label htmlFor="email" className="block font-semibold text-[#5a7184]">
                 Email
               </label>
               <input
-                type='email'
-                id='email'
+                type="email"
+                id="email"
                 {...register('email', {
                   pattern: {
                     value:
                       /^(([^<>()[\]\\.,:\s@']+(\.[^<>()[\]\\.,:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                    message: 'Enter a valid email'
+                    message: 'Enter a valid email',
                   },
                   required: {
                     value: true,
-                    message: 'Email is required'
-                  }
+                    message: 'Email is required',
+                  },
                 })}
-                placeholder='Enter email'
-                className={`placeholder:text-[#959ead] text-dark-hard mt-3 rounded-lg px-5 py-4 font-semibold block outline-none border ${errors.email ? 'border-red-500' : 'border-[#c3cad9]'}`}
+                placeholder="Enter email"
+                className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.email ? 'border-red-500' : 'border-[#c3cad9]'}`}
               />
-              {errors.email?.message && (
-                <p className='text-red-500 text-xs mt-1'>
-                  {errors.email?.message}
-                </p>
-              )}
+              {errors.email?.message && <p className="mt-1 text-xs text-red-500">{errors.email?.message}</p>}
             </div>
-            <div className='flex flex-col mb-6 w-full'>
-              <label
-                htmlFor='password'
-                className='text-[#5a7184] font-semibold block'
-              >
+            <div className="mb-6 flex w-full flex-col">
+              <label htmlFor="password" className="block font-semibold text-[#5a7184]">
                 Password
               </label>
               <input
-                type='password'
-                id='password'
+                type="password"
+                id="password"
                 {...register('password', {
                   required: {
                     value: true,
-                    message: 'Password is required'
+                    message: 'Password is required',
                   },
                   minLength: {
                     value: 6,
-                    message: 'Password length must be at least 6 characters'
-                  }
+                    message: 'Password length must be at least 6 characters',
+                  },
                 })}
-                placeholder='Enter password'
-                className={`placeholder:text-[#959ead] text-dark-hard mt-3 rounded-lg px-5 py-4 font-semibold block outline-none border ${errors.password ? 'border-red-500' : 'border-[#c3cad9]'}`}
+                placeholder="Enter password"
+                className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.password ? 'border-red-500' : 'border-[#c3cad9]'}`}
               />
-              {errors.password?.message && (
-                <p className='text-red-500 text-xs mt-1'>
-                  {errors.password?.message}
-                </p>
-              )}
+              {errors.password?.message && <p className="mt-1 text-xs text-red-500">{errors.password?.message}</p>}
             </div>
-            <div className='flex flex-col mb-6 w-full'>
-              <label
-                htmlFor='confirmPassword'
-                className='text-[#5a7184] font-semibold block'
-              >
+            <div className="mb-6 flex w-full flex-col">
+              <label htmlFor="confirmPassword" className="block font-semibold text-[#5a7184]">
                 Confirm Password
               </label>
               <input
-                type='password'
-                id='confirmPassword'
+                type="password"
+                id="confirmPassword"
                 {...register('confirmPassword', {
                   required: {
                     value: true,
-                    message: 'Confirm password is required'
+                    message: 'Confirm password is required',
                   },
                   validate: (value) => {
                     if (value !== password) {
                       return 'Passwords do not match'
                     }
-                  }
+                  },
                 })}
-                placeholder='Enter confirm password'
-                className={`placeholder:text-[#959ead] text-dark-hard mt-3 rounded-lg px-5 py-4 font-semibold block outline-none border ${errors.confirmPassword ? 'border-red-500' : 'border-[#c3cad9]'}`}
+                placeholder="Enter confirm password"
+                className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.confirmPassword ? 'border-red-500' : 'border-[#c3cad9]'}`}
               />
               {errors.confirmPassword?.message && (
-                <p className='text-red-500 text-xs mt-1'>
-                  {errors.confirmPassword?.message}
-                </p>
+                <p className="mt-1 text-xs text-red-500">{errors.confirmPassword?.message}</p>
               )}
             </div>
             <button
-              type='submit'
+              type="submit"
               disabled={!isValid || isLoading}
-              className='bg-primary text-white font-bold text-lg py-4 px-8 w-full rounded-lg mb-6 disabled:opacity-70 disabled:cursor-not-allowed'
+              className="mb-6 w-full rounded-lg bg-primary px-8 py-4 text-lg font-bold text-white disabled:cursor-not-allowed disabled:opacity-70"
             >
               Register
             </button>
-            <p className='text-sm font-semibold text-[#5a7184]'>
+            <p className="text-sm font-semibold text-[#5a7184]">
               You have an user?{' '}
-              <Link to='/login' className='text-primary'>
+              <Link to="/login" className="text-primary">
                 Login now
               </Link>
             </p>

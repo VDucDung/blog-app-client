@@ -19,39 +19,26 @@ const ProfilePicture = () => {
       {openCrop &&
         createPortal(<CropEasy photo={photo} setOpenCrop={setOpenCrop} />, document.getElementById('portal'))}
 
-      <div className='gap-x-4 mt-3 text-center px-6' style={{ margin: 'unset' }}>
-        <div className='relative w-20 h-20 mx-auto rounded-full outline outline-offset-2 outline-1 lutline-primary overflow-hidden'>
-          <label
-            htmlFor='profilePicture'
-            className='cursor-pointer absolute inset-0 rounded-full bg-transparent'
-          >
+      <div className="mt-3 gap-x-4 px-6 text-center" style={{ margin: 'unset' }}>
+        <div className="lutline-primary relative mx-auto h-20 w-20 overflow-hidden rounded-full outline outline-1 outline-offset-2">
+          <label htmlFor="profilePicture" className="absolute inset-0 cursor-pointer rounded-full bg-transparent">
             {user?.avatar ? (
-              <img
-                src={user?.avatar}
-                alt='profile'
-                className='w-full h-full object-cover'
-              />
+              <img src={user?.avatar} alt="profile" className="h-full w-full object-cover" />
             ) : (
-              <div className='w-full h-full bg-blue-50/50 flex justify-center items-center'>
-                <HiOutlineCamera className='w-7 h-auto text-primary' />
+              <div className="flex h-full w-full items-center justify-center bg-blue-50/50">
+                <HiOutlineCamera className="h-auto w-7 text-primary" />
               </div>
             )}
           </label>
-          <input type='file' className='sr-only' id='profilePicture' onChange={handleFileChange} />
+          <input type="file" className="sr-only" id="profilePicture" onChange={handleFileChange} />
         </div>
-        <div className='flex flex-col my-4 w-full'>
-          <label
-            htmlFor='username'
-            className='text-dark-hard font-semibold block text-base'
-          >
+        <div className="my-4 flex w-full flex-col">
+          <label htmlFor="username" className="block text-base font-semibold text-dark-hard">
             {user?.username}
           </label>
         </div>
-        <div className='flex flex-col my-4 w-full'>
-          <label
-            htmlFor='username'
-            className='text-[#5a7184] font-semibold block text-base'
-          >
+        <div className="my-4 flex w-full flex-col">
+          <label htmlFor="username" className="block text-base font-semibold text-[#5a7184]">
             {user?.email}
           </label>
         </div>

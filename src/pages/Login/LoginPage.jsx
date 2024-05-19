@@ -27,7 +27,7 @@ const LoginPage = () => {
     },
     onError: (error) => {
       toast.error(error.message)
-    }
+    },
   })
 
   useEffect(() => {
@@ -39,13 +39,13 @@ const LoginPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid }
+    formState: { errors, isValid },
   } = useForm({
     defaultValues: {
       email: '',
-      password: ''
+      password: '',
     },
-    mode: 'onChange'
+    mode: 'onChange',
   })
 
   const submitHandler = (data) => {
@@ -55,87 +55,68 @@ const LoginPage = () => {
 
   return (
     <MainLayout>
-      <section className='container mx-auto px-5 py-10'>
-        <div className='w-full max-w-sm mx-auto'>
-          <h1 className='font-roboto text-2xl font-bold text-center text-dark-hard mb-8'>
-            Login
-          </h1>
+      <section className="container mx-auto px-5 py-10">
+        <div className="mx-auto w-full max-w-sm">
+          <h1 className="mb-8 text-center font-roboto text-2xl font-bold text-dark-hard">Login</h1>
           <form onSubmit={handleSubmit(submitHandler)}>
-            <div className='flex flex-col mb-6 w-full'>
-              <label
-                htmlFor='email'
-                className='text-[#5a7184] font-semibold block'
-              >
+            <div className="mb-6 flex w-full flex-col">
+              <label htmlFor="email" className="block font-semibold text-[#5a7184]">
                 Email
               </label>
               <input
-                type='email'
-                id='email'
+                type="email"
+                id="email"
                 {...register('email', {
                   pattern: {
                     value:
                       /^(([^<>()[\]\\.,:\s@']+(\.[^<>()[\]\\.,:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                    message: 'Enter a valid email'
+                    message: 'Enter a valid email',
                   },
                   required: {
                     value: true,
-                    message: 'Email is required'
-                  }
+                    message: 'Email is required',
+                  },
                 })}
-                placeholder='Enter email'
-                className={`placeholder:text-[#959ead] text-dark-hard mt-3 rounded-lg px-5 py-4 font-semibold block outline-none border ${errors.email ? 'border-red-500' : 'border-[#c3cad9]'}`}
+                placeholder="Enter email"
+                className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.email ? 'border-red-500' : 'border-[#c3cad9]'}`}
               />
-              {errors.email?.message && (
-                <p className='text-red-500 text-xs mt-1'>
-                  {errors.email?.message}
-                </p>
-              )}
+              {errors.email?.message && <p className="mt-1 text-xs text-red-500">{errors.email?.message}</p>}
             </div>
-            <div className='flex flex-col mb-6 w-full'>
-              <label
-                htmlFor='password'
-                className='text-[#5a7184] font-semibold block'
-              >
+            <div className="mb-6 flex w-full flex-col">
+              <label htmlFor="password" className="block font-semibold text-[#5a7184]">
                 Password
               </label>
               <input
-                type='password'
-                id='password'
+                type="password"
+                id="password"
                 {...register('password', {
                   required: {
                     value: true,
-                    message: 'Password is required'
+                    message: 'Password is required',
                   },
                   minLength: {
                     value: 6,
-                    message: 'Password length must be at least 6 characters'
-                  }
+                    message: 'Password length must be at least 6 characters',
+                  },
                 })}
-                placeholder='Enter password'
-                className={`placeholder:text-[#959ead] text-dark-hard mt-3 rounded-lg px-5 py-4 font-semibold block outline-none border ${errors.password ? 'border-red-500' : 'border-[#c3cad9]'}`}
+                placeholder="Enter password"
+                className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.password ? 'border-red-500' : 'border-[#c3cad9]'}`}
               />
-              {errors.password?.message && (
-                <p className='text-red-500 text-xs mt-1'>
-                  {errors.password?.message}
-                </p>
-              )}
+              {errors.password?.message && <p className="mt-1 text-xs text-red-500">{errors.password?.message}</p>}
             </div>
-            <Link
-              to='/forget-password'
-              className='text-sm font-semibold text-primary'
-            >
+            <Link to="/forget-password" className="text-sm font-semibold text-primary">
               Forgot password?
             </Link>
             <button
-              type='submit'
+              type="submit"
               disabled={!isValid || isLoading}
-              className='bg-primary text-white font-bold text-lg py-4 px-8 w-full rounded-lg my-6 disabled:opacity-70 disabled:cursor-not-allowed'
+              className="my-6 w-full rounded-lg bg-primary px-8 py-4 text-lg font-bold text-white disabled:cursor-not-allowed disabled:opacity-70"
             >
               Sign In
             </button>
-            <p className='text-sm font-semibold text-[#5a7184]'>
+            <p className="text-sm font-semibold text-[#5a7184]">
               Do not have an user?{' '}
-              <Link to='/register' className='text-primary'>
+              <Link to="/register" className="text-primary">
                 Register now
               </Link>
             </p>

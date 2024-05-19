@@ -6,29 +6,21 @@ import Comment from './Comment'
 import CommentForm from './CommentForm'
 import { createNewComment, updateComment, deleteComment } from 'services/index/comments'
 
-const CommentsContainer = ({
-  className,
-  logginedUserId,
-  comments,
-  postSlug
-}) => {
+const CommentsContainer = ({ className, logginedUserId, comments, postSlug }) => {
   const queryClient = useQueryClient()
   const [affectedComment, setAffectedComment] = useState(null)
 
-  const { mutate: mutateNewComment, isLoading: isLoadingNewComment } =
-    useMutation({
-      mutationFn: ({ token, comment, slug, parent, replyOnUser }) => {
-        return createNewComment({ token, comment, slug, parent, replyOnUser })
-      },
-      onSuccess: () => {
-        toast.success(
-          'Your comment is sent successfully, it will be visible after the confirmation of the Admin'
-        )
-      },
-      onError: (error) => {
-        toast.error(error.message)
-      }
-    })
+  const { mutate: mutateNewComment, isLoading: isLoadingNewComment } = useMutation({
+    mutationFn: ({ token, comment, slug, parent, replyOnUser }) => {
+      return createNewComment({ token, comment, slug, parent, replyOnUser })
+    },
+    onSuccess: () => {
+      toast.success('Your comment is sent successfully, it will be visible after the confirmation of the Admin')
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    },
+  })
 
   const { mutate: mutateUpdateComment } = useMutation({
     mutationFn: ({ token, comment, commentId }) => {
@@ -40,7 +32,7 @@ const CommentsContainer = ({
     },
     onError: (error) => {
       toast.error(error.message)
-    }
+    },
   })
 
   const { mutate: mutateDeleteComment } = useMutation({
@@ -53,7 +45,7 @@ const CommentsContainer = ({
     },
     onError: (error) => {
       toast.error(error.message)
-    }
+    },
   })
   const addCommentHandler = (value, parent = null, replyOnUser = null) => {
     mutateNewComment({
@@ -61,7 +53,7 @@ const CommentsContainer = ({
       parent,
       replyOnUser,
       token: JSON.parse(localStorage.getItem('accessToken')),
-      slug: postSlug
+      slug: postSlug,
     })
     setAffectedComment(null)
   }
@@ -70,36 +62,40 @@ const CommentsContainer = ({
     mutateUpdateComment({
       token: JSON.parse(localStorage.getItem('accessToken')),
       comment: value,
-      commentId
+      commentId,
     })
     setAffectedComment(null)
   }
 
   const deleteCommentHandler = (commentId) => {
-    mutateDeleteComment({ token: JSON.parse(localStorage.getItem('accessToken')), commentId })
+    mutateDeleteComment({
+      token: JSON.parse(localStorage.getItem('accessToken')),
+      commentId,
+    })
   }
 
   return (
     <div className={`${className}`}>
       <CommentForm
-        btnLabel='Send'
+        btnLabel="Send"
         formSubmitHanlder={(value) => addCommentHandler(value)}
         loading={isLoadingNewComment}
       />
-      <div className='space-y-4 mt-8'>
-        {comments && comments.map((comment) => (
-          <Comment
-            key={comment._id}
-            comment={comment}
-            logginedUserId={logginedUserId}
-            affectedComment={affectedComment}
-            setAffectedComment={setAffectedComment}
-            addComment={addCommentHandler}
-            updateComment={updateCommentHandler}
-            deleteComment={deleteCommentHandler}
-            replies={comment.replies}
-          />
-        ))}
+      <div className="mt-8 space-y-4">
+        {comments &&
+          comments.map((comment) => (
+            <Comment
+              key={comment._id}
+              comment={comment}
+              logginedUserId={logginedUserId}
+              affectedComment={affectedComment}
+              setAffectedComment={setAffectedComment}
+              addComment={addCommentHandler}
+              updateComment={updateCommentHandler}
+              deleteComment={deleteCommentHandler}
+              replies={comment.replies}
+            />
+          ))}
       </div>
     </div>
   )
