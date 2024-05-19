@@ -13,7 +13,7 @@ const Articles = () => {
     queryKey: ['posts'],
     onError: (error) => {
       toast.error(error.message)
-    },
+    }
   })
 
   return (

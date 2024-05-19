@@ -6,8 +6,8 @@ export const createNewComment = async ({ token, comment, slug, parent, replyOnUs
   try {
     const config = {
       headers: {
-        authorization: `Bearer ${token}`,
-      },
+        authorization: `Bearer ${token}`
+      }
     }
 
     const { data } = await axios.post(
@@ -16,9 +16,9 @@ export const createNewComment = async ({ token, comment, slug, parent, replyOnUs
         comment,
         slug,
         parent,
-        replyOnUser,
+        replyOnUser
       },
-      config,
+      config
     )
     return data
   } catch (error) {
@@ -31,16 +31,16 @@ export const updateComment = async ({ token, comment, commentId }) => {
   try {
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     }
 
     const { data } = await axios.put(
       API_URL + `/comments/${commentId}`,
       {
-        comment,
+        comment
       },
-      config,
+      config
     )
     return data
   } catch (error) {
@@ -53,8 +53,8 @@ export const deleteComment = async ({ token, commentId }) => {
   try {
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     }
 
     const { data } = await axios.delete(API_URL + `/comments/${commentId}`, config)

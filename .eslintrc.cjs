@@ -6,7 +6,7 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
-    'plugin:prettier/recommended', // Đảm bảo plugin prettier được đặt cuối cùng
+    'plugin:prettier/recommended',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
@@ -37,7 +37,7 @@ module.exports = {
     'linebreak-style': 0,
     'no-unexpected-multiline': 'warn',
     'keyword-spacing': 1,
-    'comma-dangle': 1,
+    'comma-dangle': ['error', 'never'], // No trailing commas
     'comma-spacing': 1,
     'arrow-spacing': 1,
 
@@ -47,6 +47,7 @@ module.exports = {
       {
         singleQuote: true,
         semi: false,
+        trailingComma: 'none', // No trailing commas
       },
     ],
   },

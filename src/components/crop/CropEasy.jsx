@@ -20,7 +20,7 @@ const CropEasy = ({ photo, setOpenCrop }) => {
     mutationFn: ({ token, formData }) => {
       return updateProfile({
         token: token,
-        userData: formData,
+        userData: formData
       })
     },
     onSuccess: ({ data }) => {
@@ -32,7 +32,7 @@ const CropEasy = ({ photo, setOpenCrop }) => {
     },
     onError: (error) => {
       toast.error(error.message)
-    },
+    }
   })
 
   const handleCropComplete = (cropedArea, cropedAreaPixels) => {
@@ -44,7 +44,7 @@ const CropEasy = ({ photo, setOpenCrop }) => {
       const croppedImg = await getCroppedImg(photo?.url, croppedAreaPixels)
 
       const file = new File([croppedImg.file], `${photo?.file?.name}`, {
-        type: photo?.file?.type,
+        type: photo?.file?.type
       })
 
       const formData = new FormData()

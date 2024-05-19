@@ -11,8 +11,8 @@ const userSlice = createSlice({
     },
     resetUserInfo(state, action) {
       state.userInfo = null
-    },
-  },
+    }
+  }
 })
 
 const userActions = userSlice.actions

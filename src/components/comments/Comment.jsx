@@ -12,7 +12,7 @@ const Comment = ({
   parentId = null,
   updateComment,
   deleteComment,
-  replies,
+  replies
 }) => {
   const isUserLoggined = Boolean(logginedUserId)
   const commentBelongsToUser = logginedUserId === comment.userId._id
@@ -34,7 +34,7 @@ const Comment = ({
             day: 'numeric',
             month: 'short',
             year: 'numeric',
-            hour: '2-digit',
+            hour: '2-digit'
           })}
         </span>
         {!isEditing && <p className="mt-[10px] font-opensans text-dark-light">{comment?.comment}</p>}

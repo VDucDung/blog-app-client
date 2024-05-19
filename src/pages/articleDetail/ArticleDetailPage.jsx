@@ -34,10 +34,10 @@ const ArticleDetailPage = () => {
         setbreadCrumbsData([
           { name: 'Home', link: '/' },
           { name: 'Blog', link: '/blog' },
-          { name: 'Article title', link: `/blog/${data?.data.slug}` },
+          { name: 'Article title', link: `/blog/${data?.data.slug}` }
         ])
       }
-    },
+    }
   })
 
   useEffect(() => {
@@ -48,7 +48,7 @@ const ArticleDetailPage = () => {
 
   const { data: postsData } = useQuery({
     queryFn: () => getAllPosts(),
-    queryKey: ['posts'],
+    queryKey: ['posts']
   })
 
   return (

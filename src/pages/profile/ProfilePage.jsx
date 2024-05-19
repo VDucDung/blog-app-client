@@ -21,18 +21,18 @@ const ProfilePage = () => {
   const {
     data: profileData,
     isLoading: profileIsLoading,
-    error: profileError,
+    error: profileError
   } = useQuery({
     queryFn: () => {
       return getUserProfile({ token: token })
     },
-    queryKey: ['profile'],
+    queryKey: ['profile']
   })
   const { mutate, isLoading: updateProfileIsLoading } = useMutation({
     mutationFn: ({ username, phone, dateOfBirth, gender }) => {
       return updateProfile({
         token: token,
-        userData: { username, phone, dateOfBirth, gender },
+        userData: { username, phone, dateOfBirth, gender }
       })
     },
     onSuccess: ({ data }) => {
@@ -43,7 +43,7 @@ const ProfilePage = () => {
     },
     onError: (error) => {
       toast.error(error.message)
-    },
+    }
   })
 
   useEffect(() => {
@@ -57,15 +57,15 @@ const ProfilePage = () => {
     handleSubmit,
     control,
     formState: { errors, isValid },
-    reset,
+    reset
   } = useForm({
     defaultValues: {
       username: '',
       phone: '',
       dateOfBirth: '',
-      gender: '',
+      gender: ''
     },
-    mode: 'onChange',
+    mode: 'onChange'
   })
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const ProfilePage = () => {
         username: profileData.data.username,
         phone: profileData.data.phone,
         dateOfBirth: profileData.data.dateOfBirth,
-        gender: profileData.data.gender,
+        gender: profileData.data.gender
       })
     }
   }, [profileData, profileIsLoading, reset])
@@ -84,7 +84,7 @@ const ProfilePage = () => {
     const formattedDate = new Date(dateOfBirth).toLocaleDateString('en-US', {
       year: 'numeric',
       month: '2-digit',
-      day: '2-digit',
+      day: '2-digit'
     })
     mutate({ username, phone, dateOfBirth: formattedDate, gender })
   }
@@ -112,12 +112,12 @@ const ProfilePage = () => {
                 {...register('username', {
                   minLength: {
                     value: 1,
-                    message: 'Username length must be at least 1 character',
+                    message: 'Username length must be at least 1 character'
                   },
                   required: {
                     value: true,
-                    message: 'Username is required',
-                  },
+                    message: 'Username is required'
+                  }
                 })}
                 placeholder="Enter username"
                 className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.username ? 'border-red-500' : 'border-[#c3cad9]'}`}
@@ -134,8 +134,8 @@ const ProfilePage = () => {
                 {...register('phone', {
                   pattern: {
                     value: /^[0-9]{3} [0-9]{3} [0-9]{4}$/,
-                    message: 'Enter a valid phone number',
-                  },
+                    message: 'Enter a valid phone number'
+                  }
                 })}
                 placeholder="Enter phone number"
                 className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.phone ? 'border-red-500' : 'border-[#c3cad9]'}`}
@@ -154,7 +154,7 @@ const ProfilePage = () => {
                     {...field}
                     options={{
                       dateFormat: 'd/m/Y',
-                      disableMobile: true,
+                      disableMobile: true
                     }}
                     className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.dateOfBirth ? 'border-red-500' : 'border-[#c3cad9]'}`}
                   />

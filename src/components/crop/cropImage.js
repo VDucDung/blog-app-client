@@ -16,7 +16,7 @@ export function rotateSize(width, height, rotation) {
 
   return {
     width: Math.abs(Math.cos(rotRad) * width) + Math.abs(Math.sin(rotRad) * height),
-    height: Math.abs(Math.sin(rotRad) * width) + Math.abs(Math.cos(rotRad) * height),
+    height: Math.abs(Math.sin(rotRad) * width) + Math.abs(Math.cos(rotRad) * height)
   }
 }
 
@@ -24,7 +24,7 @@ export default async function getCroppedImg(
   imageSrc,
   pixelCrop,
   rotation = 0,
-  flip = { horizontal: false, vertical: false },
+  flip = { horizontal: false, vertical: false }
 ) {
   const image = await createImage(imageSrc)
   const canvas = document.createElement('canvas')

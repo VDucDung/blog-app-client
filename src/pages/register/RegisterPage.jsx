@@ -24,7 +24,7 @@ const RegisterPage = () => {
     },
     onError: (error) => {
       toast.error(error.message)
-    },
+    }
   })
 
   useEffect(() => {
@@ -37,15 +37,15 @@ const RegisterPage = () => {
     register,
     handleSubmit,
     formState: { errors, isValid },
-    watch,
+    watch
   } = useForm({
     defaultValues: {
       username: '',
       email: '',
       password: '',
-      confirmPassword: '',
+      confirmPassword: ''
     },
-    mode: 'onChange',
+    mode: 'onChange'
   })
 
   const submitHandler = (data) => {
@@ -71,12 +71,12 @@ const RegisterPage = () => {
                 {...register('username', {
                   minLength: {
                     value: 1,
-                    message: 'Username length must be at least 1 character',
+                    message: 'Username length must be at least 1 character'
                   },
                   required: {
                     value: true,
-                    message: 'Username is required',
-                  },
+                    message: 'Username is required'
+                  }
                 })}
                 placeholder="Enter username"
                 className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.username ? 'border-red-500' : 'border-[#c3cad9]'}`}
@@ -94,12 +94,12 @@ const RegisterPage = () => {
                   pattern: {
                     value:
                       /^(([^<>()[\]\\.,:\s@']+(\.[^<>()[\]\\.,:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                    message: 'Enter a valid email',
+                    message: 'Enter a valid email'
                   },
                   required: {
                     value: true,
-                    message: 'Email is required',
-                  },
+                    message: 'Email is required'
+                  }
                 })}
                 placeholder="Enter email"
                 className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.email ? 'border-red-500' : 'border-[#c3cad9]'}`}
@@ -116,12 +116,12 @@ const RegisterPage = () => {
                 {...register('password', {
                   required: {
                     value: true,
-                    message: 'Password is required',
+                    message: 'Password is required'
                   },
                   minLength: {
                     value: 6,
-                    message: 'Password length must be at least 6 characters',
-                  },
+                    message: 'Password length must be at least 6 characters'
+                  }
                 })}
                 placeholder="Enter password"
                 className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.password ? 'border-red-500' : 'border-[#c3cad9]'}`}
@@ -138,13 +138,13 @@ const RegisterPage = () => {
                 {...register('confirmPassword', {
                   required: {
                     value: true,
-                    message: 'Confirm password is required',
+                    message: 'Confirm password is required'
                   },
                   validate: (value) => {
                     if (value !== password) {
                       return 'Passwords do not match'
                     }
-                  },
+                  }
                 })}
                 placeholder="Enter confirm password"
                 className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.confirmPassword ? 'border-red-500' : 'border-[#c3cad9]'}`}

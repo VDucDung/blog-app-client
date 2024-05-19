@@ -15,25 +15,25 @@ const MENU_ITEMS = [
     link: '/admin',
     icon: <AiFillDashboard className="text-xl" />,
     name: 'dashboard',
-    type: 'link',
+    type: 'link'
   },
   {
     title: 'Comments',
     link: '/admin/comments',
     icon: <FaComments className="text-xl" />,
     name: 'comments',
-    type: 'link',
+    type: 'link'
   },
   {
     title: 'Posts',
     content: [
       { title: 'New', link: '/admin/posts/new' },
-      { title: 'Manage', link: '/admin/posts/manage' },
+      { title: 'Manage', link: '/admin/posts/manage' }
     ],
     icon: <MdDashboard className="text-xl" />,
     name: 'posts',
-    type: 'collapse',
-  },
+    type: 'collapse'
+  }
 ]
 
 const Header = () => {
@@ -101,7 +101,7 @@ const Header = () => {
                     activeNavName={activeNavName}
                     setActiveNavName={setActiveNavName}
                   />
-                ),
+                )
               )}
             </div>
           </div>

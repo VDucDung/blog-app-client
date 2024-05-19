@@ -19,7 +19,7 @@ const CommentsContainer = ({ className, logginedUserId, comments, postSlug }) =>
     },
     onError: (error) => {
       toast.error(error.message)
-    },
+    }
   })
 
   const { mutate: mutateUpdateComment } = useMutation({
@@ -32,7 +32,7 @@ const CommentsContainer = ({ className, logginedUserId, comments, postSlug }) =>
     },
     onError: (error) => {
       toast.error(error.message)
-    },
+    }
   })
 
   const { mutate: mutateDeleteComment } = useMutation({
@@ -45,7 +45,7 @@ const CommentsContainer = ({ className, logginedUserId, comments, postSlug }) =>
     },
     onError: (error) => {
       toast.error(error.message)
-    },
+    }
   })
   const addCommentHandler = (value, parent = null, replyOnUser = null) => {
     mutateNewComment({
@@ -53,7 +53,7 @@ const CommentsContainer = ({ className, logginedUserId, comments, postSlug }) =>
       parent,
       replyOnUser,
       token: JSON.parse(localStorage.getItem('accessToken')),
-      slug: postSlug,
+      slug: postSlug
     })
     setAffectedComment(null)
   }
@@ -62,7 +62,7 @@ const CommentsContainer = ({ className, logginedUserId, comments, postSlug }) =>
     mutateUpdateComment({
       token: JSON.parse(localStorage.getItem('accessToken')),
       comment: value,
-      commentId,
+      commentId
     })
     setAffectedComment(null)
   }
@@ -70,7 +70,7 @@ const CommentsContainer = ({ className, logginedUserId, comments, postSlug }) =>
   const deleteCommentHandler = (commentId) => {
     mutateDeleteComment({
       token: JSON.parse(localStorage.getItem('accessToken')),
-      commentId,
+      commentId
     })
   }
 

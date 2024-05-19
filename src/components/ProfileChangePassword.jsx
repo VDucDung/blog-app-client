@@ -19,19 +19,19 @@ const ProfileChangePassword = () => {
   const {
     data: profileData,
     isLoading: profileIsLoading,
-    error: profileError,
+    error: profileError
   } = useQuery({
     queryFn: () => {
       return getUserProfile({ token: token })
     },
-    queryKey: ['profile'],
+    queryKey: ['profile']
   })
   const { mutate, isLoading: updateProfileIsLoading } = useMutation({
     mutationFn: ({ oldPassword, newPassword }) => {
       return changePassword({
         token: token,
         oldPassword: oldPassword,
-        newPassword: newPassword,
+        newPassword: newPassword
       })
     },
     onSuccess: ({ data }) => {
@@ -42,7 +42,7 @@ const ProfileChangePassword = () => {
     },
     onError: (error) => {
       toast.error(error.message)
-    },
+    }
   })
 
   useEffect(() => {
@@ -56,14 +56,14 @@ const ProfileChangePassword = () => {
     handleSubmit,
     formState: { errors, isValid },
     watch,
-    reset,
+    reset
   } = useForm({
     defaultValues: {
       oldPassword: '',
       newPassword: '',
-      confirmNewPassword: '',
+      confirmNewPassword: ''
     },
-    mode: 'onChange',
+    mode: 'onChange'
   })
 
   const submitHandler = (data) => {
@@ -86,12 +86,12 @@ const ProfileChangePassword = () => {
           {...register('oldPassword', {
             minLength: {
               value: 6,
-              message: 'Password length must be at least 6 characters',
+              message: 'Password length must be at least 6 characters'
             },
             required: {
               value: true,
-              message: 'Password is required',
-            },
+              message: 'Password is required'
+            }
           })}
           placeholder="Enter password"
           className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.oldPassword ? 'border-red-500' : 'border-[#c3cad9]'}`}
@@ -108,12 +108,12 @@ const ProfileChangePassword = () => {
           {...register('newPassword', {
             minLength: {
               value: 6,
-              message: 'New password length must be at least 6 characters',
+              message: 'New password length must be at least 6 characters'
             },
             required: {
               value: true,
-              message: 'New password is required',
-            },
+              message: 'New password is required'
+            }
           })}
           placeholder="Enter new password"
           className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.newPassword ? 'border-red-500' : 'border-[#c3cad9]'}`}
@@ -130,13 +130,13 @@ const ProfileChangePassword = () => {
           {...register('confirmNewPassword', {
             required: {
               value: true,
-              message: 'Confirm new password is required',
+              message: 'Confirm new password is required'
             },
             validate: (value) => {
               if (value !== password) {
                 return 'Passwords do not match'
               }
-            },
+            }
           })}
           placeholder="Enter confirm password"
           className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.confirmNewPassword ? 'border-red-500' : 'border-[#c3cad9]'}`}

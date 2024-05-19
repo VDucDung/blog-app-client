@@ -27,7 +27,7 @@ const LoginPage = () => {
     },
     onError: (error) => {
       toast.error(error.message)
-    },
+    }
   })
 
   useEffect(() => {
@@ -39,13 +39,13 @@ const LoginPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid }
   } = useForm({
     defaultValues: {
       email: '',
-      password: '',
+      password: ''
     },
-    mode: 'onChange',
+    mode: 'onChange'
   })
 
   const submitHandler = (data) => {
@@ -70,12 +70,12 @@ const LoginPage = () => {
                   pattern: {
                     value:
                       /^(([^<>()[\]\\.,:\s@']+(\.[^<>()[\]\\.,:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                    message: 'Enter a valid email',
+                    message: 'Enter a valid email'
                   },
                   required: {
                     value: true,
-                    message: 'Email is required',
-                  },
+                    message: 'Email is required'
+                  }
                 })}
                 placeholder="Enter email"
                 className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.email ? 'border-red-500' : 'border-[#c3cad9]'}`}
@@ -92,12 +92,12 @@ const LoginPage = () => {
                 {...register('password', {
                   required: {
                     value: true,
-                    message: 'Password is required',
+                    message: 'Password is required'
                   },
                   minLength: {
                     value: 6,
-                    message: 'Password length must be at least 6 characters',
-                  },
+                    message: 'Password length must be at least 6 characters'
+                  }
                 })}
                 placeholder="Enter password"
                 className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.password ? 'border-red-500' : 'border-[#c3cad9]'}`}

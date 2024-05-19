@@ -47,7 +47,7 @@ const ArticleCard = ({ post, className }) => {
           <span className="text-sm font-bold italic text-dark-light md:text-base">
             {new Date(post.createdAt).getDate()}{' '}
             {new Date(post.createdAt).toLocaleString('default', {
-              month: 'long',
+              month: 'long'
             })}
           </span>
         </div>
