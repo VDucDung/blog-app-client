@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useEffect } from 'react'
 import 'flatpickr/dist/flatpickr.css'
 import { toast } from 'react-hot-toast'
@@ -6,6 +7,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+
 import MainLayout from 'components/MainLayout'
 import ProfilePicture from 'components/ProfilePicture'
 import { userActions } from 'store/reducers/userReducers'
@@ -18,11 +20,7 @@ const ProfilePage = () => {
   const queryClient = useQueryClient()
   const userState = useSelector((state) => state.user)
   const token = JSON.parse(localStorage.getItem('accessToken'))
-  const {
-    data: profileData,
-    isLoading: profileIsLoading,
-    error: profileError
-  } = useQuery({
+  const { data: profileData, isLoading: profileIsLoading } = useQuery({
     queryFn: () => {
       return getUserProfile({ token: token })
     },
@@ -65,6 +63,12 @@ const ProfilePage = () => {
       dateOfBirth: '',
       gender: ''
     },
+    values: useMemo(() => {
+      return {
+        username: profileIsLoading ? '' : profileData?.username,
+        email: profileIsLoading ? '' : profileData?.email
+      }
+    }, [profileData?.email, profileData?.username, profileIsLoading]),
     mode: 'onChange'
   })
 
@@ -88,7 +92,7 @@ const ProfilePage = () => {
     })
     mutate({ username, phone, dateOfBirth: formattedDate, gender })
   }
-
+  console.log(profileData)
   return (
     <MainLayout>
       <section className="container mx-auto flex w-full py-10">

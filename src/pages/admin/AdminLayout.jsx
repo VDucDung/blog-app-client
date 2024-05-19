@@ -1,7 +1,40 @@
-import { Outlet } from 'react-router-dom'
+import { toast } from 'react-hot-toast'
+import { useQuery } from '@tanstack/react-query'
+import { Outlet, useNavigate } from 'react-router-dom'
+
 import Header from './components/header/Header'
+import { getUserProfile } from 'services/index/users'
 
 const AdminLayout = () => {
+  const navigate = useNavigate()
+
+  const {
+    data: profileData,
+    isLoading: profileIsLoading,
+    error: profileError
+  } = useQuery({
+    queryFn: () => {
+      return getUserProfile({ token: JSON.parse(localStorage.getItem('accessToken')) })
+    },
+    queryKey: ['profile'],
+    onSuccess: (data) => {
+      if (!data?.data?.role !== 'admin') {
+        navigate('/')
+        toast.error('Your are not allowed to access admin panel')
+      }
+    },
+    onError: (err) => {
+      navigate('/')
+      toast.error('Your are not allowed to access admin panel')
+    }
+  })
+  if (profileIsLoading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <h3 className="text-2xl text-slate-700">Loading...</h3>
+      </div>
+    )
+  }
   return (
     <div className="flex h-screen flex-col lg:flex-row">
       <Header />
