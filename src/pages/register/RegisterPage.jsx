@@ -21,6 +21,9 @@ const RegisterPage = () => {
     onSuccess: ({ data }) => {
       dispatch(userActions.setUserInfo(data))
       localStorage.setItem('user', JSON.stringify(data))
+      localStorage.setItem('accessToken', JSON.stringify(data.accessToken))
+      localStorage.setItem('refreshToken', JSON.stringify(data.refreshToken))
+      toast.success('Register success')
     },
     onError: (error) => {
       toast.error(error.message)

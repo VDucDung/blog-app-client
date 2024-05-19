@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 import { useSelector, useDispatch } from 'react-redux'
@@ -81,9 +81,9 @@ const Header = () => {
   return (
     <section className="sticky left-0 right-0 top-0 z-50 bg-white">
       <header className="container mx-auto flex items-center justify-between px-5 py-4">
-        <div>
-          <img className="w-16" src={images.Logo} alt="logo" />
-        </div>
+        <Link to="/">
+          <img src={images.Logo} alt="logo" className="w-16" />
+        </Link>
         <div className="z-50 lg:hidden">
           {navIsVisible ? (
             <AiOutlineClose className="h-6 w-6" onClick={navVisibilityHandler} />
