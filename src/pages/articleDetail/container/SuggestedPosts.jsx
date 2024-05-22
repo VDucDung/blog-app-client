@@ -10,30 +10,31 @@ const SuggestedPosts = ({ className, header, posts = [], tags }) => {
         {header}
       </h2>
       <div className="mt-5 grid gap-y-5 md:grid-cols-2 md:gap-x-5 lg:grid-cols-1">
-        {posts.map((item) => (
-          <div
-            key={item._id}
-            className="flex flex-nowrap items-center space-x-3"
-          >
-            <img
-              className="aspect-square w-1/5 rounded-lg object-cover"
-              src={item?.image ? item?.image : images.samplePostImage}
-              alt={item.title}
-            />
-            <div className="font-roboto text-sm font-medium text-dark-hard">
-              <h3 className="font-roboto text-sm font-medium text-dark-hard md:text-base lg:text-lg">
-                <Link to={`/blog/${item.slug}`}>{item.title}</Link>
-              </h3>
-              <span className="text-xs opacity-60">
-                {new Date(item.createdAt).toLocaleDateString('en-US', {
-                  day: 'numeric',
-                  month: 'short',
-                  year: 'numeric'
-                })}
-              </span>
+        {posts?.data &&
+          posts?.data.map((item) => (
+            <div
+              key={item._id}
+              className="flex flex-nowrap items-center space-x-3"
+            >
+              <img
+                className="aspect-square w-1/5 rounded-lg object-cover"
+                src={item?.image ? item?.image : images.samplePostImage}
+                alt={item.title}
+              />
+              <div className="font-roboto text-sm font-medium text-dark-hard">
+                <h3 className="font-roboto text-sm font-medium text-dark-hard md:text-base lg:text-lg">
+                  <Link to={`/blog/${item.slug}`}>{item.title}</Link>
+                </h3>
+                <span className="text-xs opacity-60">
+                  {new Date(item.createdAt).toLocaleDateString('en-US', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                  })}
+                </span>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
       <h2 className="mt-8 font-roboto font-medium text-dark-hard md:text-xl">
         Tags

@@ -15,7 +15,6 @@ const Articles = () => {
       toast.error(error.message)
     }
   })
-
   return (
     <section className="container mx-auto flex flex-col px-5 py-10">
       <div className=" flex flex-wrap gap-y-5 pb-10 md:gap-x-5">
@@ -29,7 +28,7 @@ const Articles = () => {
         ) : isError ? (
           <ErrorMessage message="Could not fetch the posts data" />
         ) : (
-          data?.data.map((post) => (
+          data?.data.data.map((post) => (
             <ArticleCard
               key={post._id}
               post={post}
