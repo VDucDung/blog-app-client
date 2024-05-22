@@ -3,11 +3,18 @@ import { Link } from 'react-router-dom'
 import { images } from 'constants'
 const SuggestedPosts = ({ className, header, posts = [], tags }) => {
   return (
-    <div className={`w-full rounded-lg p-4 shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] ${className}`}>
-      <h2 className="font-roboto font-medium text-dark-hard md:text-xl">{header}</h2>
+    <div
+      className={`w-full rounded-lg p-4 shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] ${className}`}
+    >
+      <h2 className="font-roboto font-medium text-dark-hard md:text-xl">
+        {header}
+      </h2>
       <div className="mt-5 grid gap-y-5 md:grid-cols-2 md:gap-x-5 lg:grid-cols-1">
         {posts.map((item) => (
-          <div key={item._id} className="flex flex-nowrap items-center space-x-3">
+          <div
+            key={item._id}
+            className="flex flex-nowrap items-center space-x-3"
+          >
             <img
               className="aspect-square w-1/5 rounded-lg object-cover"
               src={item?.image ? item?.image : images.samplePostImage}
@@ -28,9 +35,13 @@ const SuggestedPosts = ({ className, header, posts = [], tags }) => {
           </div>
         ))}
       </div>
-      <h2 className="mt-8 font-roboto font-medium text-dark-hard md:text-xl">Tags</h2>
+      <h2 className="mt-8 font-roboto font-medium text-dark-hard md:text-xl">
+        Tags
+      </h2>
       {tags.length === 0 ? (
-        <p className="mt-2 text-xs text-slate-500">There is not tags for this post</p>
+        <p className="mt-2 text-xs text-slate-500">
+          There is not tags for this post
+        </p>
       ) : (
         <div className="mt-4 flex flex-wrap gap-x-2 gap-y-2">
           {tags.map((item, index) => (

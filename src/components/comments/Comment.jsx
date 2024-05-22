@@ -16,8 +16,14 @@ const Comment = ({
 }) => {
   const isUserLoggined = Boolean(logginedUserId)
   const commentBelongsToUser = logginedUserId === comment.userId._id
-  const isReplying = affectedComment && affectedComment.type === 'replying' && affectedComment._id === comment?._id
-  const isEditing = affectedComment && affectedComment.type === 'editing' && affectedComment._id === comment?._id
+  const isReplying =
+    affectedComment &&
+    affectedComment.type === 'replying' &&
+    affectedComment._id === comment?._id
+  const isEditing =
+    affectedComment &&
+    affectedComment.type === 'editing' &&
+    affectedComment._id === comment?._id
   const repliedCommentId = parentId ? parentId : comment._id
   const replyOnUserId = comment.userId._id
   return (
@@ -28,7 +34,9 @@ const Comment = ({
         className="h-9 w-9 rounded-full object-cover"
       />
       <div className="flex flex-1 flex-col">
-        <h5 className="text-xs font-bold text-dark-hard lg:text-sm">{comment?.userId.username}</h5>
+        <h5 className="text-xs font-bold text-dark-hard lg:text-sm">
+          {comment?.userId.username}
+        </h5>
         <span className="text-xs text-dark-light">
           {new Date(comment.createdAt).toLocaleDateString('en-US', {
             day: 'numeric',
@@ -37,7 +45,11 @@ const Comment = ({
             hour: '2-digit'
           })}
         </span>
-        {!isEditing && <p className="mt-[10px] font-opensans text-dark-light">{comment?.comment}</p>}
+        {!isEditing && (
+          <p className="mt-[10px] font-opensans text-dark-light">
+            {comment?.comment}
+          </p>
+        )}
         {isEditing && (
           <CommentForm
             btnLabel="Update"
@@ -50,7 +62,9 @@ const Comment = ({
           {isUserLoggined && (
             <button
               className="flex items-center space-x-2"
-              onClick={() => setAffectedComment({ type: 'replying', _id: comment?._id })}
+              onClick={() =>
+                setAffectedComment({ type: 'replying', _id: comment?._id })
+              }
             >
               <FiMessageSquare className="h-auto w-4" />
               <span>Reply</span>
@@ -60,12 +74,17 @@ const Comment = ({
             <>
               <button
                 className="flex items-center space-x-2"
-                onClick={() => setAffectedComment({ type: 'editing', _id: comment?._id })}
+                onClick={() =>
+                  setAffectedComment({ type: 'editing', _id: comment?._id })
+                }
               >
                 <FiEdit2 className="h-auto w-4" />
                 <span>Edit</span>
               </button>
-              <button className="flex items-center space-x-2" onClick={() => deleteComment(comment._id)}>
+              <button
+                className="flex items-center space-x-2"
+                onClick={() => deleteComment(comment._id)}
+              >
                 <FiTrash className="h-auto w-4" />
                 <span>Delete</span>
               </button>
@@ -75,7 +94,9 @@ const Comment = ({
         {isReplying && (
           <CommentForm
             btnLabel="Reply"
-            formSubmitHanlder={(value) => addComment(value, repliedCommentId, replyOnUserId)}
+            formSubmitHanlder={(value) =>
+              addComment(value, repliedCommentId, replyOnUserId)
+            }
             formCancelHandler={() => setAffectedComment(null)}
           />
         )}

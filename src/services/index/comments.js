@@ -2,7 +2,13 @@ import axios from 'axios'
 
 import { API_URL } from 'utils/constants'
 
-export const createNewComment = async ({ token, comment, slug, parent, replyOnUser }) => {
+export const createNewComment = async ({
+  token,
+  comment,
+  slug,
+  parent,
+  replyOnUser
+}) => {
   try {
     const config = {
       headers: {
@@ -22,7 +28,8 @@ export const createNewComment = async ({ token, comment, slug, parent, replyOnUs
     )
     return data
   } catch (error) {
-    if (error.response && error.response.data.message) throw new Error(error.response.data.message)
+    if (error.response && error.response.data.message)
+      throw new Error(error.response.data.message)
     throw new Error(error.message)
   }
 }
@@ -44,7 +51,8 @@ export const updateComment = async ({ token, comment, commentId }) => {
     )
     return data
   } catch (error) {
-    if (error.response && error.response.data.message) throw new Error(error.response.data.message)
+    if (error.response && error.response.data.message)
+      throw new Error(error.response.data.message)
     throw new Error(error.message)
   }
 }
@@ -57,10 +65,14 @@ export const deleteComment = async ({ token, commentId }) => {
       }
     }
 
-    const { data } = await axios.delete(API_URL + `/comments/${commentId}`, config)
+    const { data } = await axios.delete(
+      API_URL + `/comments/${commentId}`,
+      config
+    )
     return data
   } catch (error) {
-    if (error.response && error.response.data.message) throw new Error(error.response.data.message)
+    if (error.response && error.response.data.message)
+      throw new Error(error.response.data.message)
     throw new Error(error.message)
   }
 }

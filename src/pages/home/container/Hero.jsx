@@ -10,8 +10,8 @@ const Hero = () => {
           Read the most interesting articles
         </h1>
         <p className="mt-4 text-center text-dark-light md:text-xl lg:text-left lg:text-base xl:text-xl">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua
         </p>
         <div className="relative mt-10 flex flex-col gap-y-2.5 lg:mt-6 xl:mt-10">
           <div className="relative">
@@ -31,7 +31,9 @@ const Hero = () => {
             Popular Tags:
           </span>
           <ul className="mt-3 flex flex-wrap gap-x-2.5 gap-y-2.5 lg:text-sm xl:text-base">
-            <li className="rounded-lg bg-primary bg-opacity-10 px-3 py-1.5 font-semibold text-primary">Design</li>
+            <li className="rounded-lg bg-primary bg-opacity-10 px-3 py-1.5 font-semibold text-primary">
+              Design
+            </li>
             <li className="rounded-lg bg-primary bg-opacity-10 px-3 py-1.5 font-semibold text-primary">
               User Experience
             </li>
@@ -42,7 +44,11 @@ const Hero = () => {
         </div>
       </div>
       <div className="lg:1/2 hidden lg:block">
-        <img className="w-full" src={images.HeroImage} alt="users are reading articles" />
+        <img
+          className="w-full"
+          src={images.HeroImage}
+          alt="users are reading articles"
+        />
       </div>
     </section>
   )

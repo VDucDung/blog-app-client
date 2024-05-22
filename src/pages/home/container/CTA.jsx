@@ -40,7 +40,8 @@ const CTA = () => {
               <span className="font-bold italic text-[#B3BAC5] md:font-normal md:not-italic md:text-dark-light">
                 Get a response tomorrow
               </span>{' '}
-              if you submit by 9pm today. If we received after 9pm will get a reponse the following day.
+              if you submit by 9pm today. If we received after 9pm will get a
+              reponse the following day.
             </p>
           </div>
           <div className="col-span-12 mb-[70px] hidden md:order-first md:block lg:order-last lg:col-span-6">

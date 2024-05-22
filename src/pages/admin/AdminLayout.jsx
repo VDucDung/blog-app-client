@@ -14,7 +14,9 @@ const AdminLayout = () => {
     error: profileError
   } = useQuery({
     queryFn: () => {
-      return getUserProfile({ token: JSON.parse(localStorage.getItem('accessToken')) })
+      return getUserProfile({
+        token: JSON.parse(localStorage.getItem('accessToken'))
+      })
     },
     queryKey: ['profile'],
     onSuccess: (data) => {

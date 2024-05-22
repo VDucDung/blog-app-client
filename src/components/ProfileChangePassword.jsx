@@ -72,12 +72,21 @@ const ProfileChangePassword = () => {
   }
   const password = watch('newPassword')
   return (
-    <form onSubmit={handleSubmit(submitHandler)} className="px-6 " style={{ margin: 'unset' }}>
+    <form
+      onSubmit={handleSubmit(submitHandler)}
+      className="px-6 "
+      style={{ margin: 'unset' }}
+    >
       <div className="my-4 flex w-full flex-col ">
-        <label className="block text-lg font-semibold text-dark-hard">Change Password</label>
+        <label className="block text-lg font-semibold text-dark-hard">
+          Change Password
+        </label>
       </div>
       <div className="mb-6 flex w-full flex-col">
-        <label htmlFor="oldPassword" className="block font-semibold text-[#5a7184]">
+        <label
+          htmlFor="oldPassword"
+          className="block font-semibold text-[#5a7184]"
+        >
           Old Password
         </label>
         <input
@@ -96,10 +105,17 @@ const ProfileChangePassword = () => {
           placeholder="Enter password"
           className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.oldPassword ? 'border-red-500' : 'border-[#c3cad9]'}`}
         />
-        {errors.oldPassword?.message && <p className="mt-1 text-xs text-red-500">{errors.oldPassword?.message}</p>}
+        {errors.oldPassword?.message && (
+          <p className="mt-1 text-xs text-red-500">
+            {errors.oldPassword?.message}
+          </p>
+        )}
       </div>
       <div className="mb-6 flex w-full flex-col">
-        <label htmlFor="newPassword" className="block font-semibold text-[#5a7184]">
+        <label
+          htmlFor="newPassword"
+          className="block font-semibold text-[#5a7184]"
+        >
           New Password
         </label>
         <input
@@ -118,10 +134,17 @@ const ProfileChangePassword = () => {
           placeholder="Enter new password"
           className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.newPassword ? 'border-red-500' : 'border-[#c3cad9]'}`}
         />
-        {errors.newPassword?.message && <p className="mt-1 text-xs text-red-500">{errors.newPassword?.message}</p>}
+        {errors.newPassword?.message && (
+          <p className="mt-1 text-xs text-red-500">
+            {errors.newPassword?.message}
+          </p>
+        )}
       </div>
       <div className="mb-6 flex w-full flex-col">
-        <label htmlFor="confirmNewPassword" className="block font-semibold text-[#5a7184]">
+        <label
+          htmlFor="confirmNewPassword"
+          className="block font-semibold text-[#5a7184]"
+        >
           Confirm New Password
         </label>
         <input
@@ -142,7 +165,9 @@ const ProfileChangePassword = () => {
           className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.confirmNewPassword ? 'border-red-500' : 'border-[#c3cad9]'}`}
         />
         {errors.confirmNewPassword?.message && (
-          <p className="mt-1 text-xs text-red-500">{errors.confirmNewPassword?.message}</p>
+          <p className="mt-1 text-xs text-red-500">
+            {errors.confirmNewPassword?.message}
+          </p>
         )}
       </div>
 

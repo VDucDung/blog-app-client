@@ -1,4 +1,9 @@
-import { AiOutlineTwitter, AiFillYoutube, AiFillInstagram, AiFillHeart } from 'react-icons/ai'
+import {
+  AiOutlineTwitter,
+  AiFillYoutube,
+  AiFillInstagram,
+  AiFillHeart
+} from 'react-icons/ai'
 import { FaFacebook } from 'react-icons/fa'
 import { BsTelegram } from 'react-icons/bs'
 
@@ -80,7 +85,11 @@ const Footer = () => {
           </ul>
         </div>
         <div className="col-span-10 md:order-first md:col-span-4 lg:col-span-2">
-          <img src={images.Logo} alt="logo" className="mx-auto brightness-0 invert md:mx-0" />
+          <img
+            src={images.Logo}
+            alt="logo"
+            className="mx-auto brightness-0 invert md:mx-0"
+          />
           <p className="mt-4 text-center text-sm text-dark-light md:text-left md:text-base lg:text-sm">
             Build a modern and creative website with crealand
           </p>
@@ -116,7 +125,9 @@ const Footer = () => {
           <div className="rounded-full bg-primary p-3 text-white">
             <AiFillHeart className="h-auto w-7" />
           </div>
-          <p className="font-bold italic text-dark-light">Copyright © 2024. Crafted with love.</p>
+          <p className="font-bold italic text-dark-light">
+            Copyright © 2024. Crafted with love.
+          </p>
         </div>
       </footer>
     </section>

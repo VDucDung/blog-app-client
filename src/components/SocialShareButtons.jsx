@@ -1,4 +1,9 @@
-import { FaFacebookSquare, FaTwitterSquare, FaRedditSquare, FaWhatsappSquare } from 'react-icons/fa'
+import {
+  FaFacebookSquare,
+  FaTwitterSquare,
+  FaRedditSquare,
+  FaWhatsappSquare
+} from 'react-icons/fa'
 
 const SocialShareButtons = ({ url, title }) => {
   return (
@@ -10,13 +15,25 @@ const SocialShareButtons = ({ url, title }) => {
       >
         <FaFacebookSquare className="h-auto w-12 text-[#3b5998]" />
       </a>
-      <a target="_blank" rel="noreferrer" href={`https://twitter.com/intent/tweet?url=${url}`}>
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href={`https://twitter.com/intent/tweet?url=${url}`}
+      >
         <FaTwitterSquare className="h-auto w-12 text-[#00acee]" />
       </a>
-      <a target="_blank" rel="noreferrer" href={`http://www.reddit.com/submit?url=${url}&title=${title}`}>
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href={`http://www.reddit.com/submit?url=${url}&title=${title}`}
+      >
         <FaRedditSquare className="h-auto w-12 text-[#ff4500]" />
       </a>
-      <a target="_blank" rel="noreferrer" href={`https://api.whatsapp.com/send/?text=${url}`}>
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href={`https://api.whatsapp.com/send/?text=${url}`}
+      >
         <FaWhatsappSquare className="h-auto w-12 text-[#25D366]" />
       </a>
     </div>

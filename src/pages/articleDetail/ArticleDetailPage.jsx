@@ -42,7 +42,17 @@ const ArticleDetailPage = () => {
 
   useEffect(() => {
     if (data?.data?.body) {
-      setBody(parse(generateHTML(data.data.body, [Bold, Italic, Text, Paragraph, Document])))
+      setBody(
+        parse(
+          generateHTML(data.data.body, [
+            Bold,
+            Italic,
+            Text,
+            Paragraph,
+            Document
+          ])
+        )
+      )
     }
   }, [data])
 
@@ -63,7 +73,9 @@ const ArticleDetailPage = () => {
             <BreadCrumbs data={breadCrumbsData} />
             <img
               className="w-full rounded-xl"
-              src={data?.data?.photo ? data?.data?.photo : images.samplePostImage}
+              src={
+                data?.data?.photo ? data?.data?.photo : images.samplePostImage
+              }
               alt={data?.data?.title}
             />
             <div className="mt-4 flex gap-2">
@@ -77,7 +89,9 @@ const ArticleDetailPage = () => {
                 </Link>
               ))}
             </div>
-            <h1 className="mt-4 font-roboto text-xl font-medium text-dark-hard md:text-[26px]">{data?.data?.title}</h1>
+            <h1 className="mt-4 font-roboto text-xl font-medium text-dark-hard md:text-[26px]">
+              {data?.data?.title}
+            </h1>
             <div className="prose prose-sm mt-4 sm:prose-base">{body}</div>
             <CommentsContainer
               comments={data?.data?.comments}
@@ -94,8 +108,13 @@ const ArticleDetailPage = () => {
               className="mt-8 lg:mt-0 lg:max-w-xs"
             />
             <div className="mt-7">
-              <h2 className="mb-4 font-roboto font-medium text-dark-hard md:text-xl">Share on:</h2>
-              <SocialShareButtons url={encodeURI(window.location.href)} title={encodeURIComponent(data?.data?.title)} />
+              <h2 className="mb-4 font-roboto font-medium text-dark-hard md:text-xl">
+                Share on:
+              </h2>
+              <SocialShareButtons
+                url={encodeURI(window.location.href)}
+                title={encodeURIComponent(data?.data?.title)}
+              />
             </div>
           </div>
         </section>

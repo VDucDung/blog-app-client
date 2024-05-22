@@ -57,10 +57,15 @@ const LoginPage = () => {
     <MainLayout>
       <section className="container mx-auto px-5 py-10">
         <div className="mx-auto w-full max-w-sm">
-          <h1 className="mb-8 text-center font-roboto text-2xl font-bold text-dark-hard">Login</h1>
+          <h1 className="mb-8 text-center font-roboto text-2xl font-bold text-dark-hard">
+            Login
+          </h1>
           <form onSubmit={handleSubmit(submitHandler)}>
             <div className="mb-6 flex w-full flex-col">
-              <label htmlFor="email" className="block font-semibold text-[#5a7184]">
+              <label
+                htmlFor="email"
+                className="block font-semibold text-[#5a7184]"
+              >
                 Email
               </label>
               <input
@@ -80,10 +85,17 @@ const LoginPage = () => {
                 placeholder="Enter email"
                 className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.email ? 'border-red-500' : 'border-[#c3cad9]'}`}
               />
-              {errors.email?.message && <p className="mt-1 text-xs text-red-500">{errors.email?.message}</p>}
+              {errors.email?.message && (
+                <p className="mt-1 text-xs text-red-500">
+                  {errors.email?.message}
+                </p>
+              )}
             </div>
             <div className="mb-6 flex w-full flex-col">
-              <label htmlFor="password" className="block font-semibold text-[#5a7184]">
+              <label
+                htmlFor="password"
+                className="block font-semibold text-[#5a7184]"
+              >
                 Password
               </label>
               <input
@@ -102,9 +114,16 @@ const LoginPage = () => {
                 placeholder="Enter password"
                 className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.password ? 'border-red-500' : 'border-[#c3cad9]'}`}
               />
-              {errors.password?.message && <p className="mt-1 text-xs text-red-500">{errors.password?.message}</p>}
+              {errors.password?.message && (
+                <p className="mt-1 text-xs text-red-500">
+                  {errors.password?.message}
+                </p>
+              )}
             </div>
-            <Link to="/forget-password" className="text-sm font-semibold text-primary">
+            <Link
+              to="/forget-password"
+              className="text-sm font-semibold text-primary"
+            >
               Forgot password?
             </Link>
             <button

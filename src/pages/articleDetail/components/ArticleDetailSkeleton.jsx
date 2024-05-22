@@ -20,12 +20,17 @@ const ArticleDetailSkeleton = () => {
       </article>
 
       {/* Suggested posts */}
-      <div className={`mt-8 w-full rounded-lg p-4 shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] lg:mt-0 lg:max-w-xs`}>
+      <div
+        className={`mt-8 w-full rounded-lg p-4 shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] lg:mt-0 lg:max-w-xs`}
+      >
         {/* title */}
         <div className="h-2 w-[20%] rounded-lg bg-slate-300" />
         <div className="mt-5 grid gap-y-5 md:grid-cols-2 md:gap-x-5 lg:grid-cols-1">
           {[...Array(6)].map((item, index) => (
-            <div key={index} className="flex flex-nowrap items-center space-x-3">
+            <div
+              key={index}
+              className="flex flex-nowrap items-center space-x-3"
+            >
               {/* image */}
               <div className="aspect-square w-1/5 rounded-lg bg-slate-300" />
               <div className="w-full">

@@ -21,13 +21,20 @@ const Articles = () => {
       <div className=" flex flex-wrap gap-y-5 pb-10 md:gap-x-5">
         {isLoading ? (
           [...Array(3)].map((item, index) => (
-            <ArticleCardSkeleton key={index} className="w-full md:w-[calc(50%-20px)] lg:w-[calc(33.33%-21px)]" />
+            <ArticleCardSkeleton
+              key={index}
+              className="w-full md:w-[calc(50%-20px)] lg:w-[calc(33.33%-21px)]"
+            />
           ))
         ) : isError ? (
           <ErrorMessage message="Could not fetch the posts data" />
         ) : (
           data?.data.map((post) => (
-            <ArticleCard key={post._id} post={post} className="w-full md:w-[calc(50%-20px)] lg:w-[calc(33.33%-21px)]" />
+            <ArticleCard
+              key={post._id}
+              post={post}
+              className="w-full md:w-[calc(50%-20px)] lg:w-[calc(33.33%-21px)]"
+            />
           ))
         )}
       </div>

@@ -71,7 +71,10 @@ const Header = () => {
       {isMenuActive && (
         <div className="fixed inset-0 lg:static lg:h-full lg:w-full">
           {/* underlay */}
-          <div className="fixed inset-0 bg-black opacity-50 lg:hidden" onClick={toggleMenuHandler} />
+          <div
+            className="fixed inset-0 bg-black opacity-50 lg:hidden"
+            onClick={toggleMenuHandler}
+          />
           {/* sidebar */}
           <div className="fixed bottom-0 left-0 top-0 z-50 w-3/4 overflow-y-auto bg-white p-4 lg:static lg:h-full lg:w-full lg:p-6">
             <Link to="/">

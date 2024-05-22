@@ -37,7 +37,10 @@ const NavItem = ({ item }) => {
         </>
       ) : (
         <div className="flex flex-col items-center">
-          <button className="flex items-center gap-x-1 px-4 py-2" onClick={toggleDropdownHandler}>
+          <button
+            className="flex items-center gap-x-1 px-4 py-2"
+            onClick={toggleDropdownHandler}
+          >
             <span>{item.name}</span>
             <MdKeyboardArrowDown />
           </button>
@@ -86,7 +89,10 @@ const Header = () => {
         </Link>
         <div className="z-50 lg:hidden">
           {navIsVisible ? (
-            <AiOutlineClose className="h-6 w-6" onClick={navVisibilityHandler} />
+            <AiOutlineClose
+              className="h-6 w-6"
+              onClick={navVisibilityHandler}
+            />
           ) : (
             <AiOutlineMenu className="h-6 w-6" onClick={navVisibilityHandler} />
           )}

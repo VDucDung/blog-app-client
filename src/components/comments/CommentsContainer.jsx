@@ -4,23 +4,35 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import Comment from './Comment'
 import CommentForm from './CommentForm'
-import { createNewComment, updateComment, deleteComment } from 'services/index/comments'
+import {
+  createNewComment,
+  updateComment,
+  deleteComment
+} from 'services/index/comments'
 
-const CommentsContainer = ({ className, logginedUserId, comments, postSlug }) => {
+const CommentsContainer = ({
+  className,
+  logginedUserId,
+  comments,
+  postSlug
+}) => {
   const queryClient = useQueryClient()
   const [affectedComment, setAffectedComment] = useState(null)
 
-  const { mutate: mutateNewComment, isLoading: isLoadingNewComment } = useMutation({
-    mutationFn: ({ token, comment, slug, parent, replyOnUser }) => {
-      return createNewComment({ token, comment, slug, parent, replyOnUser })
-    },
-    onSuccess: () => {
-      toast.success('Your comment is sent successfully, it will be visible after the confirmation of the Admin')
-    },
-    onError: (error) => {
-      toast.error(error.message)
-    }
-  })
+  const { mutate: mutateNewComment, isLoading: isLoadingNewComment } =
+    useMutation({
+      mutationFn: ({ token, comment, slug, parent, replyOnUser }) => {
+        return createNewComment({ token, comment, slug, parent, replyOnUser })
+      },
+      onSuccess: () => {
+        toast.success(
+          'Your comment is sent successfully, it will be visible after the confirmation of the Admin'
+        )
+      },
+      onError: (error) => {
+        toast.error(error.message)
+      }
+    })
 
   const { mutate: mutateUpdateComment } = useMutation({
     mutationFn: ({ token, comment, commentId }) => {

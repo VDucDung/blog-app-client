@@ -92,7 +92,6 @@ const ProfilePage = () => {
     })
     mutate({ username, phone, dateOfBirth: formattedDate, gender })
   }
-  console.log(profileData)
   return (
     <MainLayout>
       <section className="container mx-auto flex w-full py-10">
@@ -104,10 +103,15 @@ const ProfilePage = () => {
             style={{ margin: 'unset' }}
           >
             <div className="my-4 flex w-full flex-col ">
-              <label className="block text-lg font-semibold text-dark-hard">Personal information</label>
+              <label className="block text-lg font-semibold text-dark-hard">
+                Personal information
+              </label>
             </div>
             <div className="mb-6 flex w-full flex-col">
-              <label htmlFor="username" className="block font-semibold text-[#5a7184]">
+              <label
+                htmlFor="username"
+                className="block font-semibold text-[#5a7184]"
+              >
                 Username
               </label>
               <input
@@ -126,10 +130,17 @@ const ProfilePage = () => {
                 placeholder="Enter username"
                 className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.username ? 'border-red-500' : 'border-[#c3cad9]'}`}
               />
-              {errors.username?.message && <p className="mt-1 text-xs text-red-500">{errors.username?.message}</p>}
+              {errors.username?.message && (
+                <p className="mt-1 text-xs text-red-500">
+                  {errors.username?.message}
+                </p>
+              )}
             </div>
             <div className="mb-6 flex w-full flex-col">
-              <label htmlFor="phone" className="block font-semibold text-[#5a7184]">
+              <label
+                htmlFor="phone"
+                className="block font-semibold text-[#5a7184]"
+              >
                 Phone Number
               </label>
               <input
@@ -144,10 +155,17 @@ const ProfilePage = () => {
                 placeholder="Enter phone number"
                 className={`mt-3 block rounded-lg border px-5 py-4 font-semibold text-dark-hard outline-none placeholder:text-[#959ead] ${errors.phone ? 'border-red-500' : 'border-[#c3cad9]'}`}
               />
-              {errors.phone?.message && <p className="mt-1 text-xs text-red-500">{errors.phone?.message}</p>}
+              {errors.phone?.message && (
+                <p className="mt-1 text-xs text-red-500">
+                  {errors.phone?.message}
+                </p>
+              )}
             </div>
             <div className="mb-6 flex w-full flex-col">
-              <label htmlFor="dateOfBirth" className="block font-semibold text-[#5a7184]">
+              <label
+                htmlFor="dateOfBirth"
+                className="block font-semibold text-[#5a7184]"
+              >
                 Date of Birth
               </label>
               <Controller
@@ -165,11 +183,16 @@ const ProfilePage = () => {
                 )}
               />
               {errors.dateOfBirth?.message && (
-                <p className="mt-1 text-xs text-red-500">{errors.dateOfBirth?.message}</p>
+                <p className="mt-1 text-xs text-red-500">
+                  {errors.dateOfBirth?.message}
+                </p>
               )}
             </div>
             <div className="mb-6 flex w-full flex-col">
-              <label htmlFor="gender" className="block font-semibold text-[#5a7184]">
+              <label
+                htmlFor="gender"
+                className="block font-semibold text-[#5a7184]"
+              >
                 Gender
               </label>
               <select
@@ -183,7 +206,11 @@ const ProfilePage = () => {
                 <option value="male">Male</option>
                 <option value="female">Female</option>
               </select>
-              {errors.gender?.message && <p className="mt-1 text-xs text-red-500">{errors.gender?.message}</p>}
+              {errors.gender?.message && (
+                <p className="mt-1 text-xs text-red-500">
+                  {errors.gender?.message}
+                </p>
+              )}
             </div>
 
             <button

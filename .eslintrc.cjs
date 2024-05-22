@@ -5,16 +5,16 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
-    'plugin:react-hooks/recommended',
-    'plugin:prettier/recommended',
+    'plugin:react-hooks/recommended'
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
   settings: { react: { version: '18.2' } },
-  plugins: ['react', 'react-hooks', 'react-refresh', 'prettier'],
+  plugins: ['react', 'react-hooks', 'react-refresh'],
   rules: {
     // React
     'react/jsx-no-target-blank': 'off',
+    'comma-dangle': 'off',
     'react-refresh/only-export-components': 'warn',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
@@ -37,18 +37,8 @@ module.exports = {
     'linebreak-style': 0,
     'no-unexpected-multiline': 'warn',
     'keyword-spacing': 1,
-    'comma-dangle': ['error', 'never'], 
+    'comma-dangle': ['error', 'never'],
     'comma-spacing': 1,
-    'arrow-spacing': 1,
-
-    // Prettier
-    'prettier/prettier': [
-      'error',
-      {
-        singleQuote: true,
-        semi: false,
-        trailingComma: 'none', 
-      },
-    ],
-  },
+    'arrow-spacing': 1
+  }
 }
