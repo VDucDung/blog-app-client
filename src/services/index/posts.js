@@ -7,14 +7,15 @@ export const getAllPosts = async (searchKeyword = '', page = 1, limit = 10) => {
     const token = JSON.parse(localStorage.getItem('accessToken'))
     const config = {
       headers: {
-        authorization: `Bearer ${token}`
+        authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
       }
     }
-    const { data, headers } = await axios.get(
+    const response = await axios.get(
       `${API_URL}/posts?keyword=${searchKeyword}&page=${page}&limit=${limit}`,
       config
     )
-    return { data, headers }
+    return { data: response.data, headers: response.headers }
   } catch (error) {
     if (error.response && error.response.data.message)
       throw new Error(error.response.data.message)
