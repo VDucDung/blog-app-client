@@ -1,13 +1,18 @@
 /* eslint-disable indent */
+import toast from 'react-hot-toast'
+import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { images } from 'constants'
 import Pagination from 'components/Pagination'
-import { getAllPosts } from 'services/index/posts'
+import { deletePost, getAllPosts } from 'services/index/posts'
 
 let isFirstRun = true
 const ManagePosts = () => {
+  const queryClient = useQueryClient()
+  const userState = useSelector((state) => state.user)
   const [searchKeyword, setSearchKeyword] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
 
@@ -20,6 +25,24 @@ const ManagePosts = () => {
     queryFn: () => getAllPosts(searchKeyword, currentPage),
     queryKey: ['posts']
   })
+
+  const { mutate: mutateDeletePost, isLoading: isLoadingDeletePost } =
+    useMutation({
+      mutationFn: ({ postId, token }) => {
+        return deletePost({
+          postId,
+          token
+        })
+      },
+      onSuccess: (data) => {
+        queryClient.invalidateQueries(['posts'])
+        toast.success('Post is deleted')
+      },
+      onError: (error) => {
+        toast.error(error.message)
+      }
+    })
+
   useEffect(() => {
     if (isFirstRun) {
       isFirstRun = false
@@ -36,6 +59,9 @@ const ManagePosts = () => {
     e.preventDefault()
     setCurrentPage(1)
     refetch()
+  }
+  const deletePostHandler = ({ postId, token }) => {
+    mutateDeletePost({ postId, token })
   }
   return (
     <div>
@@ -167,13 +193,28 @@ const ManagePosts = () => {
                               : 'No tags'}
                           </div>
                         </td>
-                        <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                          <a
-                            href="/"
-                            className="text-indigo-600 hover:text-indigo-900"
+                        <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 space-x-5">
+                          <button
+                            disabled={isLoadingDeletePost}
+                            type="button"
+                            className="text-red-600 hover:text-red-900 disabled:opacity-70 disabled:cursor-not-allowed"
+                            onClick={() => {
+                              deletePostHandler({
+                                postId: post?._id,
+                                token: JSON.parse(
+                                  localStorage.getItem('accessToken')
+                                )
+                              })
+                            }}
+                          >
+                            Delete
+                          </button>
+                          <Link
+                            to="/"
+                            className="text-green-600 hover:text-green-900"
                           >
                             Edit
-                          </a>
+                          </Link>
                         </td>
                       </tr>
                     ))

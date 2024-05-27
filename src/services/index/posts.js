@@ -33,3 +33,23 @@ export const getSinglePost = async ({ slug }) => {
     throw new Error(error.message)
   }
 }
+
+export const deletePost = async ({ postId, token }) => {
+  try {
+    const config = {
+      headers: {
+        authorization: `Bearer ${token}`
+      }
+    }
+
+    const { data } = await axios.delete(
+      `${API_URL}/posts/post/${postId}`,
+      config
+    )
+    return data
+  } catch (error) {
+    if (error.response && error.response.data.message)
+      throw new Error(error.response.data.message)
+    throw new Error(error.message)
+  }
+}
