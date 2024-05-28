@@ -1,14 +1,7 @@
-import parse from 'html-react-parser'
 import { useSelector } from 'react-redux'
-import Text from '@tiptap/extension-text'
-import Bold from '@tiptap/extension-bold'
 import { useState, useEffect } from 'react'
-import { generateHTML } from '@tiptap/html'
-import Italic from '@tiptap/extension-italic'
 import { useQuery } from '@tanstack/react-query'
-import Document from '@tiptap/extension-document'
 import { Link, useParams } from 'react-router-dom'
-import Paragraph from '@tiptap/extension-paragraph'
 
 import { images } from 'constants'
 import MainLayout from 'components/MainLayout'
@@ -19,6 +12,7 @@ import ErrorMessage from 'components/ErrorMessage'
 import SocialShareButtons from 'components/SocialShareButtons'
 import CommentsContainer from 'components/comments/CommentsContainer'
 import ArticleDetailSkeleton from './components/ArticleDetailSkeleton'
+import parseJsonToHtml from 'utils/parseJsonToHtml'
 
 const ArticleDetailPage = () => {
   const { id: slug } = useParams()
@@ -42,17 +36,7 @@ const ArticleDetailPage = () => {
 
   useEffect(() => {
     if (data?.data?.body) {
-      setBody(
-        parse(
-          generateHTML(data.data.body, [
-            Bold,
-            Italic,
-            Text,
-            Paragraph,
-            Document
-          ])
-        )
-      )
+      setBody(parseJsonToHtml(data.data.body))
     }
   }, [data])
 
@@ -74,7 +58,7 @@ const ArticleDetailPage = () => {
             <img
               className="w-full rounded-xl"
               src={
-                data?.data?.photo ? data?.data?.photo : images.samplePostImage
+                data?.data?.image ? data?.data?.image : images.samplePostImage
               }
               alt={data?.data?.title}
             />

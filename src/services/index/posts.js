@@ -53,3 +53,25 @@ export const deletePost = async ({ postId, token }) => {
     throw new Error(error.message)
   }
 }
+
+export const updatePost = async ({ updatedData, postId, token }) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    }
+
+    const { data } = await axios.put(
+      `${API_URL}/posts/post/${postId}`,
+      updatedData,
+      config
+    )
+    return data
+  } catch (error) {
+    if (error.response && error.response.data.message)
+      throw new Error(error.response.data.message)
+    throw new Error(error.message)
+  }
+}

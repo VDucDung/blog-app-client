@@ -3,15 +3,17 @@ import { Routes, Route } from 'react-router-dom'
 
 import 'App.css'
 import HomePage from 'pages/home/HomePage'
-import ArticleDetailPage from './pages/articleDetail/ArticleDetailPage'
-import RegisterPage from 'pages/register/RegisterPage'
-import LoginPage from 'pages/Login/LoginPage'
-import ProfilePage from 'pages/profile/ProfilePage'
-import AdminLayout from 'pages/admin/AdminLayout'
 import Admin from 'pages/admin/screens/Admin'
-import Comments from 'pages/admin/screens/comments/Comments'
+import LoginPage from 'pages/Login/LoginPage'
+import AdminLayout from 'pages/admin/AdminLayout'
+import ProfilePage from 'pages/profile/ProfilePage'
+import RegisterPage from 'pages/register/RegisterPage'
 import NewPost from 'pages/admin/screens/posts/NewPost'
+import EditPost from 'pages/admin/screens/posts/EditPost'
+import Comments from 'pages/admin/screens/comments/Comments'
 import ManagePosts from 'pages/admin/screens/posts/ManagePosts'
+import ArticleDetailPage from './pages/articleDetail/ArticleDetailPage'
+
 function App() {
   return (
     <div className="App font-opensans">
@@ -26,6 +28,7 @@ function App() {
           <Route path="comments" element={<Comments />} />
           <Route path="posts/new" element={<NewPost />} />
           <Route path="posts/manage" element={<ManagePosts />} />
+          <Route path="posts/manage/edit/:slug" element={<EditPost />} />
         </Route>
       </Routes>
       <Toaster />

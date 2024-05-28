@@ -1,7 +1,6 @@
 /* eslint-disable indent */
 import toast from 'react-hot-toast'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
@@ -12,7 +11,6 @@ import { deletePost, getAllPosts } from 'services/index/posts'
 let isFirstRun = true
 const ManagePosts = () => {
   const queryClient = useQueryClient()
-  const userState = useSelector((state) => state.user)
   const [searchKeyword, setSearchKeyword] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
 
@@ -210,7 +208,7 @@ const ManagePosts = () => {
                             Delete
                           </button>
                           <Link
-                            to="/"
+                            to={`/admin/posts/manage/edit/${post?.slug}`}
                             className="text-green-600 hover:text-green-900"
                           >
                             Edit
