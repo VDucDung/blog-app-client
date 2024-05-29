@@ -23,6 +23,7 @@ module.exports = {
     themes: [],
     base: false,
     styled: true,
-    utils: true
+    utils: true,
+    prefix: 'd-'
   }
 }

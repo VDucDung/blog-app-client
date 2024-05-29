@@ -1,7 +1,8 @@
+import MenuBar from './MenuBar'
+import { useEffect } from 'react'
 import 'highlight.js/styles/atom-one-dark.css'
 import { EditorContent, useEditor } from '@tiptap/react'
 
-import MenuBar from './MenuBar'
 import { extensions } from 'constants/tiptapExtensions'
 
 const Editor = ({ onDataChange, content, editable }) => {
@@ -11,7 +12,7 @@ const Editor = ({ onDataChange, content, editable }) => {
     editorProps: {
       attributes: {
         class:
-          'prose dark:prose-invert prose-sm sm:prose-base max-w-none mt-7 focus:outline-none prose-pre:bg-[#282c34] prose-pre:text-[#abb2bf]'
+          '!prose !dark:prose-invert prose-sm sm:prose-base max-w-none mt-7 focus:outline-none prose-pre:bg-[#282c34] prose-pre:text-[#abb2bf]'
       }
     },
     onUpdate: ({ editor }) => {
@@ -20,6 +21,12 @@ const Editor = ({ onDataChange, content, editable }) => {
     },
     content: content
   })
+
+  useEffect(() => {
+    if (editor && content) {
+      editor.commands.setContent(content)
+    }
+  }, [editor, content])
 
   return (
     <div className="w-full relative">

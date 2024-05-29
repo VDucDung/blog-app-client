@@ -4,6 +4,8 @@ import TextStyle from '@tiptap/extension-text-style'
 import StarterKit from '@tiptap/starter-kit'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { createLowlight } from 'lowlight'
+import Dropcursor from '@tiptap/extension-dropcursor'
+import Image from '@tiptap/extension-image'
 import css from 'highlight.js/lib/languages/css'
 import js from 'highlight.js/lib/languages/javascript'
 import ts from 'highlight.js/lib/languages/typescript'
@@ -33,5 +35,11 @@ export const extensions = [
   }),
   CodeBlockLowlight.configure({
     lowlight
+  }),
+  Dropcursor,
+  Image.configure({
+    HTMLAttributes: {
+      class: 'p-2'
+    }
   })
 ]

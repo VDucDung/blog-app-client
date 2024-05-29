@@ -11,7 +11,7 @@ const ArticleCard = ({ post, className }) => {
     >
       <Link to={`/blog/${post.slug}`}>
         <img
-          src={post.photo ? post.photo : images.samplePostImage}
+          src={post.image ? post.image : images.samplePostImage}
           alt="title"
           className="h-auto w-full object-cover object-center md:h-52 lg:h-48 xl:h-60"
         />
