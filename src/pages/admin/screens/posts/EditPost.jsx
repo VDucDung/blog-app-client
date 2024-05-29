@@ -1,11 +1,12 @@
 import { toast } from 'react-hot-toast'
 import { useEffect, useState } from 'react'
+import { HiOutlineCamera } from 'react-icons/hi'
 import { Link, useParams } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { getSinglePost, updatePost } from 'services/index/posts'
+
+import Editor from 'components/editor/Editor'
 import ErrorMessage from 'components/ErrorMessage'
-import { HiOutlineCamera } from 'react-icons/hi'
-import parseJsonToHtml from 'utils/parseJsonToHtml'
+import { getSinglePost, updatePost } from 'services/index/posts'
 import ArticleDetailSkeleton from 'pages/articleDetail/components/ArticleDetailSkeleton'
 
 const EditPost = () => {
@@ -43,7 +44,6 @@ const EditPost = () => {
   useEffect(() => {
     if (!isLoading && !isError) {
       setInitialPhoto(data?.data?.image)
-      setBody(parseJsonToHtml(data?.data?.body))
     }
   }, [data, isError, isLoading])
 
@@ -68,6 +68,9 @@ const EditPost = () => {
       updatedData.append('image', picture)
     } else if (initialPhoto && photo) {
       updatedData.append('image', photo)
+    }
+    if (body) {
+      updatedData.append('body', JSON.stringify(body))
     }
     mutateUpdatePostDetail({
       updatedData,
@@ -137,7 +140,17 @@ const EditPost = () => {
             <h1 className="text-xl font-medium font-roboto mt-4 text-dark-hard md:text-[26px]">
               {data?.data?.title}
             </h1>
-            <div className="mt-4 prose prose-sm sm:prose-base">{body}</div>
+            <div className="w-full">
+              {!isLoading && !isError && (
+                <Editor
+                  content={data?.data?.body}
+                  editable={true}
+                  onDataChange={(data) => {
+                    setBody(data)
+                  }}
+                />
+              )}
+            </div>
             <button
               disabled={isLoadingUpdatePostDetail}
               type="button"

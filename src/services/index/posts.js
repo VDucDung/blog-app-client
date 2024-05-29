@@ -7,7 +7,7 @@ export const getAllPosts = async (searchKeyword = '', page = 1, limit = 10) => {
     const token = JSON.parse(localStorage.getItem('accessToken'))
     const config = {
       headers: {
-        authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       }
     }
@@ -38,7 +38,7 @@ export const deletePost = async ({ postId, token }) => {
   try {
     const config = {
       headers: {
-        authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`
       }
     }
 
@@ -58,8 +58,7 @@ export const updatePost = async ({ updatedData, postId, token }) => {
   try {
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'multipart/form-data'
+        Authorization: `Bearer ${token}`
       }
     }
 

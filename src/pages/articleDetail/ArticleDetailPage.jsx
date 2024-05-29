@@ -4,15 +4,16 @@ import { useQuery } from '@tanstack/react-query'
 import { Link, useParams } from 'react-router-dom'
 
 import { images } from 'constants'
+import Editor from 'components/editor/Editor'
 import MainLayout from 'components/MainLayout'
 import BreadCrumbs from 'components/BreadCrumbs'
-import { getAllPosts, getSinglePost } from 'services/index/posts'
-import SuggestedPosts from './container/SuggestedPosts'
 import ErrorMessage from 'components/ErrorMessage'
+import parseJsonToHtml from 'utils/parseJsonToHtml'
+import SuggestedPosts from './container/SuggestedPosts'
 import SocialShareButtons from 'components/SocialShareButtons'
+import { getAllPosts, getSinglePost } from 'services/index/posts'
 import CommentsContainer from 'components/comments/CommentsContainer'
 import ArticleDetailSkeleton from './components/ArticleDetailSkeleton'
-import parseJsonToHtml from 'utils/parseJsonToHtml'
 
 const ArticleDetailPage = () => {
   const { id: slug } = useParams()
@@ -24,26 +25,22 @@ const ArticleDetailPage = () => {
     queryFn: () => getSinglePost({ slug }),
     queryKey: ['blog', slug],
     onSuccess: (data) => {
-      if (data?.data?.body) {
-        setbreadCrumbsData([
-          { name: 'Home', link: '/' },
-          { name: 'Blog', link: '/blog' },
-          { name: 'Article title', link: `/blog/${data?.data.slug}` }
-        ])
-      }
+      setbreadCrumbsData([
+        { name: 'Home', link: '/' },
+        { name: 'Blog', link: '/blog' },
+        { name: 'Article title', link: `/blog/${data?.data?.slug}` }
+      ])
+      setBody(parseJsonToHtml(data?.data?.body))
     }
   })
-
-  useEffect(() => {
-    if (data?.data?.body) {
-      setBody(parseJsonToHtml(data.data.body))
-    }
-  }, [data])
-
   const { data: postsData } = useQuery({
     queryFn: () => getAllPosts(),
     queryKey: ['posts']
   })
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   return (
     <MainLayout>
@@ -76,7 +73,11 @@ const ArticleDetailPage = () => {
             <h1 className="mt-4 font-roboto text-xl font-medium text-dark-hard md:text-[26px]">
               {data?.data?.title}
             </h1>
-            <div className="prose prose-sm mt-4 sm:prose-base">{body}</div>
+            <div className="w-full">
+              {!isLoading && !isError && (
+                <Editor content={data?.data?.body} editable={false} />
+              )}
+            </div>
             <CommentsContainer
               comments={data?.data?.comments}
               className="mt-10"
