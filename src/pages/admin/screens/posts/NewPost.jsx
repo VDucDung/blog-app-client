@@ -1,13 +1,21 @@
-import { toast } from 'react-hot-toast'
 import { useState } from 'react'
+import { toast } from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 import { HiOutlineCamera } from 'react-icons/hi'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom'
 
 import Editor from 'components/editor/Editor'
 import { createPost } from 'services/index/posts'
 import { getCategories } from 'services/index/categories'
+import { filterCategories } from 'utils/multiSelectTagUtils'
+import MultiSelectTagDropdown from 'pages/admin/components/header/select-dropdown/MultiSelectTagDropdown'
 
+const promiseOptions = async (inputValue) => {
+  const { data: categoriesData } = await getCategories({
+    token: JSON.parse(localStorage.getItem('accessToken'))
+  })
+  return filterCategories(inputValue, categoriesData.categories)
+}
 const NewPost = () => {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
@@ -17,7 +25,7 @@ const NewPost = () => {
   const [caption, setCaption] = useState('')
   const [tagInput, setTagInput] = useState('')
   const [tags, setTags] = useState([])
-  const [selectedCategories, setSelectedCategories] = useState([])
+  const [categories, setCategories] = useState(null)
   const [errors, setErrors] = useState({
     photo: false,
     body: false,
@@ -77,8 +85,8 @@ const NewPost = () => {
     if (tags.length > 0) {
       newData.append('tags', JSON.stringify(tags))
     }
-    if (selectedCategories.length > 0) {
-      newData.append('categories', JSON.stringify(selectedCategories))
+    if (categories.length > 0) {
+      newData.append('categories', JSON.stringify(categories))
     }
     mutateCreatePost({
       newData,
@@ -95,15 +103,6 @@ const NewPost = () => {
 
   const handleRemoveTag = (tag) => {
     setTags(tags.filter((t) => t !== tag))
-  }
-
-  const handleCategoryChange = (e) => {
-    const { value, checked } = e.target
-    setSelectedCategories((prevCategories) =>
-      checked
-        ? [...prevCategories, value]
-        : prevCategories.filter((category) => category !== value)
-    )
   }
 
   return (
@@ -128,19 +127,13 @@ const NewPost = () => {
           id="postPicture"
           onChange={handleFileChange}
         />
-        <div className="mt-4 flex gap-2 flex-wrap">
-          {categoriesData?.data?.categories.map((category) => (
-            <label key={category._id} className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                value={category._id}
-                onChange={handleCategoryChange}
-              />
-              <span className="text-primary text-sm font-roboto inline-block md:text-base">
-                {category.name}
-              </span>
-            </label>
-          ))}
+        <div className="my-5">
+          <MultiSelectTagDropdown
+            loadOptions={promiseOptions}
+            onChange={(newValue) =>
+              setCategories(newValue.map((item) => item.value))
+            }
+          />
         </div>
         <div className="mt-4 flex gap-2 flex-wrap">
           {tags.map((tag, index) => (

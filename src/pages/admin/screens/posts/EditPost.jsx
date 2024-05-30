@@ -6,11 +6,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import Editor from 'components/editor/Editor'
 import ErrorMessage from 'components/ErrorMessage'
-import { getSinglePost, updatePost } from 'services/index/posts'
-import ArticleDetailSkeleton from 'pages/articleDetail/components/ArticleDetailSkeleton'
 import { getCategories } from 'services/index/categories'
-import MultiSelectTagDropdown from 'pages/admin/components/header/select-dropdown/MultiSelectTagDropdown'
+import { getSinglePost, updatePost } from 'services/index/posts'
 import { categoryToOption, filterCategories } from 'utils/multiSelectTagUtils'
+import ArticleDetailSkeleton from 'pages/articleDetail/components/ArticleDetailSkeleton'
+import MultiSelectTagDropdown from 'pages/admin/components/header/select-dropdown/MultiSelectTagDropdown'
 
 const promiseOptions = async (inputValue) => {
   const { data: categoriesData } = await getCategories({
