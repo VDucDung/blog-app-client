@@ -74,3 +74,20 @@ export const updatePost = async ({ updatedData, postId, token }) => {
     throw new Error(error.message)
   }
 }
+
+export const createPost = async ({ newData, token }) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+
+    const { data } = await axios.post(`${API_URL}/posts`, newData, config)
+    return data
+  } catch (error) {
+    if (error.response && error.response.data.message)
+      throw new Error(error.response.data.message)
+    throw new Error(error.message)
+  }
+}
