@@ -8,19 +8,27 @@ import Editor from 'components/editor/Editor'
 import ErrorMessage from 'components/ErrorMessage'
 import { getSinglePost, updatePost } from 'services/index/posts'
 import ArticleDetailSkeleton from 'pages/articleDetail/components/ArticleDetailSkeleton'
+import { getCategories } from 'services/index/categories'
+import MultiSelectTagDropdown from 'pages/admin/components/header/select-dropdown/MultiSelectTagDropdown'
+import { categoryToOption, filterCategories } from 'utils/multiSelectTagUtils'
 
+const promiseOptions = async (inputValue) => {
+  const { data: categoriesData } = await getCategories({
+    token: JSON.parse(localStorage.getItem('accessToken'))
+  })
+  return filterCategories(inputValue, categoriesData.categories)
+}
 const EditPost = () => {
   const { slug } = useParams()
   const queryClient = useQueryClient()
   const [initialPhoto, setInitialPhoto] = useState(null)
   const [photo, setPhoto] = useState(null)
   const [body, setBody] = useState(null)
-
+  const [categories, setCategories] = useState(null)
   const { data, isLoading, isError } = useQuery({
     queryFn: () => getSinglePost({ slug }),
     queryKey: ['blog', slug]
   })
-
   const {
     mutate: mutateUpdatePostDetail,
     isLoading: isLoadingUpdatePostDetail
@@ -44,9 +52,9 @@ const EditPost = () => {
   useEffect(() => {
     if (!isLoading && !isError) {
       setInitialPhoto(data?.data?.image)
+      setCategories(data?.data?.categories.map((item) => item.value))
     }
-  }, [data, isError, isLoading])
-
+  }, [data, isError, isLoading, photo])
   const handleFileChange = (e) => {
     const file = e.target.files[0]
     setPhoto(file)
@@ -72,6 +80,9 @@ const EditPost = () => {
     if (body) {
       updatedData.append('body', JSON.stringify(body))
     }
+    if (categories) {
+      updatedData.append('categories', JSON.stringify(categories))
+    }
     mutateUpdatePostDetail({
       updatedData,
       postId: data?.data?._id,
@@ -85,6 +96,8 @@ const EditPost = () => {
       setPhoto(null)
     }
   }
+  let isPostDataLoaded = !isLoading && !isError
+
   return (
     <div>
       {isLoading ? (
@@ -140,8 +153,19 @@ const EditPost = () => {
             <h1 className="text-xl font-medium font-roboto mt-4 text-dark-hard md:text-[26px]">
               {data?.data?.title}
             </h1>
+            <div className="my-5">
+              {isPostDataLoaded && (
+                <MultiSelectTagDropdown
+                  loadOptions={promiseOptions}
+                  defaultValue={data?.data?.categories.map(categoryToOption)}
+                  onChange={(newValue) =>
+                    setCategories(newValue.map((item) => item.value))
+                  }
+                />
+              )}
+            </div>
             <div className="w-full">
-              {!isLoading && !isError && (
+              {isPostDataLoaded && (
                 <Editor
                   content={data?.data?.body}
                   editable={true}
