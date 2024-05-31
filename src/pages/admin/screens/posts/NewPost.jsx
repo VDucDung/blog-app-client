@@ -127,7 +127,38 @@ const NewPost = () => {
           id="postPicture"
           onChange={handleFileChange}
         />
-        <div className="my-5">
+        <div className="d-form-control w-full">
+          <label className="d-label" htmlFor="title">
+            <span className="d-label-text">Title</span>
+          </label>
+          <input
+            id="title"
+            value={title}
+            className="d-input d-input-bordered border-slate-300 !outline-slate-300 text-xl font-medium font-roboto text-dark-hard"
+            onChange={(e) => {
+              setTitle(e.target.value)
+            }}
+            placeholder="title"
+          />
+        </div>
+        <div className="d-form-control w-full">
+          <label className="d-label" htmlFor="caption">
+            <span className="d-label-text">Caption</span>
+          </label>
+          <input
+            id="caption"
+            value={caption}
+            className="d-input d-input-bordered border-slate-300 !outline-slate-300 text-xl font-medium font-roboto text-dark-hard "
+            onChange={(e) => {
+              setCaption(e.target.value)
+            }}
+            placeholder="caption"
+          />
+        </div>
+        <div className="mb-5 mt-2">
+          <label className="d-label">
+            <span className="d-label-text">Categories</span>
+          </label>
           <MultiSelectTagDropdown
             loadOptions={promiseOptions}
             onChange={(newValue) =>
@@ -135,22 +166,28 @@ const NewPost = () => {
             }
           />
         </div>
-        <div className="mt-4 flex gap-2 flex-wrap">
-          {tags.map((tag, index) => (
-            <div key={index} className="flex items-center space-x-2">
-              <span className="text-primary text-sm font-roboto inline-block md:text-base">
-                {tag}
-              </span>
-              <button
-                type="button"
-                className="text-red-500"
-                onClick={() => handleRemoveTag(tag)}
-              >
-                &times;
-              </button>
-            </div>
-          ))}
+        <div className="mb-5 mt-2">
+          <label className="d-label">
+            <span className="d-label-text">Tags</span>
+          </label>
+          <div className="flex gap-2 flex-wrap">
+            {tags.map((tag, index) => (
+              <div key={index} className="flex items-center space-x-2">
+                <span className="text-primary text-sm font-roboto inline-block md:text-base">
+                  {tag}
+                </span>
+                <button
+                  type="button"
+                  className="text-red-500"
+                  onClick={() => handleRemoveTag(tag)}
+                >
+                  &times;
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
+
         <div className="mt-4 flex gap-2">
           <input
             type="text"
@@ -167,30 +204,8 @@ const NewPost = () => {
             Add
           </button>
         </div>
-        <input
-          type="text"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => {
-            setTitle(e.target.value)
-            setErrors({ ...errors, title: !e.target.value })
-          }}
-          className={`w-full mt-4 px-4 py-2 border rounded-lg ${
-            errors.title ? 'border-red-500' : ''
-          }`}
-        />
-        <textarea
-          placeholder="Caption"
-          value={caption}
-          onChange={(e) => {
-            setCaption(e.target.value)
-            setErrors({ ...errors, caption: !e.target.value })
-          }}
-          className={`w-full mt-4 px-4 py-2 border rounded-lg ${
-            errors.caption ? 'border-red-500' : ''
-          }`}
-        />
-        <div className="w-full mt-4 pb-2 border rounded-lg ">
+
+        <div className="w-full mt-4 pb-2 border rounded-lg">
           <Editor
             content=""
             editable={true}
