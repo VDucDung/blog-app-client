@@ -6,61 +6,35 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { images } from 'constants'
 import Pagination from 'components/Pagination'
+import { useDataTable } from 'hooks/useDataTable'
 import { deletePost, getAllPosts } from 'services/index/posts'
 
 let isFirstRun = true
 const ManagePosts = () => {
-  const queryClient = useQueryClient()
-  const [searchKeyword, setSearchKeyword] = useState('')
-  const [currentPage, setCurrentPage] = useState(1)
-
   const {
+    userState,
+    currentPage,
+    searchKeyword,
     data: postsData,
     isLoading,
     isFetching,
-    refetch
-  } = useQuery({
-    queryFn: () => getAllPosts(searchKeyword, currentPage),
-    queryKey: ['posts']
-  })
-
-  const { mutate: mutateDeletePost, isLoading: isLoadingDeletePost } =
-    useMutation({
-      mutationFn: ({ postId, token }) => {
-        return deletePost({
-          postId,
-          token
-        })
-      },
-      onSuccess: (data) => {
-        queryClient.invalidateQueries(['posts'])
-        toast.success('Post is deleted')
-      },
-      onError: (error) => {
-        toast.error(error.message)
-      }
-    })
-
-  useEffect(() => {
-    if (isFirstRun) {
-      isFirstRun = false
-      return
+    isLoadingDeleteData,
+    queryClient,
+    searchKeywordHandler,
+    submitSearchKeywordHandler,
+    deleteDataHandler,
+    setCurrentPage
+  } = useDataTable({
+    dataQueryFn: () => getAllPosts(searchKeyword, currentPage),
+    dataQueryKey: 'posts',
+    deleteDataMessage: 'Post is deleted',
+    mutateDeleteFn: ({ postId, token }) => {
+      return deletePost({
+        postId,
+        token
+      })
     }
-    refetch()
-  }, [refetch, currentPage])
-  const searchKeywordHandler = (e) => {
-    const { value } = e.target
-    setSearchKeyword(value)
-  }
-
-  const submitSearchKeywordHandler = (e) => {
-    e.preventDefault()
-    setCurrentPage(1)
-    refetch()
-  }
-  const deletePostHandler = ({ postId, token }) => {
-    mutateDeletePost({ postId, token })
-  }
+  })
   return (
     <div>
       <h1 className="text-2xl font-semibold">Mange Posts</h1>
@@ -163,7 +137,17 @@ const ManagePosts = () => {
                         <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
                           <p className="text-gray-900 whitespace-no-wrap">
                             {post?.categories.length > 0
-                              ? post.categories[0].name
+                              ? post.categories
+                                  .slice(0, 3)
+                                  .map(
+                                    (category, index) =>
+                                      `${category.name}${
+                                        post.categories.slice(0, 3).length ===
+                                        index + 1
+                                          ? ''
+                                          : ', '
+                                      }`
+                                  )
                               : 'Uncategorized'}
                           </p>
                         </td>
@@ -193,11 +177,11 @@ const ManagePosts = () => {
                         </td>
                         <td className="px-5 py-5 text-sm bg-white border-b border-gray-200 space-x-5">
                           <button
-                            disabled={isLoadingDeletePost}
+                            disabled={isLoadingDeleteData}
                             type="button"
                             className="text-red-600 hover:text-red-900 disabled:opacity-70 disabled:cursor-not-allowed"
                             onClick={() => {
-                              deletePostHandler({
+                              deleteDataHandler({
                                 postId: post?._id,
                                 token: JSON.parse(
                                   localStorage.getItem('accessToken')
