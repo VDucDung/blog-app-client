@@ -34,7 +34,7 @@ export const createNewComment = async ({
   }
 }
 
-export const updateComment = async ({ token, comment, commentId }) => {
+export const updateComment = async ({ token, comment, check, commentId }) => {
   try {
     const config = {
       headers: {
@@ -45,7 +45,8 @@ export const updateComment = async ({ token, comment, commentId }) => {
     const { data } = await axios.put(
       `${API_URL}/comments/${commentId}`,
       {
-        comment
+        comment,
+        check
       },
       config
     )
@@ -81,7 +82,8 @@ export const getAllComments = async (
   token,
   searchKeyword = '',
   page = 1,
-  limit = 10
+  limit = 10,
+  checkCache = false
 ) => {
   try {
     const config = {
@@ -91,7 +93,7 @@ export const getAllComments = async (
     }
 
     const { data, headers } = await axios.get(
-      `${API_URL}/comments?keyword=${searchKeyword}&page=${page}&limit=${limit}`,
+      `${API_URL}/comments?keyword=${searchKeyword}&page=${page}&limit=${limit}&checkCache=${checkCache}`,
       config
     )
     return { data, headers }

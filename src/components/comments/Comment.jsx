@@ -27,7 +27,10 @@ const Comment = ({
   const repliedCommentId = parentId ? parentId : comment._id
   const replyOnUserId = comment.userId._id
   return (
-    <div className="flex flex-nowrap items-start gap-x-3 rounded-lg bg-[#F2F4F5] p-3">
+    <div
+      className="flex flex-nowrap items-start gap-x-3 bg-[#F2F4F5] p-3 rounded-lg"
+      id={`comment-${comment?._id}`}
+    >
       <img
         src={comment?.userId?.avatar ? comment.userId.avatar : images.userImage}
         alt="user profile"
@@ -38,13 +41,16 @@ const Comment = ({
           {comment?.userId.username}
         </h5>
         <span className="text-xs text-dark-light">
-          {new Date(comment.createdAt).toLocaleDateString('en-US', {
-            day: 'numeric',
-            month: 'short',
+          {new Date(comment.createdAt).toLocaleString('vi-VN', {
+            day: '2-digit',
+            month: '2-digit',
             year: 'numeric',
-            hour: '2-digit'
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
           })}
         </span>
+
         {!isEditing && (
           <p className="mt-[10px] font-opensans text-dark-light">
             {comment?.comment}

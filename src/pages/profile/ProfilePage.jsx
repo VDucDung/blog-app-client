@@ -85,11 +85,12 @@ const ProfilePage = () => {
 
   const submitHandler = (data) => {
     const { username, phone, dateOfBirth, gender } = data
-    const formattedDate = new Date(dateOfBirth).toLocaleDateString('en-US', {
+    const formattedDate = new Date(dateOfBirth).toLocaleDateString('vi-VN', {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit'
     })
+
     mutate({ username, phone, dateOfBirth: formattedDate, gender })
   }
   return (

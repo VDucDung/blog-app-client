@@ -2,7 +2,12 @@ import axios from 'axios'
 
 import { API_URL } from 'utils/constants'
 
-export const getAllPosts = async (searchKeyword = '', page = 1, limit = 10) => {
+export const getAllPosts = async (
+  searchKeyword = '',
+  page = 1,
+  limit = 10,
+  checkCache = false
+) => {
   try {
     const token = JSON.parse(localStorage.getItem('accessToken'))
     const config = {
@@ -12,7 +17,7 @@ export const getAllPosts = async (searchKeyword = '', page = 1, limit = 10) => {
       }
     }
     const response = await axios.get(
-      `${API_URL}/posts?keyword=${searchKeyword}&page=${page}&limit=${limit}`,
+      `${API_URL}/posts?keyword=${searchKeyword}&page=${page}&limit=${limit}&checkCache=${checkCache}`,
       config
     )
     return { data: response.data, headers: response.headers }
