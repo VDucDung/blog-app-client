@@ -1,8 +1,9 @@
 import { toast } from 'react-hot-toast'
+import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { HiOutlineCamera } from 'react-icons/hi'
-import { Link, useNavigate, useParams } from 'react-router-dom'
 import CreatableSelect from 'react-select/creatable'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import Editor from 'components/editor/Editor'
@@ -30,6 +31,7 @@ const EditPost = () => {
   const [title, setTitle] = useState('')
   const [tags, setTags] = useState(null)
   const [caption, setCaption] = useState('')
+  const token = JSON.parse(localStorage.getItem('accessToken'))
   const { data, isLoading, isError } = useQuery({
     queryFn: () => getSinglePost({ slug }),
     queryKey: ['blog', slug]
@@ -105,7 +107,7 @@ const EditPost = () => {
     mutateUpdatePostDetail({
       updatedData,
       postId: data?.data?._id,
-      token: JSON.parse(localStorage.getItem('accessToken'))
+      token: token
     })
   }
 
