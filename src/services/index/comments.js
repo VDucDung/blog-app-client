@@ -17,7 +17,7 @@ export const createNewComment = async ({
     }
 
     const { data } = await axios.post(
-      '${API_URL}/comments',
+      `${API_URL}/comments`,
       {
         comment,
         slug,
@@ -83,7 +83,7 @@ export const getAllComments = async (
   searchKeyword = '',
   page = 1,
   limit = 10,
-  checkCache = false
+  checkCache = 'unchecked'
 ) => {
   try {
     const config = {

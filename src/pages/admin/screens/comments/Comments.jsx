@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { Link } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
@@ -10,11 +11,10 @@ import {
   getAllComments,
   updateComment
 } from 'services/index/comments'
-import { useState } from 'react'
 
 const Comments = () => {
   const token = JSON.parse(localStorage.getItem('accessToken'))
-  const [checkCache, setCheckCache] = useState(false)
+  const [checkCache, setCheckCache] = useState('unchecked')
   const {
     userState,
     currentPage,
@@ -33,10 +33,10 @@ const Comments = () => {
       getAllComments(token, searchKeyword, currentPage, 10, checkCache),
     dataQueryKey: 'comments',
     deleteDataMessage: 'Comment is deleted',
-    mutateDeleteFn: ({ commentId, token }) => {
+    mutateDeleteFn: ({ slug, token }) => {
       return deleteComment({
-        commentId,
-        token
+        commentId: slug,
+        token: token
       })
     }
   })
@@ -57,8 +57,6 @@ const Comments = () => {
       toast.error(error.message)
     }
   })
-  console.log(commentsData?.data?.data)
-
   return (
     <DataTable
       pageTitle="Manage Comments"
@@ -76,7 +74,7 @@ const Comments = () => {
       ]}
       isFetching={isFetching}
       isLoading={isLoading}
-      data={commentsData?.data?.data}
+      data={commentsData?.data}
       setCurrentPage={setCurrentPage}
       currentPage={currentPage}
       headers={commentsData?.headers}
@@ -152,12 +150,12 @@ const Comments = () => {
                   : 'text-green-600 hover:text-green-900'
               } disabled:opacity-70 disabled:cursor-not-allowed`}
               onClick={() => {
+                setCheckCache(`updated-${comment?._id}-${comment?.check}`)
                 mutateUpdateCommentCheck({
                   token: token,
                   check: comment?.check ? false : true,
-                  commentId: comment._id
-                }),
-                  setCheckCache(!checkCache)
+                  commentId: comment?._id
+                })
               }}
             >
               {comment?.check ? 'Unapprove' : 'Approve'}
@@ -167,8 +165,9 @@ const Comments = () => {
               type="button"
               className="text-red-600 hover:text-red-900 disabled:opacity-70 disabled:cursor-not-allowed"
               onClick={() => {
+                setCheckCache(`deleted-${comment?._id}`)
                 deleteDataHandler({
-                  commentId: comment?._id,
+                  slug: comment?._id,
                   token: token
                 })
               }}

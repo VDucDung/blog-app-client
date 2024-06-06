@@ -52,8 +52,8 @@ export const useDataTable = ({
     refetch()
   }
 
-  const deleteDataHandler = ({ postId, token }) => {
-    mutateDeletePost({ postId, token })
+  const deleteDataHandler = ({ slug, token }) => {
+    mutateDeletePost({ slug, token })
   }
 
   return {

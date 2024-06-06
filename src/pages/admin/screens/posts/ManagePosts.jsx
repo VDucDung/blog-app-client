@@ -1,4 +1,5 @@
 /* eslint-disable indent */
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { images } from 'constants'
@@ -6,6 +7,8 @@ import { useDataTable } from 'hooks/useDataTable'
 import DataTable from '../../components/DataTable'
 import { deletePost, getAllPosts } from 'services/index/posts'
 const ManagePosts = () => {
+  const token = JSON.parse(localStorage.getItem('accessToken'))
+  const [checkCache, setCheckCache] = useState('unchecked')
   const {
     userState,
     currentPage,
@@ -20,12 +23,12 @@ const ManagePosts = () => {
     deleteDataHandler,
     setCurrentPage
   } = useDataTable({
-    dataQueryFn: () => getAllPosts(searchKeyword, currentPage),
+    dataQueryFn: () => getAllPosts(searchKeyword, currentPage, 10, checkCache),
     dataQueryKey: 'posts',
     deleteDataMessage: 'Post is deleted',
-    mutateDeleteFn: ({ postId, token }) => {
+    mutateDeleteFn: ({ slug, token }) => {
       return deletePost({
-        postId,
+        postId: slug,
         token
       })
     }
@@ -47,7 +50,7 @@ const ManagePosts = () => {
       headers={postsData?.headers}
       userState={userState}
     >
-      {postsData?.data.map((post) => (
+      {postsData?.data?.data.map((post) => (
         <tr key={post?._id}>
           <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
             <div className="flex items-center">
@@ -108,9 +111,10 @@ const ManagePosts = () => {
               type="button"
               className="text-red-600 hover:text-red-900 disabled:opacity-70 disabled:cursor-not-allowed"
               onClick={() => {
+                setCheckCache(`post-${new Date().getTime()}`)
                 deleteDataHandler({
                   slug: post?._id,
-                  token: JSON.parse(localStorage.getItem('accessToken'))
+                  token: token
                 })
               }}
             >

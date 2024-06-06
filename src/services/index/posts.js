@@ -6,7 +6,7 @@ export const getAllPosts = async (
   searchKeyword = '',
   page = 1,
   limit = 10,
-  checkCache = false
+  checkCache = 'unchecked'
 ) => {
   try {
     const token = JSON.parse(localStorage.getItem('accessToken'))
@@ -20,6 +20,7 @@ export const getAllPosts = async (
       `${API_URL}/posts?keyword=${searchKeyword}&page=${page}&limit=${limit}&checkCache=${checkCache}`,
       config
     )
+
     return { data: response.data, headers: response.headers }
   } catch (error) {
     if (error.response && error.response.data.message)
@@ -51,6 +52,7 @@ export const deletePost = async ({ postId, token }) => {
       `${API_URL}/posts/post/${postId}`,
       config
     )
+
     return data
   } catch (error) {
     if (error.response && error.response.data.message)
