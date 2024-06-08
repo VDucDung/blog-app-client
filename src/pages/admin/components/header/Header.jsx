@@ -28,7 +28,8 @@ const MENU_ITEMS = [
     title: 'Posts',
     content: [
       { title: 'New', link: '/admin/posts/new' },
-      { title: 'Manage', link: '/admin/posts/manage' }
+      { title: 'Manage', link: '/admin/posts/manage' },
+      { title: 'Categories', link: '/admin/categories/manage' }
     ],
     icon: <MdDashboard className="text-xl" />,
     name: 'posts',

@@ -57,6 +57,7 @@ const Comments = () => {
       toast.error(error.message)
     }
   })
+  console.log(commentsData)
   return (
     <DataTable
       pageTitle="Manage Comments"
@@ -74,7 +75,7 @@ const Comments = () => {
       ]}
       isFetching={isFetching}
       isLoading={isLoading}
-      data={commentsData?.data}
+      data={commentsData?.data?.data}
       setCurrentPage={setCurrentPage}
       currentPage={currentPage}
       headers={commentsData?.headers}

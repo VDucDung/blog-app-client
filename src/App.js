@@ -12,6 +12,7 @@ import NewPost from 'pages/admin/screens/posts/NewPost'
 import EditPost from 'pages/admin/screens/posts/EditPost'
 import Comments from 'pages/admin/screens/comments/Comments'
 import ManagePosts from 'pages/admin/screens/posts/ManagePosts'
+import Categories from 'pages/admin/screens/categories/Categories'
 import ArticleDetailPage from './pages/articleDetail/ArticleDetailPage'
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route path="comments" element={<Comments />} />
           <Route path="posts/new" element={<NewPost />} />
           <Route path="posts/manage" element={<ManagePosts />} />
+          <Route path="categories/manage" element={<Categories />} />
           <Route path="posts/manage/edit/:slug" element={<EditPost />} />
         </Route>
       </Routes>
