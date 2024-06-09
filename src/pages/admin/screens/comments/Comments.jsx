@@ -57,7 +57,6 @@ const Comments = () => {
       toast.error(error.message)
     }
   })
-  console.log(commentsData)
   return (
     <DataTable
       pageTitle="Manage Comments"

@@ -63,3 +63,43 @@ export const createCategory = async ({ token, name }) => {
     throw new Error(error.message)
   }
 }
+
+export const updateCategory = async ({ token, name, categoryId }) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+
+    const { data } = await axios.put(
+      `${API_URL}/categories/${categoryId}`,
+      { name },
+      config
+    )
+    return data
+  } catch (error) {
+    if (error.response && error.response.data.message)
+      throw new Error(error.response.data.message)
+    throw new Error(error.message)
+  }
+}
+
+export const getSingleCategory = async ({ categoryId, token }) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+    const { data } = await axios.get(
+      `${API_URL}/categories/${categoryId}`,
+      config
+    )
+    return data
+  } catch (error) {
+    if (error.response && error.response.data.message)
+      throw new Error(error.response.data.message)
+    throw new Error(error.message)
+  }
+}
