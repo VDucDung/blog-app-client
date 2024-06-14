@@ -1,5 +1,5 @@
+import { useEffect } from 'react'
 import { toast } from 'react-hot-toast'
-import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'react-router-dom'
 

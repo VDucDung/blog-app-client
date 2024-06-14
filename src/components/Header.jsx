@@ -85,7 +85,7 @@ const Header = () => {
     <section className="sticky left-0 right-0 top-0 z-50 bg-white">
       <header className="container mx-auto flex items-center justify-between px-5 py-4">
         <Link to="/">
-          <img src={images.Logo} alt="logo" className="w-16" />
+          <img src={images.Logo} alt="logo" className="w-8" />
         </Link>
         <div className="z-50 lg:hidden">
           {navIsVisible ? (
