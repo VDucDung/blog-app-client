@@ -84,3 +84,47 @@ export const changePassword = async ({ token, oldPassword, newPassword }) => {
     throw new Error(error.message)
   }
 }
+
+export const getAllUsers = async (
+  token,
+  searchKeyword = '',
+  page = 1,
+  limit = 10
+) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+
+    const { data } = await axios.get(
+      searchKeyword !== ''
+        ? `${API_URL}/users?keyword=${searchKeyword}&page=${page}&limit=${limit}`
+        : `${API_URL}/users?page=${page}&limit=${limit}`,
+      config
+    )
+    return data
+  } catch (error) {
+    if (error.response && error.response.data.message)
+      throw new Error(error.response.data.message)
+    throw new Error(error.message)
+  }
+}
+
+export const deleteUser = async ({ userId, token }) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+
+    const { data } = await axios.delete(`${API_URL}/users/${userId}`, config)
+    return data
+  } catch (error) {
+    if (error.response && error.response.data.message)
+      throw new Error(error.response.data.message)
+    throw new Error(error.message)
+  }
+}

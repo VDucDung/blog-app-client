@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom'
-import { useWindowSize } from '@uidotdev/usehooks'
-
-import { images } from '../../../../constants'
 import { useEffect, useState } from 'react'
-import { AiFillDashboard, AiOutlineClose, AiOutlineMenu } from 'react-icons/ai'
-import { FaComments } from 'react-icons/fa'
 import { MdDashboard } from 'react-icons/md'
+import { useWindowSize } from '@uidotdev/usehooks'
+import { FaComments, FaUser } from 'react-icons/fa'
+import { AiFillDashboard, AiOutlineClose, AiOutlineMenu } from 'react-icons/ai'
+
 import NavItem from './NavItem'
+import { images } from 'constants'
 import NavItemCollapse from './NavItemCollapse'
 
 const MENU_ITEMS = [
@@ -34,6 +34,13 @@ const MENU_ITEMS = [
     icon: <MdDashboard className="text-xl" />,
     name: 'posts',
     type: 'collapse'
+  },
+  {
+    title: 'Users',
+    link: '/admin/users/manage',
+    icon: <FaUser className="text-xl" />,
+    name: 'users',
+    type: 'link'
   }
 ]
 

@@ -6,6 +6,7 @@ import HomePage from 'pages/home/HomePage'
 import Admin from 'pages/admin/screens/Admin'
 import LoginPage from 'pages/Login/LoginPage'
 import AdminLayout from 'pages/admin/AdminLayout'
+import Users from 'pages/admin/screens/users/Users'
 import ProfilePage from 'pages/profile/ProfilePage'
 import RegisterPage from 'pages/register/RegisterPage'
 import NewPost from 'pages/admin/screens/posts/NewPost'
@@ -36,6 +37,7 @@ function App() {
             path="categories/manage/edit/:categoryId"
             element={<EditCategories />}
           />
+          <Route path="users/manage" element={<Users />} />
         </Route>
       </Routes>
       <Toaster />

@@ -53,7 +53,9 @@ export const useDataTable = ({
   }
 
   const deleteDataHandler = ({ slug, token }) => {
-    mutateDeletePost({ slug, token })
+    if (window.confirm('Do you want to delete this record?')) {
+      mutateDeletePost({ slug, token })
+    }
   }
 
   return {
