@@ -9,48 +9,51 @@ import ArticleCard from '../../components/ArticleCard'
 import { getAllPosts } from '../../services/index/posts'
 import ErrorMessage from '../../components/ErrorMessage'
 import ArticleCardSkeleton from '../../components/ArticleCardSkeleton'
+import Search from 'components/Search'
 
 let isFirstRun = true
 
 const BlogPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
-
   const searchParamsValue = Object.fromEntries([...searchParams])
 
-  const [currentPage, setCurrentPage] = useState(
-    parseInt(searchParamsValue?.page) || 1
-  )
-
-  const { data, isLoading, isError, refetch } = useQuery({
-    queryFn: () => getAllPosts('', currentPage, 12),
+  const currentPage = parseInt(searchParamsValue?.page) || 1
+  const searchKeyword = searchParamsValue?.search || ''
+  const { data, isLoading, isError, isFetching, refetch } = useQuery({
+    queryFn: () => getAllPosts(searchKeyword, currentPage, 12),
     queryKey: ['posts'],
     onError: (error) => {
       toast.error(error.message)
     }
   })
 
-  console.log(data)
-
   useEffect(() => {
+    window.scrollTo(0, 0)
     if (isFirstRun) {
       isFirstRun = false
       return
     }
     window.scrollTo(0, 0)
     refetch()
-  }, [currentPage, refetch])
+  }, [currentPage, searchKeyword, refetch])
 
   const handlePageChange = (page) => {
-    setCurrentPage(page)
+    setSearchParams({ page, search: searchKeyword })
+  }
 
-    setSearchParams({ page })
+  const handleSearch = ({ searchKeyword }) => {
+    setSearchParams({ page: 1, search: searchKeyword })
   }
 
   return (
     <MainLayout>
       <section className="flex flex-col container mx-auto px-5 py-10">
+        <Search
+          className="w-full max-w-xl mb-10"
+          onSearchKeyword={handleSearch}
+        />
         <div className=" flex flex-wrap md:gap-x-5 gap-y-5 pb-10">
-          {isLoading ? (
+          {isLoading || isFetching ? (
             [...Array(3)].map((item, index) => (
               <ArticleCardSkeleton
                 key={index}
@@ -59,6 +62,8 @@ const BlogPage = () => {
             ))
           ) : isError ? (
             <ErrorMessage message="Couldn't fetch the posts data" />
+          ) : data?.data?.data?.length === 0 ? (
+            <p className="text-orange-500">No Posts Found!</p>
           ) : (
             data?.data?.data.map((post) => (
               <ArticleCard
