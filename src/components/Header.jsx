@@ -1,15 +1,15 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
 import { MdKeyboardArrowDown } from 'react-icons/md'
+import { useNavigate, Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
 
 import { images } from 'constants'
 import { logout } from 'store/actions/user'
 
 const navItemsInfo = [
   { name: 'Home', type: 'link' },
-  { name: 'Articles', type: 'link' },
+  { name: 'Blog', type: 'link', href: '/blog' },
   { name: 'Pages', type: 'dropdown', items: ['About us', 'Contact us'] },
   { name: 'Pricing', type: 'link' },
   { name: 'Faq', type: 'link' }
@@ -28,7 +28,7 @@ const NavItem = ({ item }) => {
     <li className="group relative">
       {item.type === 'link' ? (
         <>
-          <a href="/" className="px-4 py-2">
+          <a href={item.href} className="px-4 py-2">
             {item.name}
           </a>
           <span className="absolute right-0 top-0 cursor-pointer font-bold text-blue-500 opacity-0 transition-all duration-500 group-hover:right-[90%] group-hover:opacity-100">

@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 
 import 'App.css'
 import HomePage from 'pages/home/HomePage'
+import BlogPage from 'pages/blog/BlogPage'
 import Admin from 'pages/admin/screens/Admin'
 import LoginPage from 'pages/Login/LoginPage'
 import AdminLayout from 'pages/admin/AdminLayout'
@@ -22,6 +23,7 @@ function App() {
     <div className="App font-opensans">
       <Routes>
         <Route index path="/" element={<HomePage />} />
+        <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:id" element={<ArticleDetailPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
