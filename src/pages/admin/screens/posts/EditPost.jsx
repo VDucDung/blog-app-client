@@ -1,5 +1,4 @@
 import { toast } from 'react-hot-toast'
-import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { HiOutlineCamera } from 'react-icons/hi'
 import CreatableSelect from 'react-select/creatable'
@@ -15,11 +14,11 @@ import ArticleDetailSkeleton from 'pages/articleDetail/components/ArticleDetailS
 import MultiSelectTagDropdown from 'pages/admin/components/header/select-dropdown/MultiSelectTagDropdown'
 
 const promiseOptions = async (inputValue) => {
-  const { data: categoriesData } = await getCategories({
-    token: JSON.parse(localStorage.getItem('accessToken'))
-  })
+  const { data: categoriesData } = await getCategories('', 1, 10)
+
   return filterCategories(inputValue, categoriesData.categories)
 }
+
 const EditPost = () => {
   const { slug } = useParams()
   const queryClient = useQueryClient()
@@ -31,27 +30,29 @@ const EditPost = () => {
   const [title, setTitle] = useState('')
   const [tags, setTags] = useState(null)
   const [caption, setCaption] = useState('')
-  const token = JSON.parse(localStorage.getItem('accessToken'))
-  const { data, isLoading, isError } = useQuery({
+  const {
+    data: postData,
+    isLoading,
+    isError
+  } = useQuery({
     queryFn: () => getSinglePost({ slug }),
     queryKey: ['blog', slug]
   })
-
+  const { data } = postData ? postData : {}
   const {
     mutate: mutateUpdatePostDetail,
     isLoading: isLoadingUpdatePostDetail
   } = useMutation({
-    mutationFn: ({ updatedData, postId, token }) => {
+    mutationFn: ({ updatedData, postId }) => {
       return updatePost({
         updatedData,
-        postId,
-        token
+        postId
       })
     },
-    onSuccess: (data) => {
+    onSuccess: ({ data }) => {
       queryClient.invalidateQueries(['blog', slug])
       toast.success('Post is updated')
-      navigate(`/admin/posts/manage/edit/${data?.data.slug}`, { replace: true })
+      navigate(`/admin/posts/manage/edit/${data?.slug}`, { replace: true })
     },
     onError: (error) => {
       toast.error(error.message)
@@ -59,11 +60,11 @@ const EditPost = () => {
   })
   useEffect(() => {
     if (!isLoading && !isError) {
-      setInitialPhoto(data?.data?.image)
-      setCategories(data?.data?.categories.map((item) => item._id))
-      setTitle(data?.data?.title)
-      setCaption(data?.data?.caption)
-      setTags(data?.data?.tags)
+      setInitialPhoto(data?.image)
+      setCategories(data?.categories.map((item) => item._id))
+      setTitle(data?.title)
+      setCaption(data?.caption)
+      setTags(data?.tags)
     }
   }, [data, isError, isLoading])
   const handleFileChange = (e) => {
@@ -83,7 +84,7 @@ const EditPost = () => {
         const file = new File([blob], 'image', { type: blob.type })
         return file
       }
-      const picture = await urlToObject(data?.data?.image)
+      const picture = await urlToObject(data?.image)
       updatedData.append('image', picture)
     } else if (initialPhoto && photo) {
       updatedData.append('image', photo)
@@ -106,8 +107,7 @@ const EditPost = () => {
 
     mutateUpdatePostDetail({
       updatedData,
-      postId: data?.data?._id,
-      token: token
+      postId: data?._id
     })
   }
 
@@ -132,13 +132,13 @@ const EditPost = () => {
               {photo ? (
                 <img
                   src={URL.createObjectURL(photo)}
-                  alt={data?.data?.title}
+                  alt={data?.title}
                   className="rounded-xl w-full"
                 />
               ) : initialPhoto ? (
                 <img
-                  src={data?.data?.image}
-                  alt={data?.data?.title}
+                  src={data?.image}
+                  alt={data?.title}
                   className="rounded-xl w-full"
                 />
               ) : (
@@ -161,7 +161,7 @@ const EditPost = () => {
               Delete Image
             </button>
             <div className="mt-4 flex gap-2">
-              {data?.data?.categories.map((category) => (
+              {data?.categories.map((category) => (
                 <Link
                   key={category._id}
                   to={`/blog?category=${category.name}`}
@@ -195,27 +195,27 @@ const EditPost = () => {
                 placeholder="caption"
               />
             </div>
-            <div className="mb-5 mt-2">
+            <div className="mb-5 mt-2 relative z-50">
               <label className="d-label">
                 <span className="d-label-text">categories</span>
               </label>
               {isPostDataLoaded && (
                 <MultiSelectTagDropdown
                   loadOptions={promiseOptions}
-                  defaultValue={data?.data?.categories.map(categoryToOption)}
+                  defaultValue={data?.categories.map(categoryToOption)}
                   onChange={(newValue) =>
                     setCategories(newValue.map((item) => item.value))
                   }
                 />
               )}
             </div>
-            <div className="mb-5 mt-2">
+            <div className="mb-5 mt-2 relative z-20">
               <label className="d-label">
                 <span className="d-label-text">tags</span>
               </label>
               {isPostDataLoaded && (
                 <CreatableSelect
-                  defaultValue={data?.data.tags.map((tag) => ({
+                  defaultValue={data?.tags.map((tag) => ({
                     value: tag,
                     label: tag
                   }))}
@@ -223,14 +223,13 @@ const EditPost = () => {
                   onChange={(newValue) =>
                     setTags(newValue.map((item) => item.value))
                   }
-                  className="relative z-20"
                 />
               )}
             </div>
             <div className="w-full mt-4 pb-2 border rounded-lg">
               {isPostDataLoaded && (
                 <Editor
-                  content={data?.data?.body}
+                  content={data?.body}
                   editable={true}
                   onDataChange={(data) => {
                     setBody(data)

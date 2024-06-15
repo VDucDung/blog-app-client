@@ -1,22 +1,18 @@
-import axios from 'axios'
+import { callApi } from './apiUtils'
 
-import { API_URL } from 'utils/constants'
 export const getCategories = async ({
-  token,
   searchKeyword = '',
   currentPage = 1,
   limit = 10
 }) => {
   try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-
-    const { data } = await axios.get(
-      `${API_URL}/categories?keyword=${searchKeyword}&page=${currentPage}&limit=${limit}`,
-      config
+    const { data } = await callApi(
+      'get',
+      '/categories',
+      searchKeyword !== ''
+        ? { keyword: searchKeyword, page: currentPage, limit }
+        : { page: currentPage, limit },
+      {}
     )
 
     return data
@@ -27,17 +23,13 @@ export const getCategories = async ({
   }
 }
 
-export const deleteCategory = async ({ categoryId, token }) => {
+export const deleteCategory = async ({ categoryId }) => {
   try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-
-    const { data } = await axios.delete(
-      `${API_URL}/categories/${categoryId}`,
-      config
+    const { data } = await callApi(
+      'delete',
+      `/categories/${categoryId}`,
+      null,
+      {}
     )
     return data
   } catch (error) {
@@ -47,15 +39,9 @@ export const deleteCategory = async ({ categoryId, token }) => {
   }
 }
 
-export const createCategory = async ({ token, name }) => {
+export const createCategory = async ({ name }) => {
   try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-
-    const { data } = await axios.post(`${API_URL}/categories`, { name }, config)
+    const { data } = await callApi('post', '/categories', null, { name })
     return data
   } catch (error) {
     if (error.response && error.response.data.message)
@@ -64,19 +50,11 @@ export const createCategory = async ({ token, name }) => {
   }
 }
 
-export const updateCategory = async ({ token, name, categoryId }) => {
+export const updateCategory = async ({ name, categoryId }) => {
   try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-
-    const { data } = await axios.put(
-      `${API_URL}/categories/${categoryId}`,
-      { name },
-      config
-    )
+    const { data } = await callApi('put', `/categories/${categoryId}`, null, {
+      name
+    })
     return data
   } catch (error) {
     if (error.response && error.response.data.message)
@@ -85,17 +63,9 @@ export const updateCategory = async ({ token, name, categoryId }) => {
   }
 }
 
-export const getSingleCategory = async ({ categoryId, token }) => {
+export const getSingleCategory = async ({ categoryId }) => {
   try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-    const { data } = await axios.get(
-      `${API_URL}/categories/${categoryId}`,
-      config
-    )
+    const { data } = await callApi('get', `/categories/${categoryId}`, null, {})
     return data
   } catch (error) {
     if (error.response && error.response.data.message)

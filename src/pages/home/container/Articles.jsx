@@ -9,13 +9,18 @@ import ErrorMessage from 'components/ErrorMessage'
 import ArticleCardSkeleton from 'components/ArticleCardSkeleton'
 
 const Articles = () => {
-  const { data, isLoading, isError } = useQuery({
+  const {
+    data: articleData,
+    isLoading,
+    isError
+  } = useQuery({
     queryFn: () => getAllPosts('', 1, 6),
     queryKey: ['posts'],
     onError: (error) => {
       toast.error(error.message)
     }
   })
+  const { data } = articleData ? articleData : {}
   return (
     <section className="container mx-auto flex flex-col px-5 py-10">
       <div className=" flex flex-wrap gap-y-5 pb-10 md:gap-x-5">
@@ -29,7 +34,7 @@ const Articles = () => {
         ) : isError ? (
           <ErrorMessage message="Could not fetch the posts data" />
         ) : (
-          data?.data.data.map((post) => (
+          data?.data.map((post) => (
             <ArticleCard
               key={post._id}
               post={post}

@@ -21,8 +21,8 @@ const CommentsContainer = ({
 
   const { mutate: mutateNewComment, isLoading: isLoadingNewComment } =
     useMutation({
-      mutationFn: ({ token, comment, slug, parent, replyOnUser }) => {
-        return createNewComment({ token, comment, slug, parent, replyOnUser })
+      mutationFn: ({ comment, slug, parent, replyOnUser }) => {
+        return createNewComment({ comment, slug, parent, replyOnUser })
       },
       onSuccess: () => {
         toast.success(
@@ -35,8 +35,8 @@ const CommentsContainer = ({
     })
 
   const { mutate: mutateUpdateComment } = useMutation({
-    mutationFn: ({ token, comment, commentId }) => {
-      return updateComment({ token, comment, commentId })
+    mutationFn: ({ comment, commentId }) => {
+      return updateComment({ comment, commentId })
     },
     onSuccess: () => {
       toast.success('Your comment is updated successfully')
@@ -48,8 +48,8 @@ const CommentsContainer = ({
   })
 
   const { mutate: mutateDeleteComment } = useMutation({
-    mutationFn: ({ token, commentId }) => {
-      return deleteComment({ token, commentId })
+    mutationFn: ({ commentId }) => {
+      return deleteComment({ commentId })
     },
     onSuccess: () => {
       toast.success('Your comment is deleted successfully')
@@ -64,7 +64,6 @@ const CommentsContainer = ({
       comment: value,
       parent,
       replyOnUser,
-      token: JSON.parse(localStorage.getItem('accessToken')),
       slug: postSlug
     })
     setAffectedComment(null)
@@ -72,7 +71,6 @@ const CommentsContainer = ({
 
   const updateCommentHandler = (value, commentId) => {
     mutateUpdateComment({
-      token: JSON.parse(localStorage.getItem('accessToken')),
       comment: value,
       commentId
     })
@@ -81,7 +79,6 @@ const CommentsContainer = ({
 
   const deleteCommentHandler = (commentId) => {
     mutateDeleteComment({
-      token: JSON.parse(localStorage.getItem('accessToken')),
       commentId
     })
   }

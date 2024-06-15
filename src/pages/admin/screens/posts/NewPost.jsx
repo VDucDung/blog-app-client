@@ -11,9 +11,7 @@ import { filterCategories } from 'utils/multiSelectTagUtils'
 import MultiSelectTagDropdown from 'pages/admin/components/header/select-dropdown/MultiSelectTagDropdown'
 
 const promiseOptions = async (inputValue) => {
-  const { data: categoriesData } = await getCategories({
-    token: JSON.parse(localStorage.getItem('accessToken'))
-  })
+  const { data: categoriesData } = await getCategories('', 1, 10)
   return filterCategories(inputValue, categoriesData.categories)
 }
 const NewPost = () => {
@@ -34,21 +32,19 @@ const NewPost = () => {
   })
 
   const {
-    data: categoriesData,
+    data,
     isLoading: isLoadingCategories,
     isError: isErrorCategories
   } = useQuery({
-    queryFn: () =>
-      getCategories({ token: JSON.parse(localStorage.getItem('accessToken')) }),
+    queryFn: () => getCategories('', 1, 10),
     queryKey: ['categories']
   })
-
-  const { mutate: mutateCreatePost, isLoading: isLoadingCreatePost } =
+  const { data: categoriesData } = data ? data : {}
+  const { mutate: mutateCreatePost, isPending: isLoadingCreatePost } =
     useMutation({
-      mutationFn: ({ newData, token }) => {
+      mutationFn: ({ newData }) => {
         return createPost({
-          newData,
-          token
+          newData
         })
       },
       onSuccess: (data) => {
@@ -89,8 +85,7 @@ const NewPost = () => {
       newData.append('categories', JSON.stringify(categories))
     }
     mutateCreatePost({
-      newData,
-      token: JSON.parse(localStorage.getItem('accessToken'))
+      newData
     })
   }
 
@@ -104,7 +99,15 @@ const NewPost = () => {
   const handleRemoveTag = (tag) => {
     setTags(tags.filter((t) => t !== tag))
   }
-
+  console.log(
+    isLoadingCreatePost,
+    photo,
+    body,
+    title,
+    caption,
+    isLoadingCategories,
+    isErrorCategories
+  )
   return (
     <section className="container mx-auto max-w-5xl flex flex-col px-5 py-5 lg:flex-row lg:gap-x-5 lg:items-start">
       <article className="flex-1">
@@ -155,7 +158,7 @@ const NewPost = () => {
             placeholder="caption"
           />
         </div>
-        <div className="mb-5 mt-2">
+        <div className="mb-5 mt-2 ">
           <label className="d-label">
             <span className="d-label-text">Categories</span>
           </label>

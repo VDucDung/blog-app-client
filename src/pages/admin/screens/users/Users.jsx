@@ -11,12 +11,11 @@ import toast from 'react-hot-toast'
 import { useMutation } from '@tanstack/react-query'
 
 const Users = () => {
-  const token = JSON.parse(localStorage.getItem('accessToken'))
   const {
     userState,
     currentPage,
     searchKeyword,
-    data: usersData,
+    data,
     isLoading,
     isFetching,
     isLoadingDeleteData,
@@ -26,23 +25,21 @@ const Users = () => {
     deleteDataHandler,
     setCurrentPage
   } = useDataTable({
-    dataQueryFn: () => getAllUsers(token, searchKeyword, currentPage),
+    dataQueryFn: () => getAllUsers(searchKeyword, currentPage),
     dataQueryKey: 'users',
     deleteDataMessage: 'User is deleted',
-    mutateDeleteFn: ({ slug, token }) => {
+    mutateDeleteFn: ({ slug }) => {
       return deleteUser({
-        userId: slug,
-        token
+        userId: slug
       })
     }
   })
 
-  const { mutate: mutateUpdateUser, isLoading: isLoadingUpdateUser } =
+  const { mutate: mutateUpdateUser, isPending: isLoadingUpdateUser } =
     useMutation({
       mutationFn: ({ isAdmin, userId }) => {
         return updateUser({
           userId: userId,
-          token: token,
           userData: { role: isAdmin }
         })
       },
@@ -69,7 +66,7 @@ const Users = () => {
       event.target.checked = initialCheckValue
     }
   }
-
+  const { data: usersData } = data ? data : {}
   return (
     <DataTable
       pageTitle="Manage Users"
@@ -88,13 +85,13 @@ const Users = () => {
       ]}
       isLoading={isLoading}
       isFetching={isFetching}
-      data={usersData?.data?.users}
+      data={usersData?.users}
       setCurrentPage={setCurrentPage}
       currentPage={currentPage}
-      headers={usersData?.data}
+      headers={usersData}
       userState={userState}
     >
-      {usersData?.data?.users.map((user) => (
+      {usersData?.users.map((user) => (
         <tr key={user._id}>
           <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
             <div className="flex items-center">
@@ -147,8 +144,7 @@ const Users = () => {
               className="text-red-600 hover:text-red-900 disabled:opacity-70 disabled:cursor-not-allowed"
               onClick={() => {
                 deleteDataHandler({
-                  slug: user?._id,
-                  token: token
+                  slug: user?._id
                 })
               }}
             >

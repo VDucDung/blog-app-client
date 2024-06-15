@@ -12,12 +12,10 @@ import DataTable from '../../components/DataTable'
 
 const Categories = () => {
   const [categoryTitle, seTcategoryTitle] = useState('')
-  const token = JSON.parse(localStorage.getItem('accessToken'))
-  const { mutate: mutateCreateCategory, isLoading: isLoadingCreateCategory } =
+  const { mutate: mutateCreateCategory, isPending: isLoadingCreateCategory } =
     useMutation({
-      mutationFn: ({ token, name }) => {
+      mutationFn: ({ name }) => {
         return createCategory({
-          token,
           name
         })
       },
@@ -29,12 +27,11 @@ const Categories = () => {
         toast.error(error.message)
       }
     })
-
   const {
     userState,
     currentPage,
     searchKeyword,
-    data: categoriesData,
+    data,
     isLoading,
     isFetching,
     isLoadingDeleteData,
@@ -44,23 +41,22 @@ const Categories = () => {
     deleteDataHandler,
     setCurrentPage
   } = useDataTable({
-    dataQueryFn: () => getCategories({ token, searchKeyword, currentPage }),
+    dataQueryFn: () => getCategories({ searchKeyword, currentPage }),
     dataQueryKey: 'categories',
     deleteDataMessage: 'Category is deleted',
-    mutateDeleteFn: ({ slug, token }) => {
+    mutateDeleteFn: ({ slug }) => {
       return deleteCategory({
-        categoryId: slug,
-        token
+        categoryId: slug
       })
     }
   })
 
   const handleCreateCategory = () => {
     mutateCreateCategory({
-      token: token,
       name: categoryTitle
     })
   }
+  const { data: categoriesData } = data ? data : {}
   return (
     <div className="grid grid-cols-12 gap-x-4">
       <div className="col-span-4 py-8">
@@ -93,13 +89,13 @@ const Categories = () => {
           tableHeaderTitleList={['Title', 'Created At', '']}
           isLoading={isLoading}
           isFetching={isFetching}
-          data={categoriesData?.data?.categories}
+          data={categoriesData?.categories}
           setCurrentPage={setCurrentPage}
           currentPage={currentPage}
-          headers={categoriesData?.data}
+          headers={categoriesData}
           userState={userState}
         >
-          {categoriesData?.data?.categories.map((category) => (
+          {categoriesData?.categories.map((category) => (
             <tr key={category?._id}>
               <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
                 <div className="flex items-center">
@@ -124,8 +120,7 @@ const Categories = () => {
                   className="text-red-600 hover:text-red-900 disabled:opacity-70 disabled:cursor-not-allowed"
                   onClick={() => {
                     deleteDataHandler({
-                      slug: category?._id,
-                      token: token
+                      slug: category?._id
                     })
                   }}
                 >

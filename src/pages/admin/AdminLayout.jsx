@@ -14,13 +14,11 @@ const AdminLayout = () => {
     error: profileError
   } = useQuery({
     queryFn: () => {
-      return getUserProfile({
-        token: JSON.parse(localStorage.getItem('accessToken'))
-      })
+      return getUserProfile({})
     },
     queryKey: ['profile'],
     onSuccess: (data) => {
-      if (!data?.data?.role !== 'admin') {
+      if (!data?.role !== 'admin') {
         navigate('/')
         toast.error('Your are not allowed to access admin panel')
       }

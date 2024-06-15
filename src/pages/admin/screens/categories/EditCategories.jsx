@@ -10,35 +10,38 @@ const EditCategories = () => {
   const [categoryTitle, setCategoryTitle] = useState('')
   const navigate = useNavigate()
   const { categoryId } = useParams()
-  const token = JSON.parse(localStorage.getItem('accessToken'))
 
-  const { isLoading, isError, data, isSuccess } = useQuery({
+  const {
+    isLoading,
+    isError,
+    data: categoryData,
+    isSuccess
+  } = useQuery({
     queryFn: () => {
-      return getSingleCategory({ categoryId, token })
+      return getSingleCategory({ categoryId })
     },
     queryKey: ['categories', categoryId],
     refetchOnWindowFocus: false
   })
-
+  const { data } = categoryData
   useEffect(() => {
     if (isSuccess) {
-      setCategoryTitle(data?.data?.name)
+      setCategoryTitle(data?.name)
     }
   }, [isSuccess])
 
   const { mutate: mutateUpdateCategory, isLoading: isLoadingUpdateCategory } =
     useMutation({
-      mutationFn: ({ name, categoryId, token }) => {
+      mutationFn: ({ name, categoryId }) => {
         return updateCategory({
           name,
-          categoryId,
-          token
+          categoryId
         })
       },
       onSuccess: (data) => {
         queryClient.invalidateQueries(['categories', categoryId])
         toast.success('Category is updated')
-        navigate(`/admin/categories/manage/edit/${data?.data?._id}`, {
+        navigate(`/admin/categories/manage/edit/${data?._id}`, {
           replace: true
         })
       },
@@ -50,8 +53,7 @@ const EditCategories = () => {
     if (!categoryTitle) return
     mutateUpdateCategory({
       name: categoryTitle,
-      categoryId,
-      token: token
+      categoryId
     })
   }
 

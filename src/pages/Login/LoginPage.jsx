@@ -19,11 +19,11 @@ const LoginPage = () => {
       return login({ email, password })
     },
     onSuccess: ({ data }) => {
-      dispatch(userActions.setUserInfo(data.user))
+      dispatch(userActions.setUserInfo(data?.user))
       toast.success('Login success')
-      localStorage.setItem('user', JSON.stringify(data.user))
-      localStorage.setItem('accessToken', JSON.stringify(data.accessToken))
-      localStorage.setItem('refreshToken', JSON.stringify(data.refreshToken))
+      localStorage.setItem('user', JSON.stringify(data?.user))
+      localStorage.setItem('accessToken', JSON.stringify(data?.accessToken))
+      localStorage.setItem('refreshToken', JSON.stringify(data?.refreshToken))
     },
     onError: (error) => {
       toast.error(error.message)

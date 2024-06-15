@@ -1,10 +1,9 @@
-import axios from 'axios'
-
+import { callApi } from './apiUtils'
 import { API_URL } from 'utils/constants'
 
 export const signup = async ({ username, email, password }) => {
   try {
-    const { data } = await axios.post(API_URL + '/auth/register', {
+    const { data } = await callApi('post', '/auth/register', null, {
       username,
       email,
       password
@@ -19,7 +18,7 @@ export const signup = async ({ username, email, password }) => {
 
 export const login = async ({ email, password }) => {
   try {
-    const { data } = await axios.post(API_URL + '/auth/login', {
+    const { data } = await callApi('post', '/auth/login', null, {
       email,
       password
     })
@@ -31,15 +30,9 @@ export const login = async ({ email, password }) => {
   }
 }
 
-export const getUserProfile = async ({ token }) => {
+export const getUserProfile = async () => {
   try {
-    const config = {
-      headers: {
-        authorization: `Bearer ${token}`
-      }
-    }
-
-    const { data } = await axios.get(API_URL + '/auth/me', config)
+    const { data } = await callApi('get', '/auth/me', null, {})
     return data
   } catch (error) {
     if (error.response && error.response.data.message)
@@ -48,15 +41,11 @@ export const getUserProfile = async ({ token }) => {
   }
 }
 
-export const updateProfile = async ({ token, userData }) => {
+export const updateProfile = async ({ userData }) => {
   try {
-    const config = {
-      headers: {
-        authorization: `Bearer ${token}`
-      }
-    }
-
-    const { data } = await axios.put(API_URL + '/auth/me', userData, config)
+    const { data } = await callApi('put', '/auth/me', null, userData, {
+      'Content-Type': 'multipart/form-data'
+    })
     return data
   } catch (error) {
     if (error.response && error.response.data.message)
@@ -65,18 +54,12 @@ export const updateProfile = async ({ token, userData }) => {
   }
 }
 
-export const changePassword = async ({ token, oldPassword, newPassword }) => {
+export const changePassword = async ({ oldPassword, newPassword }) => {
   try {
-    const config = {
-      headers: {
-        authorization: `Bearer ${token}`
-      }
-    }
-    const { data } = await axios.post(
-      API_URL + '/auth/change-password',
-      { oldPassword, newPassword },
-      config
-    )
+    const { data } = await callApi('post', '/auth/change-password', null, {
+      oldPassword,
+      newPassword
+    })
     return data
   } catch (error) {
     if (error.response && error.response.data.message)
@@ -85,24 +68,15 @@ export const changePassword = async ({ token, oldPassword, newPassword }) => {
   }
 }
 
-export const getAllUsers = async (
-  token,
-  searchKeyword = '',
-  page = 1,
-  limit = 10
-) => {
+export const getAllUsers = async (searchKeyword = '', page = 1, limit = 10) => {
   try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-
-    const { data } = await axios.get(
+    const { data } = await callApi(
+      'get',
+      '/users',
       searchKeyword !== ''
-        ? `${API_URL}/users?keyword=${searchKeyword}&page=${page}&limit=${limit}`
-        : `${API_URL}/users?page=${page}&limit=${limit}`,
-      config
+        ? { keyword: searchKeyword, page, limit }
+        : { page, limit },
+      {}
     )
     return data
   } catch (error) {
@@ -112,35 +86,25 @@ export const getAllUsers = async (
   }
 }
 
-export const updateUser = async ({ userId, token, userData }) => {
+export const updateUser = async ({ userId, userData }) => {
   try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-    const { data } = await axios.put(
+    const { data } = await callApi('put', `/users/${userId}`, null, userData)
+    return data
+  } catch (error) {
+    if (error.response && error.response.data.message)
+      throw new Error(error.response.data.message)
+    throw new Error(error.message)
+  }
+}
+
+export const deleteUser = async ({ userId }) => {
+  try {
+    const { data } = await callApi(
+      'delete',
       `${API_URL}/users/${userId}`,
-      userData,
-      config
+      null,
+      {}
     )
-    return data
-  } catch (error) {
-    if (error.response && error.response.data.message)
-      throw new Error(error.response.data.message)
-    throw new Error(error.message)
-  }
-}
-
-export const deleteUser = async ({ userId, token }) => {
-  try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-
-    const { data } = await axios.delete(`${API_URL}/users/${userId}`, config)
     return data
   } catch (error) {
     if (error.response && error.response.data.message)

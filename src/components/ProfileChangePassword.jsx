@@ -15,21 +15,19 @@ const ProfileChangePassword = () => {
   const dispatch = useDispatch()
   const queryClient = useQueryClient()
   const userState = useSelector((state) => state.user)
-  const token = JSON.parse(localStorage.getItem('accessToken'))
   const {
     data: profileData,
     isLoading: profileIsLoading,
     error: profileError
   } = useQuery({
     queryFn: () => {
-      return getUserProfile({ token: token })
+      return getUserProfile()
     },
     queryKey: ['profile']
   })
   const { mutate, isLoading: updateProfileIsLoading } = useMutation({
     mutationFn: ({ oldPassword, newPassword }) => {
       return changePassword({
-        token: token,
         oldPassword: oldPassword,
         newPassword: newPassword
       })

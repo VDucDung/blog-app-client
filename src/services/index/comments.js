@@ -1,31 +1,18 @@
-import axios from 'axios'
-
-import { API_URL } from 'utils/constants'
+import { callApi } from './apiUtils'
 
 export const createNewComment = async ({
-  token,
   comment,
   slug,
   parent,
   replyOnUser
 }) => {
   try {
-    const config = {
-      headers: {
-        authorization: `Bearer ${token}`
-      }
-    }
-
-    const { data } = await axios.post(
-      `${API_URL}/comments`,
-      {
-        comment,
-        slug,
-        parent,
-        replyOnUser
-      },
-      config
-    )
+    const { data } = await callApi('post', '/comments', null, {
+      comment,
+      slug,
+      parent,
+      replyOnUser
+    })
     return data
   } catch (error) {
     if (error.response && error.response.data.message)
@@ -34,22 +21,12 @@ export const createNewComment = async ({
   }
 }
 
-export const updateComment = async ({ token, comment, check, commentId }) => {
+export const updateComment = async ({ comment, check, commentId }) => {
   try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-
-    const { data } = await axios.put(
-      `${API_URL}/comments/${commentId}`,
-      {
-        comment,
-        check
-      },
-      config
-    )
+    const { data } = await callApi('put', `/comments/${commentId}`, null, {
+      comment,
+      check
+    })
     return data
   } catch (error) {
     if (error.response && error.response.data.message)
@@ -58,18 +35,9 @@ export const updateComment = async ({ token, comment, check, commentId }) => {
   }
 }
 
-export const deleteComment = async ({ commentId, token }) => {
+export const deleteComment = async ({ commentId }) => {
   try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-
-    const { data } = await axios.delete(
-      `${API_URL}/comments/${commentId}`,
-      config
-    )
+    const { data } = await callApi('delete', `/comments/${commentId}`, null, {})
     return data
   } catch (error) {
     if (error.response && error.response.data.message)
@@ -79,24 +47,27 @@ export const deleteComment = async ({ commentId, token }) => {
 }
 
 export const getAllComments = async (
-  token,
   searchKeyword = '',
   page = 1,
   limit = 10,
   checkCache = 'unchecked'
 ) => {
   try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-
-    const { data, headers } = await axios.get(
-      `${API_URL}/comments?keyword=${searchKeyword}&page=${page}&limit=${limit}&checkCache=${checkCache}`,
-      config
+    const response = await callApi(
+      'get',
+      '/comments',
+      {
+        keyword: searchKeyword,
+        page: page,
+        limit: limit,
+        checkCache: checkCache
+      },
+      {}
     )
-    return { data, headers }
+    return {
+      data: response.data,
+      headers: response.headers
+    }
   } catch (error) {
     if (error.response && error.response.data.message)
       throw new Error(error.response.data.message)

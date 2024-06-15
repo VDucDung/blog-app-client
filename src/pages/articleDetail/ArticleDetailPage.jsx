@@ -21,27 +21,30 @@ const ArticleDetailPage = () => {
   const [breadCrumbsData, setbreadCrumbsData] = useState([])
   const [body, setBody] = useState(null)
 
-  const { data, isLoading, isError } = useQuery({
+  const {
+    data: postData,
+    isLoading,
+    isError
+  } = useQuery({
     queryFn: () => getSinglePost({ slug }),
     queryKey: ['blog', slug],
     onSuccess: (data) => {
       setbreadCrumbsData([
         { name: 'Home', link: '/' },
         { name: 'Blog', link: '/blog' },
-        { name: 'Article title', link: `/blog/${data?.data?.slug}` }
+        { name: 'Article title', link: `/blog/${data?.slug}` }
       ])
-      setBody(parseJsonToHtml(data?.data?.body))
+      setBody(parseJsonToHtml(data?.body))
     }
   })
+  const { data } = postData ? postData : {}
   const { data: postsData } = useQuery({
     queryFn: () => getAllPosts(),
     queryKey: ['posts']
   })
-
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
-
   return (
     <MainLayout>
       {isLoading ? (
@@ -54,13 +57,11 @@ const ArticleDetailPage = () => {
             <BreadCrumbs data={breadCrumbsData} />
             <img
               className="w-full rounded-xl"
-              src={
-                data?.data?.image ? data?.data?.image : images.samplePostImage
-              }
-              alt={data?.data?.title}
+              src={data?.image ? data?.image : images.samplePostImage}
+              alt={data?.title}
             />
             <div className="mt-4 flex gap-2">
-              {data?.data?.categories.map((category) => (
+              {data?.categories.map((category) => (
                 <Link
                   key={category._id}
                   to={`/blog?category=${category.name}`}
@@ -71,15 +72,15 @@ const ArticleDetailPage = () => {
               ))}
             </div>
             <h1 className="mt-4 font-roboto text-xl font-medium text-dark-hard md:text-[26px]">
-              {data?.data?.title}
+              {data?.title}
             </h1>
             <div className="w-full">
               {!isLoading && !isError && (
-                <Editor content={data?.data?.body} editable={false} />
+                <Editor content={data?.body} editable={false} />
               )}
             </div>
             <CommentsContainer
-              comments={data?.data?.comments}
+              comments={data?.comments}
               className="mt-10"
               logginedUserId={userState?.userInfo?._id}
               postSlug={slug}
@@ -89,7 +90,7 @@ const ArticleDetailPage = () => {
             <SuggestedPosts
               header="Latest Article"
               posts={postsData?.data}
-              tags={data?.data?.tags}
+              tags={data?.tags}
               className="mt-8 lg:mt-0 lg:max-w-xs"
             />
             <div className="mt-7">
@@ -98,7 +99,7 @@ const ArticleDetailPage = () => {
               </h2>
               <SocialShareButtons
                 url={encodeURI(window.location.href)}
-                title={encodeURIComponent(data?.data?.title)}
+                title={encodeURIComponent(data?.title)}
               />
             </div>
           </div>

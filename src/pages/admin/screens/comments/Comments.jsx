@@ -13,13 +13,12 @@ import {
 } from 'services/index/comments'
 
 const Comments = () => {
-  const token = JSON.parse(localStorage.getItem('accessToken'))
   const [checkCache, setCheckCache] = useState('unchecked')
   const {
     userState,
     currentPage,
     searchKeyword,
-    data: commentsData,
+    data,
     isLoading,
     isFetching,
     isLoadingDeleteData,
@@ -30,27 +29,27 @@ const Comments = () => {
     setCurrentPage
   } = useDataTable({
     dataQueryFn: () =>
-      getAllComments(token, searchKeyword, currentPage, 10, checkCache),
+      getAllComments(searchKeyword, currentPage, 10, checkCache),
     dataQueryKey: 'comments',
     deleteDataMessage: 'Comment is deleted',
-    mutateDeleteFn: ({ slug, token }) => {
+    mutateDeleteFn: ({ slug }) => {
       return deleteComment({
-        commentId: slug,
-        token: token
+        commentId: slug
       })
     }
   })
+  const { data: commentsData, headers } = data ? data : {}
   const {
     mutate: mutateUpdateCommentCheck,
     isLoading: isLoadingUpdateCommentCheck
   } = useMutation({
-    mutationFn: ({ token, check, commentId }) => {
-      return updateComment({ token, check, commentId })
+    mutationFn: ({ check, commentId }) => {
+      return updateComment({ check, commentId })
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries(['comments'])
       toast.success(
-        data?.data?.check ? 'Comment is approved' : 'Comment is not approved'
+        data?.check ? 'Comment is approved' : 'Comment is not approved'
       )
     },
     onError: (error) => {
@@ -74,12 +73,12 @@ const Comments = () => {
       ]}
       isFetching={isFetching}
       isLoading={isLoading}
-      data={commentsData?.data?.data}
+      data={commentsData?.data}
       setCurrentPage={setCurrentPage}
       currentPage={currentPage}
-      headers={commentsData?.headers}
+      headers={headers}
     >
-      {commentsData?.data?.data.map((comment) => (
+      {commentsData?.data.map((comment) => (
         <tr key={comment?._id}>
           <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
             <div className="flex items-center">
@@ -152,7 +151,6 @@ const Comments = () => {
               onClick={() => {
                 setCheckCache(`updated-${comment?._id}-${comment?.check}`)
                 mutateUpdateCommentCheck({
-                  token: token,
                   check: comment?.check ? false : true,
                   commentId: comment?._id
                 })
@@ -167,8 +165,7 @@ const Comments = () => {
               onClick={() => {
                 setCheckCache(`deleted-${comment?._id}`)
                 deleteDataHandler({
-                  slug: comment?._id,
-                  token: token
+                  slug: comment?._id
                 })
               }}
             >

@@ -1,25 +1,23 @@
 import { useState } from 'react'
 import Cropper from 'react-easy-crop'
+import { toast } from 'react-hot-toast'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import getCroppedImg from './cropImage'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { updateProfile } from '../../services/index/users'
 import { useDispatch } from 'react-redux'
 import { userActions } from '../../store/reducers/userReducers'
-import { toast } from 'react-hot-toast'
 
 const CropEasy = ({ photo, setOpenCrop }) => {
   const queryClient = useQueryClient()
   const dispatch = useDispatch()
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setzoom] = useState(1)
-  const token = JSON.parse(localStorage.getItem('accessToken'))
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
 
-  const { mutate, isLoading } = useMutation({
-    mutationFn: ({ token, formData }) => {
+  const { mutate, isPending } = useMutation({
+    mutationFn: ({ formData }) => {
       return updateProfile({
-        token: token,
         userData: formData
       })
     },
@@ -49,7 +47,8 @@ const CropEasy = ({ photo, setOpenCrop }) => {
 
       const formData = new FormData()
       formData.append('avatar', file)
-      mutate({ token: token, formData: formData })
+
+      mutate({ formData: formData })
     } catch (error) {
       toast.error(error.message)
     }
@@ -71,7 +70,10 @@ const CropEasy = ({ photo, setOpenCrop }) => {
           />
         </div>
         <div>
-          <label htmlFor="zoomRage" className="mb-0.5 mt-2 block text-sm font-medium text-gray-900">
+          <label
+            htmlFor="zoomRage"
+            className="mb-0.5 mt-2 block text-sm font-medium text-gray-900"
+          >
             Zoom: {`${Math.round(zoom * 100)}%`}
           </label>
           <input
@@ -87,14 +89,14 @@ const CropEasy = ({ photo, setOpenCrop }) => {
         </div>
         <div className="flex flex-wrap justify-between gap-2">
           <button
-            disabled={isLoading}
+            disabled={isPending}
             onClick={() => setOpenCrop(false)}
             className="rounded-lg border border-red-500 px-5 py-2.5 text-sm text-red-500 disabled:opacity-70"
           >
             Cancel
           </button>
           <button
-            disabled={isLoading}
+            disabled={isPending}
             onClick={handleCropImage}
             className="rounded-lg bg-blue-500 px-5 py-2.5 text-sm text-white disabled:opacity-70"
           >

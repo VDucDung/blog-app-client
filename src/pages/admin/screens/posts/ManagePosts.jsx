@@ -7,13 +7,12 @@ import { useDataTable } from 'hooks/useDataTable'
 import DataTable from '../../components/DataTable'
 import { deletePost, getAllPosts } from 'services/index/posts'
 const ManagePosts = () => {
-  const token = JSON.parse(localStorage.getItem('accessToken'))
   const [checkCache, setCheckCache] = useState('unchecked')
   const {
     userState,
     currentPage,
     searchKeyword,
-    data: postsData,
+    data,
     isLoading,
     isFetching,
     isLoadingDeleteData,
@@ -26,13 +25,13 @@ const ManagePosts = () => {
     dataQueryFn: () => getAllPosts(searchKeyword, currentPage, 10, checkCache),
     dataQueryKey: 'posts',
     deleteDataMessage: 'Post is deleted',
-    mutateDeleteFn: ({ slug, token }) => {
+    mutateDeleteFn: ({ slug }) => {
       return deletePost({
-        postId: slug,
-        token
+        postId: slug
       })
     }
   })
+  const { data: postsData, headers } = data ? data : {}
   return (
     <DataTable
       pageTitle="Manage Posts"
@@ -47,10 +46,10 @@ const ManagePosts = () => {
       data={postsData?.data}
       setCurrentPage={setCurrentPage}
       currentPage={currentPage}
-      headers={postsData?.headers}
+      headers={headers}
       userState={userState}
     >
-      {postsData?.data?.data.map((post) => (
+      {postsData?.data.map((post) => (
         <tr key={post?._id}>
           <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
             <div className="flex items-center">
@@ -113,8 +112,7 @@ const ManagePosts = () => {
               onClick={() => {
                 setCheckCache(`post-${new Date().getTime()}`)
                 deleteDataHandler({
-                  slug: post?._id,
-                  token: token
+                  slug: post?._id
                 })
               }}
             >

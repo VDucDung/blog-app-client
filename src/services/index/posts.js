@@ -1,6 +1,4 @@
-import axios from 'axios'
-
-import { API_URL } from 'utils/constants'
+import { callApi } from './apiUtils'
 
 export const getAllPosts = async (
   searchKeyword = '',
@@ -9,19 +7,21 @@ export const getAllPosts = async (
   checkCache = 'unchecked'
 ) => {
   try {
-    const token = JSON.parse(localStorage.getItem('accessToken'))
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    }
-    const response = await axios.get(
-      `${API_URL}/posts?keyword=${searchKeyword}&page=${page}&limit=${limit}&checkCache=${checkCache}`,
-      config
+    const response = await callApi(
+      'get',
+      '/posts',
+      {
+        keyword: searchKeyword,
+        page: page,
+        limit: limit,
+        checkCache: checkCache
+      },
+      {}
     )
-
-    return { data: response.data, headers: response.headers }
+    return {
+      data: response.data,
+      headers: response.headers
+    }
   } catch (error) {
     if (error.response && error.response.data.message)
       throw new Error(error.response.data.message)
@@ -31,7 +31,7 @@ export const getAllPosts = async (
 
 export const getSinglePost = async ({ slug }) => {
   try {
-    const { data } = await axios.get(`${API_URL}/posts/${slug}`)
+    const { data } = await callApi('get', `/posts/${slug}`, null, {})
     return data
   } catch (error) {
     if (error.response && error.response.data.message)
@@ -40,18 +40,9 @@ export const getSinglePost = async ({ slug }) => {
   }
 }
 
-export const deletePost = async ({ postId, token }) => {
+export const deletePost = async ({ postId }) => {
   try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-
-    const { data } = await axios.delete(
-      `${API_URL}/posts/post/${postId}`,
-      config
-    )
+    const { data } = await callApi('delete', `/posts/post/${postId}`, null, {})
 
     return data
   } catch (error) {
@@ -61,18 +52,16 @@ export const deletePost = async ({ postId, token }) => {
   }
 }
 
-export const updatePost = async ({ updatedData, postId, token }) => {
+export const updatePost = async ({ updatedData, postId }) => {
   try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-
-    const { data } = await axios.put(
-      `${API_URL}/posts/post/${postId}`,
+    const { data } = await callApi(
+      'put',
+      `/posts/post/${postId}`,
+      null,
       updatedData,
-      config
+      {
+        'Content-Type': 'multipart/form-data'
+      }
     )
     return data
   } catch (error) {
@@ -82,15 +71,9 @@ export const updatePost = async ({ updatedData, postId, token }) => {
   }
 }
 
-export const createPost = async ({ newData, token }) => {
+export const createPost = async ({ newData }) => {
   try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-
-    const { data } = await axios.post(`${API_URL}/posts`, newData, config)
+    const { data } = await callApi('post', '/posts', null, newData)
     return data
   } catch (error) {
     if (error.response && error.response.data.message)

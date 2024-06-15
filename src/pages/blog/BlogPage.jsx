@@ -3,13 +3,13 @@ import { toast } from 'react-hot-toast'
 import { useQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'react-router-dom'
 
+import Search from 'components/Search'
 import Pagination from '../../components/Pagination'
 import MainLayout from '../../components/MainLayout'
 import ArticleCard from '../../components/ArticleCard'
 import { getAllPosts } from '../../services/index/posts'
 import ErrorMessage from '../../components/ErrorMessage'
 import ArticleCardSkeleton from '../../components/ArticleCardSkeleton'
-import Search from 'components/Search'
 
 let isFirstRun = true
 
@@ -19,14 +19,20 @@ const BlogPage = () => {
 
   const currentPage = parseInt(searchParamsValue?.page) || 1
   const searchKeyword = searchParamsValue?.search || ''
-  const { data, isLoading, isError, isFetching, refetch } = useQuery({
+  const {
+    data: blogData,
+    isLoading,
+    isError,
+    isFetching,
+    refetch
+  } = useQuery({
     queryFn: () => getAllPosts(searchKeyword, currentPage, 12),
     queryKey: ['posts'],
     onError: (error) => {
       toast.error(error.message)
     }
   })
-
+  const { data, headers } = blogData ? blogData : {}
   useEffect(() => {
     window.scrollTo(0, 0)
     if (isFirstRun) {
@@ -44,7 +50,6 @@ const BlogPage = () => {
   const handleSearch = ({ searchKeyword }) => {
     setSearchParams({ page: 1, search: searchKeyword })
   }
-
   return (
     <MainLayout>
       <section className="flex flex-col container mx-auto px-5 py-10">
@@ -62,10 +67,10 @@ const BlogPage = () => {
             ))
           ) : isError ? (
             <ErrorMessage message="Couldn't fetch the posts data" />
-          ) : data?.data?.data?.length === 0 ? (
+          ) : data?.data?.length === 0 ? (
             <p className="text-orange-500">No Posts Found!</p>
           ) : (
-            data?.data?.data.map((post) => (
+            data?.data.map((post) => (
               <ArticleCard
                 key={post._id}
                 post={post}
@@ -78,7 +83,7 @@ const BlogPage = () => {
           <Pagination
             onPageChange={(page) => handlePageChange(page)}
             currentPage={currentPage}
-            totalPageCount={JSON.parse(data?.headers?.['x-totalpagecount'])}
+            totalPageCount={JSON.parse(headers?.['x-totalpagecount'])}
           />
         )}
       </section>

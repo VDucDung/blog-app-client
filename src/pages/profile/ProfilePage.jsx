@@ -3,8 +3,8 @@ import { useEffect } from 'react'
 import 'flatpickr/dist/flatpickr.css'
 import { toast } from 'react-hot-toast'
 import Flatpickr from 'react-flatpickr'
-import { useForm, Controller } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import { useForm, Controller } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
@@ -19,17 +19,16 @@ const ProfilePage = () => {
   const dispatch = useDispatch()
   const queryClient = useQueryClient()
   const userState = useSelector((state) => state.user)
-  const token = JSON.parse(localStorage.getItem('accessToken'))
-  const { data: profileData, isLoading: profileIsLoading } = useQuery({
+  const { data, isLoading: profileIsLoading } = useQuery({
     queryFn: () => {
-      return getUserProfile({ token: token })
+      return getUserProfile()
     },
     queryKey: ['profile']
   })
+  const { data: profileData } = data ? data : {}
   const { mutate, isLoading: updateProfileIsLoading } = useMutation({
     mutationFn: ({ username, phone, dateOfBirth, gender }) => {
       return updateProfile({
-        token: token,
         userData: { username, phone, dateOfBirth, gender }
       })
     },
@@ -71,24 +70,23 @@ const ProfilePage = () => {
     }, [profileData?.email, profileData?.username, profileIsLoading]),
     mode: 'onChange'
   })
-
   useEffect(() => {
     if (profileData && !profileIsLoading) {
       reset({
-        username: profileData.data.username,
-        phone: profileData.data.phone,
-        dateOfBirth: profileData.data.dateOfBirth,
-        gender: profileData.data.gender
+        username: profileData.username,
+        phone: profileData.phone,
+        dateOfBirth: profileData.dateOfBirth,
+        gender: profileData.gender
       })
     }
   }, [profileData, profileIsLoading, reset])
 
   const submitHandler = (data) => {
     const { username, phone, dateOfBirth, gender } = data
-    const formattedDate = new Date(dateOfBirth).toLocaleDateString('vi-VN', {
-      year: 'numeric',
+    const formattedDate = new Date(dateOfBirth).toLocaleDateString('en-US', {
+      day: '2-digit',
       month: '2-digit',
-      day: '2-digit'
+      year: 'numeric'
     })
 
     mutate({ username, phone, dateOfBirth: formattedDate, gender })
