@@ -12,14 +12,14 @@ import NavItemCollapse from './NavItemCollapse'
 const MENU_ITEMS = [
   {
     title: 'Dashboard',
-    link: '/admin',
+    link: '/auth/admin',
     icon: <AiFillDashboard className="text-xl" />,
     name: 'dashboard',
     type: 'link'
   },
   {
     title: 'Comments',
-    link: '/admin/comments',
+    link: '/auth/admin/comments',
     icon: <FaComments className="text-xl" />,
     name: 'comments',
     type: 'link'
@@ -27,9 +27,9 @@ const MENU_ITEMS = [
   {
     title: 'Posts',
     content: [
-      { title: 'New', link: '/admin/posts/new' },
-      { title: 'Manage', link: '/admin/posts/manage' },
-      { title: 'Categories', link: '/admin/categories/manage' }
+      { title: 'New', link: '/auth/admin/posts/new' },
+      { title: 'Manage', link: '/auth/admin/posts/manage' },
+      { title: 'Categories', link: '/auth/admin/categories/manage' }
     ],
     icon: <MdDashboard className="text-xl" />,
     name: 'posts',
@@ -37,7 +37,7 @@ const MENU_ITEMS = [
   },
   {
     title: 'Users',
-    link: '/admin/users/manage',
+    link: '/auth/admin/users/manage',
     icon: <FaUser className="text-xl" />,
     name: 'users',
     type: 'link'

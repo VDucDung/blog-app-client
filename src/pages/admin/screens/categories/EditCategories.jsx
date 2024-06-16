@@ -41,7 +41,7 @@ const EditCategories = () => {
       onSuccess: (data) => {
         queryClient.invalidateQueries(['categories', categoryId])
         toast.success('Category is updated')
-        navigate(`/admin/categories/manage/edit/${data?._id}`, {
+        navigate(`/auth/admin/categories/manage/edit/${data?._id}`, {
           replace: true
         })
       },

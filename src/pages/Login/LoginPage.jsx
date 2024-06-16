@@ -121,7 +121,7 @@ const LoginPage = () => {
               )}
             </div>
             <Link
-              to="/forget-password"
+              to="/auth/forgot-password"
               className="text-sm font-semibold text-primary"
             >
               Forgot password?
@@ -135,7 +135,7 @@ const LoginPage = () => {
             </button>
             <p className="text-sm font-semibold text-[#5a7184]">
               Do not have an user?{' '}
-              <Link to="/register" className="text-primary">
+              <Link to="/auth/register" className="text-primary">
                 Register now
               </Link>
             </p>

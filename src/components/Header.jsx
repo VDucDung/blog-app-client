@@ -122,7 +122,7 @@ const Header = () => {
                     <ul className="flex flex-col overflow-hidden rounded-lg bg-dark-soft text-center shadow-lg lg:bg-transparent">
                       {userState?.userInfo?.role === 'admin' && (
                         <button
-                          onClick={() => navigate('/admin')}
+                          onClick={() => navigate('/auth/admin')}
                           type="button"
                           className="px-4 py-2 text-white hover:bg-dark-hard hover:text-white lg:text-dark-soft"
                         >
@@ -130,7 +130,7 @@ const Header = () => {
                         </button>
                       )}
                       <button
-                        onClick={() => navigate('/profile')}
+                        onClick={() => navigate('/auth/profile')}
                         type="button"
                         className="px-4 py-2 text-white hover:bg-dark-hard hover:text-white lg:text-dark-soft"
                       >
@@ -150,7 +150,7 @@ const Header = () => {
             </div>
           ) : (
             <button
-              onClick={() => navigate('/login')}
+              onClick={() => navigate('/auth/login')}
               className="mt-5 rounded-full border-2 border-blue-500 px-6 py-2 font-semibold text-blue-500 transition-all duration-300 hover:bg-blue-500 hover:text-white lg:mt-0"
             >
               Sign in

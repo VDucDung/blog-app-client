@@ -16,6 +16,7 @@ import Comments from 'pages/admin/screens/comments/Comments'
 import ManagePosts from 'pages/admin/screens/posts/ManagePosts'
 import Categories from 'pages/admin/screens/categories/Categories'
 import ArticleDetailPage from './pages/articleDetail/ArticleDetailPage'
+import ForgotPasswordPage from 'pages/ForgotPassword/ForgotPasswordPage'
 import EditCategories from 'pages/admin/screens/categories/EditCategories'
 
 function App() {
@@ -25,10 +26,11 @@ function App() {
         <Route index path="/" element={<HomePage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:id" element={<ArticleDetailPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/admin" element={<AdminLayout />}>
+        <Route path="/auth/register" element={<RegisterPage />} />
+        <Route path="/auth/login" element={<LoginPage />} />
+        <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/auth/profile" element={<ProfilePage />} />
+        <Route path="/auth/admin" element={<AdminLayout />}>
           <Route index element={<Admin />} />
           <Route path="comments" element={<Comments />} />
           <Route path="posts/new" element={<NewPost />} />

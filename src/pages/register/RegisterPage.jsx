@@ -193,7 +193,7 @@ const RegisterPage = () => {
             </button>
             <p className="text-sm font-semibold text-[#5a7184]">
               You have an user?{' '}
-              <Link to="/login" className="text-primary">
+              <Link to="/auth/login" className="text-primary">
                 Login now
               </Link>
             </p>

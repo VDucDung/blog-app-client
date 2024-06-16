@@ -50,7 +50,7 @@ const NewPost = () => {
       onSuccess: (data) => {
         queryClient.invalidateQueries(['posts'])
         toast.success('Post is created')
-        navigate(`/admin/posts/manage/edit/${data?.data.slug}`)
+        navigate(`/auth/admin/posts/manage/edit/${data?.data.slug}`)
       },
       onError: (error) => {
         toast.error('Có lỗi xảy ra vui lòng thử lại sau')

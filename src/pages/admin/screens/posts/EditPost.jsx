@@ -52,7 +52,7 @@ const EditPost = () => {
     onSuccess: ({ data }) => {
       queryClient.invalidateQueries(['blog', slug])
       toast.success('Post is updated')
-      navigate(`/admin/posts/manage/edit/${data?.slug}`, { replace: true })
+      navigate(`/auth/admin/posts/manage/edit/${data?.slug}`, { replace: true })
     },
     onError: (error) => {
       toast.error(error.message)

@@ -127,7 +127,7 @@ const Categories = () => {
                   Delete
                 </button>
                 <Link
-                  to={`/admin/categories/manage/edit/${category?._id}`}
+                  to={`/auth/admin/categories/manage/edit/${category?._id}`}
                   className="text-green-600 hover:text-green-900"
                 >
                   Edit
