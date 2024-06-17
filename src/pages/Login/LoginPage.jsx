@@ -1,9 +1,8 @@
-import { useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { useForm } from 'react-hook-form'
 import { useMutation } from '@tanstack/react-query'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import MainLayout from 'components/MainLayout'
 import { login } from 'services/index/users'
@@ -12,29 +11,29 @@ import { userActions } from 'store/reducers/userReducers'
 const LoginPage = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const userState = useSelector((state) => state.user)
 
   const { mutate, isLoading } = useMutation({
     mutationFn: ({ email, password }) => {
       return login({ email, password })
     },
-    onSuccess: ({ data }) => {
-      dispatch(userActions.setUserInfo(data?.user))
-      toast.success('Login success')
-      localStorage.setItem('user', JSON.stringify(data?.user))
-      localStorage.setItem('accessToken', JSON.stringify(data?.accessToken))
-      localStorage.setItem('refreshToken', JSON.stringify(data?.refreshToken))
+    onSuccess: (data) => {
+      dispatch(userActions.setUserInfo(data?.data?.user))
+      toast.success(data?.message)
+      localStorage.setItem('user', JSON.stringify(data?.data?.user))
+      localStorage.setItem(
+        'accessToken',
+        JSON.stringify(data?.data?.accessToken)
+      )
+      localStorage.setItem(
+        'refreshToken',
+        JSON.stringify(data?.data?.refreshToken)
+      )
+      navigate('/')
     },
     onError: (error) => {
       toast.error(error.message)
     }
   })
-
-  useEffect(() => {
-    if (userState.userInfo) {
-      navigate('/')
-    }
-  }, [navigate, userState.userInfo])
 
   const {
     register,
