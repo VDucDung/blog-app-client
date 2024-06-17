@@ -6,6 +6,7 @@ import HomePage from 'pages/home/HomePage'
 import BlogPage from 'pages/blog/BlogPage'
 import Admin from 'pages/admin/screens/Admin'
 import LoginPage from 'pages/Login/LoginPage'
+import NotFound from 'pages/NotFound/NotFound'
 import AdminLayout from 'pages/admin/AdminLayout'
 import Users from 'pages/admin/screens/users/Users'
 import ProfilePage from 'pages/profile/ProfilePage'
@@ -24,6 +25,7 @@ function App() {
     <div className="App font-opensans">
       <Routes>
         <Route index path="/" element={<HomePage />} />
+        <Route path="*" element={<NotFound />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:id" element={<ArticleDetailPage />} />
         <Route path="/auth/register" element={<RegisterPage />} />

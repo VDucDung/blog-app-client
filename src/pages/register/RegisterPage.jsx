@@ -1,40 +1,32 @@
-import { useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { useForm } from 'react-hook-form'
 import { useMutation } from '@tanstack/react-query'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
 
 import MainLayout from 'components/MainLayout'
 import { signup } from 'services/index/users'
-import { userActions } from 'store/reducers/userReducers'
 
 const RegisterPage = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const userState = useSelector((state) => state.user)
 
   const { mutate, isLoading } = useMutation({
     mutationFn: ({ username, email, password }) => {
       return signup({ username, email, password })
     },
-    onSuccess: ({ data }) => {
-      dispatch(userActions.setUserInfo(data))
-      localStorage.setItem('user', JSON.stringify(data))
-      localStorage.setItem('accessToken', JSON.stringify(data.accessToken))
-      localStorage.setItem('refreshToken', JSON.stringify(data.refreshToken))
-      toast.success('Register success')
+    onSuccess: (data) => {
+      if (data.code === 201) {
+        setTimeout(() => {
+          navigate('/auth/login')
+        }, 3500)
+        toast.success(data.message)
+      } else {
+        toast.error(data.message)
+      }
     },
     onError: (error) => {
       toast.error(error.message)
     }
   })
-
-  useEffect(() => {
-    if (userState.userInfo) {
-      navigate('/')
-    }
-  }, [navigate, userState.userInfo])
 
   const {
     register,
