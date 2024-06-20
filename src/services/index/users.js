@@ -112,3 +112,50 @@ export const deleteUser = async ({ userId }) => {
     throw new Error(error.message)
   }
 }
+export const forgotPassword = async ({ email }) => {
+  try {
+    const { data } = await callApi(
+      'post',
+      `${API_URL}/auth/forgot-password`,
+      null,
+      { email }
+    )
+    return data
+  } catch (error) {
+    if (error.response && error.response.data.message)
+      throw new Error(error.response.data.message)
+    throw new Error(error.message)
+  }
+}
+
+export const verifyOtpForgotPassword = async ({ tokenForgot, otp }) => {
+  try {
+    const { data } = await callApi(
+      'post',
+      `${API_URL}/auth/verify-otp-forgot-password`,
+      null,
+      { tokenForgot, otp }
+    )
+    return data
+  } catch (error) {
+    if (error.response && error.response.data.message)
+      throw new Error(error.response.data.message)
+    throw new Error(error.message)
+  }
+}
+
+export const resetPassword = async ({ tokenVerifyOTP, newPassword }) => {
+  try {
+    const { data } = await callApi(
+      'post',
+      `${API_URL}/auth/reset-password`,
+      null,
+      { tokenVerifyOTP, newPassword }
+    )
+    return data
+  } catch (error) {
+    if (error.response && error.response.data.message)
+      throw new Error(error.response.data.message)
+    throw new Error(error.message)
+  }
+}

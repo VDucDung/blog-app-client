@@ -14,11 +14,13 @@ import RegisterPage from 'pages/register/RegisterPage'
 import NewPost from 'pages/admin/screens/posts/NewPost'
 import EditPost from 'pages/admin/screens/posts/EditPost'
 import Comments from 'pages/admin/screens/comments/Comments'
+import ResetPassword from 'pages/ResetPassword/ResetPassword'
 import ManagePosts from 'pages/admin/screens/posts/ManagePosts'
 import Categories from 'pages/admin/screens/categories/Categories'
 import ArticleDetailPage from './pages/articleDetail/ArticleDetailPage'
 import ForgotPasswordPage from 'pages/ForgotPassword/ForgotPasswordPage'
 import EditCategories from 'pages/admin/screens/categories/EditCategories'
+import VerifyOtpForgotPasswordPage from 'pages/VerifyOtpForgotPasswordPage/VerifyOtpForgotPasswordPage'
 
 function App() {
   return (
@@ -31,6 +33,11 @@ function App() {
         <Route path="/auth/register" element={<RegisterPage />} />
         <Route path="/auth/login" element={<LoginPage />} />
         <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
+        <Route
+          path="/auth/verify-otp-forgot-password"
+          element={<VerifyOtpForgotPasswordPage />}
+        />
+        <Route path="/auth/reset-password" element={<ResetPassword />} />
         <Route path="/auth/profile" element={<ProfilePage />} />
         <Route path="/auth/admin" element={<AdminLayout />}>
           <Route index element={<Admin />} />
