@@ -31,7 +31,7 @@ const LoginPage = () => {
       navigate('/')
     },
     onError: (error) => {
-      toast.error(error.message)
+      toast.error('Email or password is incorrect')
     }
   })
 

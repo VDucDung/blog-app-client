@@ -6,6 +6,7 @@ import HomePage from 'pages/home/HomePage'
 import BlogPage from 'pages/blog/BlogPage'
 import Admin from 'pages/admin/screens/Admin'
 import LoginPage from 'pages/Login/LoginPage'
+import AboutPage from 'pages/About/AboutPage'
 import NotFound from 'pages/NotFound/NotFound'
 import AdminLayout from 'pages/admin/AdminLayout'
 import Users from 'pages/admin/screens/users/Users'
@@ -39,6 +40,7 @@ function App() {
         />
         <Route path="/auth/reset-password" element={<ResetPassword />} />
         <Route path="/auth/profile" element={<ProfilePage />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route path="/auth/admin" element={<AdminLayout />}>
           <Route index element={<Admin />} />
           <Route path="comments" element={<Comments />} />

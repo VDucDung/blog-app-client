@@ -8,9 +8,17 @@ import { images } from 'constants'
 import { logout } from 'store/actions/user'
 
 const navItemsInfo = [
-  { name: 'Home', type: 'link' },
+  { name: 'Home', type: 'link', href: '/' },
   { name: 'Blog', type: 'link', href: '/blog' },
-  { name: 'Pages', type: 'dropdown', items: ['About us', 'Contact us'] },
+  {
+    name: 'Pages',
+    type: 'dropdown',
+    items: {
+      name: ['About us', 'Contact us'],
+      type: 'link',
+      href: ['/about', '/contact']
+    }
+  },
   { name: 'Pricing', type: 'link' },
   { name: 'Faq', type: 'link' }
 ]
@@ -48,10 +56,10 @@ const NavItem = ({ item }) => {
             className={`${dropdown ? 'block' : 'hidden'} w-max pt-4 transition-all duration-500 lg:absolute lg:bottom-0 lg:right-0 lg:hidden lg:translate-y-full lg:transform lg:group-hover:block`}
           >
             <ul className="flex flex-col overflow-hidden rounded-lg bg-dark-soft text-center shadow-lg lg:bg-transparent">
-              {item.items.map((page, index) => (
+              {item?.items.name.map((page, index) => (
                 <a
                   key={index}
-                  href="/"
+                  href={item?.items.href[index]}
                   className="px-4 py-2 text-white hover:bg-dark-light hover:text-white lg:text-dark-soft"
                 >
                   {page}
