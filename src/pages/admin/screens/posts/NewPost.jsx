@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { HiOutlineCamera } from 'react-icons/hi'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import Editor from 'components/editor/Editor'
 import { createPost } from 'services/index/posts'
@@ -31,15 +31,6 @@ const NewPost = () => {
     caption: false
   })
 
-  const {
-    data,
-    isLoading: isLoadingCategories,
-    isError: isErrorCategories
-  } = useQuery({
-    queryFn: () => getCategories('', 1, 10),
-    queryKey: ['categories']
-  })
-  const { data: categoriesData } = data ? data : {}
   const { mutate: mutateCreatePost, isPending: isLoadingCreatePost } =
     useMutation({
       mutationFn: ({ newData }) => {
@@ -49,7 +40,7 @@ const NewPost = () => {
       },
       onSuccess: (data) => {
         queryClient.invalidateQueries(['posts'])
-        toast.success('Post is created')
+        toast.success(data?.message)
         navigate(`/auth/admin/posts/manage/edit/${data?.data.slug}`)
       },
       onError: (error) => {
@@ -59,13 +50,16 @@ const NewPost = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0]
-    setPhoto(file)
-    setErrors({ ...errors, photo: !file })
+    if (file) {
+      setPhoto(file)
+      setErrors({ ...errors, photo: false })
+    } else {
+      setErrors({ ...errors, photo: true })
+    }
   }
 
   const handleCreatePost = async () => {
     let newData = new FormData()
-
     if (photo) {
       newData.append('image', photo)
     }
@@ -99,15 +93,7 @@ const NewPost = () => {
   const handleRemoveTag = (tag) => {
     setTags(tags.filter((t) => t !== tag))
   }
-  console.log(
-    isLoadingCreatePost,
-    photo,
-    body,
-    title,
-    caption,
-    isLoadingCategories,
-    isErrorCategories
-  )
+
   return (
     <section className="container mx-auto max-w-5xl flex flex-col px-5 py-5 lg:flex-row lg:gap-x-5 lg:items-start">
       <article className="flex-1">
@@ -220,13 +206,7 @@ const NewPost = () => {
         </div>
         <button
           disabled={
-            isLoadingCreatePost ||
-            !photo ||
-            !body ||
-            !title ||
-            !caption ||
-            isLoadingCategories ||
-            isErrorCategories
+            isLoadingCreatePost || !photo || !body || !title || !caption
           }
           type="button"
           onClick={handleCreatePost}

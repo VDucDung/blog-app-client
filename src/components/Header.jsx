@@ -19,8 +19,15 @@ const navItemsInfo = [
       href: ['/about', '/contact']
     }
   },
-  { name: 'Pricing', type: 'link' },
-  { name: 'Faq', type: 'link' }
+  {
+    name: 'Write',
+    type: 'dropdown',
+    items: {
+      name: ['New blog', 'Manage blogs'],
+      type: 'link',
+      href: ['/blog/new', '/blog/manage']
+    }
+  }
 ]
 
 const NavItem = ({ item }) => {

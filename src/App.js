@@ -23,6 +23,7 @@ import ArticleDetailPage from './pages/articleDetail/ArticleDetailPage'
 import ForgotPasswordPage from 'pages/ForgotPassword/ForgotPasswordPage'
 import EditCategories from 'pages/admin/screens/categories/EditCategories'
 import VerifyOtpForgotPasswordPage from 'pages/VerifyOtpForgotPasswordPage/VerifyOtpForgotPasswordPage'
+import NewBlog from 'pages/Posts/NewBlog'
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
         <Route path="/auth/profile" element={<ProfilePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/blog/new" element={<NewBlog />} />
         <Route path="/auth/admin" element={<AdminLayout />}>
           <Route index element={<Admin />} />
           <Route path="comments" element={<Comments />} />

@@ -73,7 +73,9 @@ export const updatePost = async ({ updatedData, postId }) => {
 
 export const createPost = async ({ newData }) => {
   try {
-    const { data } = await callApi('post', '/posts', null, newData)
+    const { data } = await callApi('post', '/posts', null, newData, {
+      'Content-Type': 'multipart/form-data'
+    })
     return data
   } catch (error) {
     if (error.response && error.response.data.message)
