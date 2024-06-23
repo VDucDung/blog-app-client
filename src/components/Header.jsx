@@ -36,7 +36,7 @@ const NavItem = ({ item }) => {
     <li className="group relative">
       {item.type === 'link' ? (
         <>
-          <a href={item.href} className="px-4 py-2">
+          <a href={item.href} className="px-4 py-2 ">
             {item.name}
           </a>
           <span className="absolute right-0 top-0 cursor-pointer font-bold text-blue-500 opacity-0 transition-all duration-500 group-hover:right-[90%] group-hover:opacity-100">
@@ -55,7 +55,7 @@ const NavItem = ({ item }) => {
           <div
             className={`${dropdown ? 'block' : 'hidden'} w-max pt-4 transition-all duration-500 lg:absolute lg:bottom-0 lg:right-0 lg:hidden lg:translate-y-full lg:transform lg:group-hover:block`}
           >
-            <ul className="flex flex-col overflow-hidden rounded-lg bg-dark-soft text-center shadow-lg lg:bg-transparent">
+            <ul className="flex flex-col overflow-hidden rounded-lg bg-dark-soft text-center shadow-lg lg:bg-white">
               {item?.items.name.map((page, index) => (
                 <a
                   key={index}
@@ -106,7 +106,7 @@ const Header = () => {
           )}
         </div>
         <div
-          className={`${navIsVisible ? 'right-0' : '-right-full'} fixed bottom-0 top-0 z-[49] mt-[56px] flex w-full flex-col items-center justify-center gap-x-9 bg-dark-hard transition-all duration-300 lg:static lg:mt-0 lg:w-auto lg:flex-row lg:justify-end lg:bg-transparent`}
+          className={`${navIsVisible ? 'right-0' : '-right-full'} fixed bottom-0 top-0 z-[49] mt-[56px] flex w-full flex-col items-center justify-center gap-x-9 bg-dark-hard transition-all duration-300 lg:static lg:mt-0 lg:w-auto lg:flex-row lg:justify-end lg:bg-white`}
         >
           <ul className="flex flex-col items-center gap-x-2 gap-y-5 font-semibold text-white lg:flex-row lg:text-dark-soft">
             {navItemsInfo.map((item) => (
@@ -127,7 +127,7 @@ const Header = () => {
                   <div
                     className={`${profileDrowpdown ? 'block' : 'hidden'} w-max pt-4 transition-all duration-500 lg:absolute lg:bottom-0 lg:right-0 lg:hidden lg:translate-y-full lg:transform lg:group-hover:block`}
                   >
-                    <ul className="flex flex-col overflow-hidden rounded-lg bg-dark-soft text-center shadow-lg lg:bg-transparent">
+                    <ul className="flex flex-col overflow-hidden rounded-lg bg-dark-soft text-center shadow-lg lg:bg-white">
                       {userState?.userInfo?.role === 'admin' && (
                         <button
                           onClick={() => navigate('/auth/admin')}

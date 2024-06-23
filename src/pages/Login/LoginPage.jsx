@@ -12,7 +12,7 @@ const LoginPage = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const { mutate, isLoading } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: ({ email, password }) => {
       return login({ email, password })
     },
@@ -127,7 +127,7 @@ const LoginPage = () => {
             </Link>
             <button
               type="submit"
-              disabled={!isValid || isLoading}
+              disabled={!isValid || isPending}
               className="my-6 w-full rounded-lg bg-primary px-8 py-4 text-lg font-bold text-white disabled:cursor-not-allowed disabled:opacity-70"
             >
               Sign In
