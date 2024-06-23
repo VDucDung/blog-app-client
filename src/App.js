@@ -4,6 +4,8 @@ import { Routes, Route } from 'react-router-dom'
 import 'App.css'
 import HomePage from 'pages/home/HomePage'
 import BlogPage from 'pages/blog/BlogPage'
+import NewBlog from 'pages/Posts/NewBlog'
+import EditBlog from 'pages/Posts/EditBlog'
 import Admin from 'pages/admin/screens/Admin'
 import LoginPage from 'pages/Login/LoginPage'
 import AboutPage from 'pages/About/AboutPage'
@@ -23,7 +25,6 @@ import ArticleDetailPage from './pages/articleDetail/ArticleDetailPage'
 import ForgotPasswordPage from 'pages/ForgotPassword/ForgotPasswordPage'
 import EditCategories from 'pages/admin/screens/categories/EditCategories'
 import VerifyOtpForgotPasswordPage from 'pages/VerifyOtpForgotPasswordPage/VerifyOtpForgotPasswordPage'
-import NewBlog from 'pages/Posts/NewBlog'
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/blog/new" element={<NewBlog />} />
+        <Route path="/blog/edit/:slug" element={<EditBlog />} />
         <Route path="/auth/admin" element={<AdminLayout />}>
           <Route index element={<Admin />} />
           <Route path="comments" element={<Comments />} />

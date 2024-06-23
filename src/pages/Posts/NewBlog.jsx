@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { toast } from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 import { HiOutlineCamera } from 'react-icons/hi'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
@@ -16,6 +17,7 @@ const promiseOptions = async (inputValue) => {
 }
 const NewBlog = () => {
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
   const [photo, setPhoto] = useState(null)
   const [body, setBody] = useState(null)
   const [title, setTitle] = useState('')
@@ -40,6 +42,7 @@ const NewBlog = () => {
       onSuccess: (data) => {
         queryClient.invalidateQueries(['blogs'])
         toast.success(data?.message)
+        navigate(`/blog/edit/${data?.data.slug}`)
       },
       onError: (error) => {
         toast.error('Có lỗi xảy ra vui lòng thử lại sau')
