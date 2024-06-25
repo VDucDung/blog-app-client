@@ -10,6 +10,7 @@ import Admin from 'pages/admin/screens/Admin'
 import LoginPage from 'pages/Login/LoginPage'
 import AboutPage from 'pages/About/AboutPage'
 import NotFound from 'pages/NotFound/NotFound'
+import ManageBlogs from 'pages/Posts/ManageBlogs'
 import AdminLayout from 'pages/admin/AdminLayout'
 import ContactPage from 'pages/Contact/ContactPage'
 import Users from 'pages/admin/screens/users/Users'
@@ -46,6 +47,7 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/blog/new" element={<NewBlog />} />
+        <Route path="/blog/manage" element={<ManageBlogs />} />
         <Route path="/blog/edit/:slug" element={<EditBlog />} />
         <Route path="/auth/admin" element={<AdminLayout />}>
           <Route index element={<Admin />} />

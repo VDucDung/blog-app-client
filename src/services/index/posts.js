@@ -83,3 +83,28 @@ export const createPost = async ({ newData }) => {
     throw new Error(error.message)
   }
 }
+
+export const getPostsByUserId = async ({
+  userId,
+  searchKeyword = '',
+  page = 1,
+  limit = 10
+}) => {
+  try {
+    const response = await callApi(
+      'get',
+      `/posts/user/${userId}`,
+      {
+        keyword: searchKeyword,
+        page: page,
+        limit: limit
+      },
+      {}
+    )
+    return { data: response.data, headers: response.headers }
+  } catch (error) {
+    if (error.response && error.response.data.message)
+      throw new Error(error.response.data.message)
+    throw new Error(error.message)
+  }
+}

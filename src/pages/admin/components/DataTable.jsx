@@ -18,7 +18,7 @@ const DataTable = ({
 }) => {
   return (
     <div>
-      <h1 className="text-2xl font-semibold">{pageTitle}</h1>
+      <h1 className="text-2xl font-semibold pl-2">{pageTitle}</h1>
 
       <div className="w-full px-4 mx-auto">
         <div className="py-8">

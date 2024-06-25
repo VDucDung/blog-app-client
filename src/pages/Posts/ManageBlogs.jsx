@@ -1,13 +1,12 @@
 /* eslint-disable indent */
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { images } from 'constants'
+import MainLayout from 'components/MainLayout'
 import { useDataTable } from 'hooks/useDataTable'
-import DataTable from '../../components/DataTable'
-import { deletePost, getAllPosts } from 'services/index/posts'
-const ManagePosts = () => {
-  const [checkCache, setCheckCache] = useState('unchecked')
+import DataTable from 'pages/admin/components/DataTable'
+import { deletePost, getPostsByUserId } from 'services/index/posts'
+const ManageBlogs = () => {
   const {
     userState,
     currentPage,
@@ -22,7 +21,13 @@ const ManagePosts = () => {
     deleteDataHandler,
     setCurrentPage
   } = useDataTable({
-    dataQueryFn: () => getAllPosts(searchKeyword, currentPage, 10, checkCache),
+    dataQueryFn: () =>
+      getPostsByUserId({
+        userId: userState?.userInfo._id,
+        searchKeyword,
+        page: currentPage,
+        limit: 10
+      }),
     dataQueryKey: 'posts',
     deleteDataMessage: 'Post is deleted',
     mutateDeleteFn: ({ slug }) => {
@@ -31,14 +36,13 @@ const ManagePosts = () => {
       })
     }
   })
-
   return (
-    <>
+    <MainLayout>
       {data?.data?.data && data?.data?.data.length > 0 ? (
         <DataTable
-          pageTitle="Manage Posts"
-          dataListName="Posts"
-          searchInputPlaceHolder="Post title..."
+          pageTitle="Manage Blogs"
+          dataListName="Blogs"
+          searchInputPlaceHolder="Blog title..."
           searchKeywordOnSubmitHandler={submitSearchKeywordHandler}
           searchKeywordOnChangeHandler={searchKeywordHandler}
           searchKeyword={searchKeyword}
@@ -73,7 +77,7 @@ const ManagePosts = () => {
               </td>
               <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
                 <p className="text-gray-900 whitespace-no-wrap">
-                  {post?.categories.length > 0
+                  {post?.categories?.length > 0
                     ? post.categories
                         .slice(0, 3)
                         .map(
@@ -98,11 +102,11 @@ const ManagePosts = () => {
               </td>
               <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
                 <div className="flex gap-x-2">
-                  {post?.tags.length > 0
+                  {post?.tags?.length > 0
                     ? post.tags.map((tag, index) => (
                         <p key={index}>
                           {tag}
-                          {post.tags.length - 1 !== index && ','}
+                          {post?.tags?.length - 1 !== index && ','}
                         </p>
                       ))
                     : 'No tags'}
@@ -114,7 +118,6 @@ const ManagePosts = () => {
                   type="button"
                   className="text-red-600 hover:text-red-900 disabled:opacity-70 disabled:cursor-not-allowed"
                   onClick={() => {
-                    setCheckCache(`post-${new Date().getTime()}`)
                     deleteDataHandler({
                       slug: post?._id
                     })
@@ -123,7 +126,7 @@ const ManagePosts = () => {
                   Delete
                 </button>
                 <Link
-                  to={`/auth/admin/posts/manage/edit/${post?.slug}`}
+                  to={`/blog/edit/${post?.slug}`}
                   className="text-green-600 hover:text-green-900"
                 >
                   Edit
@@ -139,8 +142,8 @@ const ManagePosts = () => {
           </p>
         </div>
       )}
-    </>
+    </MainLayout>
   )
 }
 
-export default ManagePosts
+export default ManageBlogs
