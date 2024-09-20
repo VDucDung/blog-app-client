@@ -1,5 +1,5 @@
 import { callApi } from './apiUtils'
-import { API_URL } from 'utils/constants'
+import { api_url } from 'utils/constants'
 
 export const signup = async ({ username, email, password }) => {
   try {
@@ -101,7 +101,7 @@ export const deleteUser = async ({ userId }) => {
   try {
     const { data } = await callApi(
       'delete',
-      `${API_URL}/users/${userId}`,
+      `${api_url}/users/${userId}`,
       null,
       {}
     )
@@ -116,7 +116,7 @@ export const forgotPassword = async ({ email }) => {
   try {
     const { data } = await callApi(
       'post',
-      `${API_URL}/auth/forgot-password`,
+      `${api_url}/auth/forgot-password`,
       null,
       { email }
     )
@@ -132,7 +132,7 @@ export const verifyOtpForgotPassword = async ({ tokenForgot, otp }) => {
   try {
     const { data } = await callApi(
       'post',
-      `${API_URL}/auth/verify-otp-forgot-password`,
+      `${api_url}/auth/verify-otp-forgot-password`,
       null,
       { tokenForgot, otp }
     )
@@ -148,7 +148,7 @@ export const resetPassword = async ({ tokenVerifyOTP, newPassword }) => {
   try {
     const { data } = await callApi(
       'post',
-      `${API_URL}/auth/reset-password`,
+      `${api_url}/auth/reset-password`,
       null,
       { tokenVerifyOTP, newPassword }
     )

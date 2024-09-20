@@ -1,9 +1,9 @@
 import axios from 'axios'
-import { API_URL } from 'utils/constants'
+import { api_url } from 'utils/constants'
 
 export const createContact = async ({ username, email, phone, message }) => {
   try {
-    const { data } = await axios.post(`${API_URL}/contacts`, {
+    const { data } = await axios.post(`${api_url}/contacts`, {
       username,
       email,
       phone,

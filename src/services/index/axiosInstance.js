@@ -1,13 +1,13 @@
 import axios from 'axios'
 
-import { API_URL } from 'utils/constants'
+import { api_url } from 'utils/constants'
 import {
   addOrUpdateFieldInLocalStorage,
   getLocalStorageItem
 } from 'utils/localStorage'
 
 const axiosInstance = axios.create({
-  baseURL: `${API_URL}`,
+  baseURL: `${api_url}`,
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json'
@@ -34,7 +34,7 @@ axiosInstance.interceptors.response.use(
       try {
         const refreshToken = getLocalStorageItem('refreshToken')
         const response = await axiosInstance.post(
-          `${API_URL}/auth/refresh-tokens`,
+          `${api_url}/auth/refresh-tokens`,
           {
             refreshToken: refreshToken
           }

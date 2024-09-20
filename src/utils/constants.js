@@ -1,1 +1,1 @@
-export const API_URL = 'https://blog-app-api-crer.onrender.com/api/v1'
+export const api_url = process.env.API_URL
